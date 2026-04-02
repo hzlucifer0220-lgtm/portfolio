@@ -1,195 +1,197 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio System - Stable v2.5</title>
-    <style>
-        :root { --accent: #00ffcc; --bg-dark: #0a0a0a; --panel-bg: rgba(15, 15, 15, 0.95); }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; color: #fff; overflow: hidden; font-family: sans-serif; }
-        .screen { position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; opacity: 0; }
-        .active-screen { opacity: 1; z-index: 10; }
-        .hidden { display: none !important; }
+<style>
+    /* --- P2 基礎佈局 --- */
+    #p2 {
+        background: rgba(0, 0, 0, 0.7) url('gui_bg.jpg') center/cover no-repeat;
+        background-blend-mode: overlay; /* 讓背景有遊戲選單的變暗效果 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-        /* 背景與 P1 標題 */
-        #p1 { background: url('cover_art.jpg') center/cover no-repeat; }
-        #p2 { background: url('gui_bg.jpg') center/cover no-repeat; }
-        #tittle-img { max-width: 600px; width: 80%; margin-bottom: 50px; filter: drop-shadow(0 0 10px var(--accent)); }
+    /* 1. Back 按鈕 (左上角或右上角) */
+    .btn-back-p1 {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 120px;
+    }
 
-        /* Start 按鈕 */
-        .btn-start { padding: 18px 60px; background: rgba(0,0,0,0.6); border: 2px solid var(--accent); color: var(--accent); cursor: pointer; font-size: 22px; letter-spacing: 4px; }
-        .btn-start:hover { background: var(--accent); color: #000; box-shadow: 0 0 30px var(--accent); }
+    /* 2. UI 主要介面 (3:2 比例) */
+    .main-gui-wrapper {
+        width: 75vw; /* 根據螢幕調整，保持 3:2 */
+        height: 50vw; 
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
 
-        /* M1 播放器 */
-        .music-player { position: fixed; bottom: 20px; left: 20px; width: 18vw; aspect-ratio: 3 / 1; background: rgba(0, 0, 0, 0.95); border: 1px solid #444; display: flex; padding: 10px; z-index: 1000; }
-        .m1-left { width: 33%; display: flex; align-items: center; justify-content: center; }
-        .disk-container { width: 85%; aspect-ratio: 1/1; border-radius: 50%; overflow: hidden; border: 2px solid #333; }
-        .disk-container img { width: 100%; height: 100%; object-fit: cover; }
-        .rotating { animation: spin 5s linear infinite; }
+    /* 四個標籤按鈕 (位於介面上方) */
+    .tabs-container {
+        display: flex;
+        gap: 4px;
+        margin-left: 10px;
+    }
+    .mc-tab {
+        width: 100px;
+        height: 35px;
+        font-size: 14px;
+        border-bottom: none; /* 讓它看起來像連著下面 */
+        z-index: 1;
+    }
+    .mc-tab.active {
+        background-color: #C6C6C6; /* 啟動的分頁顏色較亮 */
+        color: #000;
+        outline: 3px solid #FFF;
+        outline-offset: -5px;
+        height: 40px; /* 稍微高一點點 */
+        margin-top: -5px;
+    }
+
+    /* 主要內容面板 (滾動頁面) */
+    .gui-panel {
+        flex: 1;
+        background-color: #C6C6C6; /* Minecraft 經典灰色面板 */
+        border: 3px solid #000;
+        box-shadow: inset 3px 3px 0px #FFF, inset -3px -3px 0px #555;
+        overflow-y: auto; /* 滾動式頁面 */
+        padding: 20px;
+        image-rendering: pixelated;
+    }
+
+    /* 自定義滾動條 (Minecraft 風格) */
+    .gui-panel::-webkit-scrollbar { width: 12px; }
+    .gui-panel::-webkit-scrollbar-track { background: #333; border: 2px solid #000; }
+    .gui-panel::-webkit-scrollbar-thumb { background: #8B8B8B; border: 2px solid #FFF; }
+
+    /* 3. 作品集展示頁面 (一列三個) */
+    .work-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 嚴格一列三個 */
+        gap: 15px;
+    }
+
+    /* 展示框 (3:4 比例) */
+    .item-frame {
+        aspect-ratio: 3 / 4;
+        background-color: #8B8B8B;
+        border: 2px solid #373737;
+        box-shadow: inset 3px 3px 0px #555, inset -3px -3px 0px #DDD; /* 內凹感 */
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        cursor: pointer;
+    }
+    .item-frame:hover {
+        outline: 3px solid #FFF;
+        background-color: #9D9D9D;
+    }
+
+    /* 展示框內的圖片空白處 (正方形) */
+    .img-slot {
+        width: 100%;
+        aspect-ratio: 1 / 1; /* 正方形 */
+        background-color: #333; /* 暗色背景 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: 2px solid #000;
+    }
+    .img-slot img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* 自動調整尺寸至空白處，邊緣留空 */
+    }
+
+    .item-title {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 14px;
+        color: #FFF;
+        text-shadow: 1px 1px #000;
+        margin-top: 5px;
+    }
+
+    /* 4. 詳細視窗 (1:2 比例) */
+    #detail-popup {
+        position: fixed;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 35vh; /* 寬度根據高度聯動以維持 1:2 */
+        height: 70vh;
+        background-color: #C6C6C6;
+        border: 4px solid #000;
+        box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
+        z-index: 1000;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .detail-img-box { width: 100%; aspect-ratio: 1/1; background: #000; display: flex; align-items: center; justify-content: center; border: 2px solid #555; }
+    .detail-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .detail-desc { flex: 1; overflow-y: auto; background: rgba(0,0,0,0.1); padding: 5px; font-size: 14px; color: #333; }
+</style>
+
+<div id="p2" class="screen hidden">
+    <button class="mc-button btn-back-p1" onclick="nav('p1')">BACK</button>
+
+    <div class="main-gui-wrapper">
+        <div class="tabs-container">
+            <button class="mc-button mc-tab active" onclick="switchTab(this, 'tab1')">WORKS</button>
+            <button class="mc-button mc-tab" onclick="switchTab(this, 'tab2')">INFO</button>
+            <button class="mc-button mc-tab" onclick="switchTab(this, 'tab3')">LOG</button>
+            <button class="mc-button mc-tab" onclick="switchTab(this, 'tab4')">FUTURE</button>
+        </div>
         
-        .m1-right { width: 67%; padding-left: 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
-        .marquee { width: 100%; overflow: hidden; white-space: nowrap; font-size: 11px; color: var(--accent); height: 15px; text-align: center; }
-        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 10s linear infinite; }
-        
-        .m1-row-2 { display: flex; gap: 15px; }
-        .m-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 16px; }
-        #seek-bar { width: 100%; height: 3px; accent-color: var(--accent); }
-        .time-text { font-size: 9px; color: #888; }
-
-        /* P2 控制台 */
-        .console-container { width: 75%; height: 55%; background: var(--panel-bg); border: 1px solid var(--accent); display: flex; flex-direction: column; position: relative; }
-        .tabs { display: flex; background: #111; }
-        .tab-btn { flex: 1; padding: 15px; background: none; border: none; color: #666; cursor: pointer; font-weight: bold; }
-        .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
-        .tab-scroll-area { flex: 1; overflow-y: auto; padding: 25px; }
-        .btn-back { position: absolute; top: 30px; right: 40px; padding: 8px 20px; background: rgba(255,0,0,0.2); border: 1px solid #ff4444; color: #ff4444; cursor: pointer; z-index: 20; }
-
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-    </style>
-</head>
-<body>
-
-    <div id="p1" class="screen active-screen">
-        <img src="tittle.jpg" id="tittle-img" alt="Title">
-        <button id="b1" class="btn-start">START SYSTEM</button>
-    </div>
-
-    <div id="p2" class="screen hidden">
-        <button id="b2" class="btn-back">EXIT SYSTEM</button>
-        <div class="console-container">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="handleTab(this, 'tab1')">創作理念</button>
-                <button class="tab-btn" onclick="handleTab(this, 'tab2')">作品集</button>
-                <button class="tab-btn" onclick="handleTab(this, 'tab3')">創作歷程</button>
-                <button class="tab-btn" onclick="handleTab(this, 'tab4')">未來展望</button>
-            </div>
-            <div id="tab-content" class="tab-scroll-area"></div>
-        </div>
-        <button id="b-add" class="hidden" style="margin-top:20px; color:var(--accent); background:none; border:1px solid var(--accent); padding:10px 20px;">+ ADD WORK</button>
-    </div>
-
-    <div id="m1" class="music-player">
-        <div class="m1-left">
-            <div class="disk-container"><img src="dj.jpg" id="dj-disk"></div>
-        </div>
-        <div class="m1-right">
-            <div class="marquee"><span id="track-name">SYSTEM READY</span></div>
-            <div class="m1-row-2">
-                <button id="m-prev" class="m-btn">◀◀</button>
-                <button id="m-play" class="m-btn">PLAY</button>
-                <button id="m-next" class="m-btn">▶▶</button>
-            </div>
-            <div style="width:100%; text-align:center;">
-                <input type="range" id="seek-bar" value="0">
-                <div id="time-display" class="time-text">00:00 / 00:00</div>
-            </div>
+        <div class="gui-panel">
+            <div id="gallery-grid" class="work-grid">
+                </div>
         </div>
     </div>
+</div>
 
-    <audio id="bg-music" loop></audio>
+<div id="detail-popup" class="hidden">
+    <div class="detail-img-box"><img id="pop-img" src=""></div>
+    <h3 id="pop-title" style="margin:0; color:#000;">TITLE</h3>
+    <div id="pop-desc" class="detail-desc">DESCRIPTION...</div>
+    <button class="mc-button" style="width:100%;" onclick="closePopup()">CLOSE</button>
+</div>
 
-    <script>
-        // 1. 初始化資料
-        const audio = document.getElementById('bg-music');
-        const playlist = [
-            { name: "M.I.A1", src: "M.I.A1.mp3" },
-            { name: "made it through2", src: "made it through2.mp3" },
-            { name: "late night3", src: "late night3.mp3" }
-        ];
-        let currentIdx = 0;
-        let adminMode = false;
-        let keys = "";
-
-        // 2. 核心功能：更新播放器內容
-        function updatePlayer() {
-            const track = playlist[currentIdx];
-            audio.src = track.src;
-            document.getElementById('track-name').innerText = track.name + " - SYNCING...";
-            audio.load();
+<script>
+    // 模擬 15 個展示框
+    function renderGallery() {
+        const grid = document.getElementById('gallery-grid');
+        grid.innerHTML = '';
+        for (let i = 1; i <= 15; i++) {
+            grid.innerHTML += `
+                <div class="item-frame" onclick="openPopup('作品 ${i}', 'work${i}.jpg', '這是第 ${i} 個作品的詳細說明。')">
+                    <div class="img-slot">
+                        <img src="work${i}.jpg" onerror="this.src='https://via.placeholder.com/150?text=IMG'">
+                    </div>
+                    <div class="item-title">作品 ${i}</div>
+                </div>
+            `;
         }
+    }
 
-        function togglePlay() {
-            if (audio.paused) {
-                audio.play().then(() => {
-                    document.getElementById('dj-disk').classList.add('rotating');
-                    document.getElementById('m-play').innerText = "PAUSE";
-                    document.getElementById('track-name').innerText = playlist[currentIdx].name + " - PLAYING";
-                }).catch(e => console.log("Playback blocked"));
-            } else {
-                audio.pause();
-                document.getElementById('dj-disk').classList.remove('rotating');
-                document.getElementById('m-play').innerText = "PLAY";
-            }
-        }
+    function openPopup(title, img, desc) {
+        document.getElementById('pop-title').innerText = title;
+        document.getElementById('pop-img').src = img;
+        document.getElementById('pop-desc').innerText = desc;
+        document.getElementById('detail-popup').classList.remove('hidden');
+    }
 
-        // 3. 事件綁定 (確保 DOM 載入後執行)
-        window.onload = () => {
-            updatePlayer();
+    function closePopup() {
+        document.getElementById('detail-popup').classList.add('hidden');
+    }
 
-            // P1 -> P2
-            document.getElementById('b1').onclick = () => {
-                document.getElementById('p1').classList.remove('active-screen');
-                document.getElementById('p1').classList.add('hidden');
-                document.getElementById('p2').classList.remove('hidden');
-                setTimeout(() => document.getElementById('p2').classList.add('active-screen'), 50);
-                handleTab(null, 'tab1');
-            };
-
-            // P2 -> P1
-            document.getElementById('b2').onclick = () => {
-                document.getElementById('p2').classList.remove('active-screen');
-                document.getElementById('p2').classList.add('hidden');
-                document.getElementById('p1').classList.remove('hidden');
-                setTimeout(() => document.getElementById('p1').classList.add('active-screen'), 50);
-            };
-
-            // 音樂按鈕
-            document.getElementById('m-play').onclick = togglePlay;
-            document.getElementById('m-next').onclick = () => { currentIdx = (currentIdx + 1) % playlist.length; updatePlayer(); audio.play(); togglePlay(); };
-            document.getElementById('m-prev').onclick = () => { currentIdx = (currentIdx - 1 + playlist.length) % playlist.length; updatePlayer(); audio.play(); togglePlay(); };
-
-            // 點擊解鎖音訊
-            document.addEventListener('click', () => {
-                if (audio.src && audio.paused && document.getElementById('m-play').innerText === "PLAY") {
-                    // 僅在第一次點擊時嘗試靜默解鎖
-                }
-            }, { once: true });
-        };
-
-        // 4. Tab 切換邏輯
-        function handleTab(el, id) {
-            if (el) {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                el.classList.add('active');
-            }
-            const content = document.getElementById('tab-content');
-            if (id === 'tab2') {
-                content.innerHTML = "<h3>ARCHIVE</h3><p style='color:#555'>Empty database...</p>";
-                if (adminMode) document.getElementById('b-add').classList.remove('hidden');
-            } else {
-                content.innerHTML = `<h3>${id.toUpperCase()}</h3><p>Loading system data...</p>`;
-                document.getElementById('b-add').classList.add('hidden');
-            }
-        }
-
-        // 5. 管理員密碼
-        document.addEventListener('keydown', (e) => {
-            keys += e.key.toLowerCase();
-            if (keys.includes("admin")) {
-                adminMode = true;
-                alert("ADMIN ACCESS GRANTED");
-                keys = "";
-            }
-            if (keys.length > 10) keys = "";
-        });
-
-        // 進度條同步
-        audio.ontimeupdate = () => {
-            if (!audio.duration) return;
-            const pct = (audio.currentTime / audio.duration) * 100;
-            document.getElementById('seek-bar').value = pct;
-            const cur = Math.floor(audio.currentTime);
-            const dur = Math.floor(audio.duration);
-            document.getElementById('time-display').innerText = 
-                `${Math.floor(cur/60)}:${(cur%60).toString().padStart(2,'0')} / ${Math.floor(dur/60)}:${(dur%60).toString().padS
+    // 初始化調用
+    renderGallery();
+</script>
