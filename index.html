@@ -3,136 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio System - Visual Calibration v2.1</title>
+    <title>Portfolio System - Stable v2.5</title>
     <style>
-        /* --- 基礎樣式 --- */
-        :root {
-            --accent: #00ffcc;
-            --bg-dark: #0a0a0a;
-            --panel-bg: rgba(15, 15, 15, 0.95);
-        }
+        :root { --accent: #00ffcc; --bg-dark: #0a0a0a; --panel-bg: rgba(15, 15, 15, 0.95); }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; color: #fff; overflow: hidden; font-family: sans-serif; }
+        .screen { position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; opacity: 0; }
+        .active-screen { opacity: 1; z-index: 10; }
+        .hidden { display: none !important; }
 
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background: #000; color: #fff; overflow: hidden;
-            font-family: 'Segoe UI', '微軟正黑體', sans-serif;
-        }
-
-        .screen {
-            position: absolute; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.5s ease;
-        }
-
-        .hidden { display: none !important; opacity: 0; }
-
-        /* 背景 */
+        /* 背景與 P1 標題 */
         #p1 { background: url('cover_art.jpg') center/cover no-repeat; }
         #p2 { background: url('gui_bg.jpg') center/cover no-repeat; }
+        #tittle-img { max-width: 600px; width: 80%; margin-bottom: 50px; filter: drop-shadow(0 0 10px var(--accent)); }
 
-        /* P1 標題圖片大一點 (修正點 1) */
-        #tittle-img {
-            max-width: 650px; /* 從 450px 放大 */
-            width: 80%;       /* 確保在小螢幕不溢出 */
-            margin-bottom: 50px;
-            filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.3)); /* 增加一點發光感 */
-        }
-
-        /* START 按鈕 */
-        .btn-start { padding: 18px 60px; background: rgba(0,0,0,0.6); border: 2px solid var(--accent); color: var(--accent); cursor: pointer; font-size: 22px; letter-spacing: 4px; transition: 0.3s; }
+        /* Start 按鈕 */
+        .btn-start { padding: 18px 60px; background: rgba(0,0,0,0.6); border: 2px solid var(--accent); color: var(--accent); cursor: pointer; font-size: 22px; letter-spacing: 4px; }
         .btn-start:hover { background: var(--accent); color: #000; box-shadow: 0 0 30px var(--accent); }
 
-        /* Back 按鈕 (b2) */
-        .btn-back {
-            position: absolute; top: 30px; right: 40px;
-            padding: 8px 20px; background: rgba(255, 0, 0, 0.2);
-            border: 1px solid #ff4444; color: #ff4444;
-            cursor: pointer; font-size: 14px; transition: 0.3s;
-        }
-        .btn-back:hover { background: #ff4444; color: #fff; }
-
-        /* C1 控制台 */
-        .console-container {
-            width: 75%; height: 55%; background: var(--panel-bg);
-            border: 1px solid var(--accent); display: flex; flex-direction: column;
-            box-shadow: 0 0 25px rgba(0, 255, 204, 0.15);
-            position: relative;
-        }
-        .tabs { display: flex; background: #111; border-bottom: 1px solid #333; }
-        .tab-btn { 
-            flex: 1; padding: 15px; background: none; border: none; color: #666; 
-            cursor: pointer; transition: 0.3s; font-weight: bold; letter-spacing: 1px;
-        }
-        .tab-btn.active { color: var(--accent); background: rgba(0, 255, 204, 0.05); border-bottom: 3px solid var(--accent); }
-        .tab-scroll-area { flex: 1; overflow-y: auto; padding: 25px; }
-
-        #b-add {
-            margin-top: 20px; padding: 10px 25px;
-            background: rgba(0, 255, 204, 0.1);
-            border: 1px solid var(--accent); color: var(--accent);
-            cursor: pointer; font-weight: bold;
-        }
-        #b-add:hover { background: var(--accent); color: #000; }
-
-        /* M1 播放器 (修正點 2 & 3) */
-        .music-player {
-            position: fixed; bottom: 20px; left: 20px;
-            width: 18vw; aspect-ratio: 3 / 1;
-            background: rgba(0, 0, 0, 0.95); border: 1px solid #444;
-            display: flex; padding: 10px; z-index: 1000;
-        }
-        .m1-left { 
-            width: 33%; /* 分配 1/3 的寬度 */
-            display: flex; align-items: center; justify-content: center; 
-        }
-
-        /* 強制正圓形 (修正點 2) */
-        .disk-container { 
-            width: 90%; 
-            aspect-ratio: 1 / 1; /* 嚴格設定寬高比 1:1 */
-            border-radius: 50%; /* 圓形剪裁 */
-            overflow: hidden; 
-            border: 2px solid #333;
-            background: #111; /* 預防圖片載入前的背景色 */
-        }
-        .disk-container img {
-            width: 100%; height: 100%;
-            object-fit: cover; /* 確保圖片不變形地填充正圓 */
-        }
+        /* M1 播放器 */
+        .music-player { position: fixed; bottom: 20px; left: 20px; width: 18vw; aspect-ratio: 3 / 1; background: rgba(0, 0, 0, 0.95); border: 1px solid #444; display: flex; padding: 10px; z-index: 1000; }
+        .m1-left { width: 33%; display: flex; align-items: center; justify-content: center; }
+        .disk-container { width: 85%; aspect-ratio: 1/1; border-radius: 50%; overflow: hidden; border: 2px solid #333; }
+        .disk-container img { width: 100%; height: 100%; object-fit: cover; }
         .rotating { animation: spin 5s linear infinite; }
+        
+        .m1-right { width: 67%; padding-left: 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+        .marquee { width: 100%; overflow: hidden; white-space: nowrap; font-size: 11px; color: var(--accent); height: 15px; text-align: center; }
+        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 10s linear infinite; }
+        
+        .m1-row-2 { display: flex; gap: 15px; }
+        .m-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 16px; }
+        #seek-bar { width: 100%; height: 3px; accent-color: var(--accent); }
+        .time-text { font-size: 9px; color: #888; }
 
-        /* 右側控制區 (修正點 3) */
-        .m1-right { 
-            width: 67%; /* 分配 2/3 的寬度 */
-            padding-left: 10px; 
-            display: flex; flex-direction: column; justify-content: space-between; 
-            align-items: center; /* 重點：讓右側所有元素以中點對齊 */
-        }
-
-        /* 跑馬燈：寬度 100% 確保置中 */
-        .marquee { 
-            width: 100%;
-            overflow: hidden; white-space: nowrap; font-size: 11px; color: var(--accent); height: 15px; 
-            text-align: center;
-        }
-        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 8s linear infinite; }
-
-        /* 按鈕群組：置中對齊 */
-        .m1-row-2 { 
-            width: 100%;
-            display: flex; justify-content: center; /* 靠中對齊 */
-            gap: 15px; /* 按鈕間的間距 */
-        }
-        .m-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 16px; padding: 5px; opacity: 0.7; transition: 0.3s; }
-        .m-btn:hover { opacity: 1; color: var(--accent); }
-
-        /* 進度條與時間：寬度 100% 確保置中 */
-        .m1-row-3 {
-            width: 100%;
-            display: flex; flex-direction: column; align-items: center; /* 置中 */
-        }
-        #seek-bar { width: 100%; height: 3px; accent-color: var(--accent); cursor: pointer; margin-bottom: 2px; }
-        .time-text { font-size: 9px; color: #888; width: 100%; text-align: center; /* 時間文字也置中 */ }
+        /* P2 控制台 */
+        .console-container { width: 75%; height: 55%; background: var(--panel-bg); border: 1px solid var(--accent); display: flex; flex-direction: column; position: relative; }
+        .tabs { display: flex; background: #111; }
+        .tab-btn { flex: 1; padding: 15px; background: none; border: none; color: #666; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
+        .tab-scroll-area { flex: 1; overflow-y: auto; padding: 25px; }
+        .btn-back { position: absolute; top: 30px; right: 40px; padding: 8px 20px; background: rgba(255,0,0,0.2); border: 1px solid #ff4444; color: #ff4444; cursor: pointer; z-index: 20; }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
@@ -140,8 +50,8 @@
 </head>
 <body>
 
-    <div id="p1" class="screen">
-        <img src="tittle.jpg" id="tittle-img">
+    <div id="p1" class="screen active-screen">
+        <img src="tittle.jpg" id="tittle-img" alt="Title">
         <button id="b1" class="btn-start">START SYSTEM</button>
     </div>
 
@@ -149,14 +59,14 @@
         <button id="b2" class="btn-back">EXIT SYSTEM</button>
         <div class="console-container">
             <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab(event, 'tab1')">創作理念</button>
-                <button class="tab-btn" onclick="switchTab(event, 'tab2')">作品集</button>
-                <button class="tab-btn" onclick="switchTab(event, 'tab3')">創作歷程</button>
-                <button class="tab-btn" onclick="switchTab(event, 'tab4')">未來展望</button>
+                <button class="tab-btn active" onclick="handleTab(this, 'tab1')">創作理念</button>
+                <button class="tab-btn" onclick="handleTab(this, 'tab2')">作品集</button>
+                <button class="tab-btn" onclick="handleTab(this, 'tab3')">創作歷程</button>
+                <button class="tab-btn" onclick="handleTab(this, 'tab4')">未來展望</button>
             </div>
             <div id="tab-content" class="tab-scroll-area"></div>
         </div>
-        <button id="b-add" class="hidden">+ ADD NEW WORK</button>
+        <button id="b-add" class="hidden" style="margin-top:20px; color:var(--accent); background:none; border:1px solid var(--accent); padding:10px 20px;">+ ADD WORK</button>
     </div>
 
     <div id="m1" class="music-player">
@@ -164,13 +74,13 @@
             <div class="disk-container"><img src="dj.jpg" id="dj-disk"></div>
         </div>
         <div class="m1-right">
-            <div class="marquee"><span id="track-name">Initializing...</span></div>
+            <div class="marquee"><span id="track-name">SYSTEM READY</span></div>
             <div class="m1-row-2">
-                <button class="m-btn" onclick="changeTrack(-1)">◀◀</button>
-                <button class="m-btn" id="m-play">PLAY</button>
-                <button class="m-btn" onclick="changeTrack(1)">▶▶</button>
+                <button id="m-prev" class="m-btn">◀◀</button>
+                <button id="m-play" class="m-btn">PLAY</button>
+                <button id="m-next" class="m-btn">▶▶</button>
             </div>
-            <div class="m1-row-3">
+            <div style="width:100%; text-align:center;">
                 <input type="range" id="seek-bar" value="0">
                 <div id="time-display" class="time-text">00:00 / 00:00</div>
             </div>
@@ -180,7 +90,7 @@
     <audio id="bg-music" loop></audio>
 
     <script>
-        // ... (JavaScript 邏輯保持不變) ...
+        // 1. 初始化資料
         const audio = document.getElementById('bg-music');
         const playlist = [
             { name: "M.I.A1", src: "M.I.A1.mp3" },
@@ -191,55 +101,95 @@
         let adminMode = false;
         let keys = "";
 
-        function initPlayer() {
-            audio.src = playlist[currentIdx].src;
-            document.getElementById('track-name').innerText = playlist[currentIdx].name + " - READY";
+        // 2. 核心功能：更新播放器內容
+        function updatePlayer() {
+            const track = playlist[currentIdx];
+            audio.src = track.src;
+            document.getElementById('track-name').innerText = track.name + " - SYNCING...";
+            audio.load();
         }
 
-        function show(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            const target = document.getElementById(id);
-            target.classList.remove('hidden');
-            target.style.opacity = 0;
-            setTimeout(() => target.style.opacity = 1, 10);
-        }
-
-        function updateUI(playing) {
-            const disk = document.getElementById('dj-disk');
-            const btn = document.getElementById('m-play');
-            if(playing) {
-                disk.classList.add('rotating');
-                btn.innerText = "PAUSE";
-                document.getElementById('track-name').innerText = playlist[currentIdx].name + " - PLAYING";
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    document.getElementById('dj-disk').classList.add('rotating');
+                    document.getElementById('m-play').innerText = "PAUSE";
+                    document.getElementById('track-name').innerText = playlist[currentIdx].name + " - PLAYING";
+                }).catch(e => console.log("Playback blocked"));
             } else {
-                disk.classList.remove('rotating');
-                btn.innerText = "PLAY";
+                audio.pause();
+                document.getElementById('dj-disk').classList.remove('rotating');
+                document.getElementById('m-play').innerText = "PLAY";
             }
         }
 
-        function changeTrack(dir) {
-            currentIdx = (currentIdx + dir + playlist.length) % playlist.length;
-            audio.src = playlist[currentIdx].src;
-            audio.play().then(() => updateUI(true)).catch(() => {});
+        // 3. 事件綁定 (確保 DOM 載入後執行)
+        window.onload = () => {
+            updatePlayer();
+
+            // P1 -> P2
+            document.getElementById('b1').onclick = () => {
+                document.getElementById('p1').classList.remove('active-screen');
+                document.getElementById('p1').classList.add('hidden');
+                document.getElementById('p2').classList.remove('hidden');
+                setTimeout(() => document.getElementById('p2').classList.add('active-screen'), 50);
+                handleTab(null, 'tab1');
+            };
+
+            // P2 -> P1
+            document.getElementById('b2').onclick = () => {
+                document.getElementById('p2').classList.remove('active-screen');
+                document.getElementById('p2').classList.add('hidden');
+                document.getElementById('p1').classList.remove('hidden');
+                setTimeout(() => document.getElementById('p1').classList.add('active-screen'), 50);
+            };
+
+            // 音樂按鈕
+            document.getElementById('m-play').onclick = togglePlay;
+            document.getElementById('m-next').onclick = () => { currentIdx = (currentIdx + 1) % playlist.length; updatePlayer(); audio.play(); togglePlay(); };
+            document.getElementById('m-prev').onclick = () => { currentIdx = (currentIdx - 1 + playlist.length) % playlist.length; updatePlayer(); audio.play(); togglePlay(); };
+
+            // 點擊解鎖音訊
+            document.addEventListener('click', () => {
+                if (audio.src && audio.paused && document.getElementById('m-play').innerText === "PLAY") {
+                    // 僅在第一次點擊時嘗試靜默解鎖
+                }
+            }, { once: true });
+        };
+
+        // 4. Tab 切換邏輯
+        function handleTab(el, id) {
+            if (el) {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                el.classList.add('active');
+            }
+            const content = document.getElementById('tab-content');
+            if (id === 'tab2') {
+                content.innerHTML = "<h3>ARCHIVE</h3><p style='color:#555'>Empty database...</p>";
+                if (adminMode) document.getElementById('b-add').classList.remove('hidden');
+            } else {
+                content.innerHTML = `<h3>${id.toUpperCase()}</h3><p>Loading system data...</p>`;
+                document.getElementById('b-add').classList.add('hidden');
+            }
         }
 
-        document.getElementById('m-play').onclick = (e) => {
-            e.stopPropagation();
-            if(audio.paused) { audio.play().then(() => updateUI(true)); }
-            else { audio.pause(); updateUI(false); }
-        };
+        // 5. 管理員密碼
+        document.addEventListener('keydown', (e) => {
+            keys += e.key.toLowerCase();
+            if (keys.includes("admin")) {
+                adminMode = true;
+                alert("ADMIN ACCESS GRANTED");
+                keys = "";
+            }
+            if (keys.length > 10) keys = "";
+        });
 
+        // 進度條同步
         audio.ontimeupdate = () => {
-            if(!audio.duration) return;
-            document.getElementById('seek-bar').value = (audio.currentTime / audio.duration) * 100;
+            if (!audio.duration) return;
+            const pct = (audio.currentTime / audio.duration) * 100;
+            document.getElementById('seek-bar').value = pct;
             const cur = Math.floor(audio.currentTime);
             const dur = Math.floor(audio.duration);
-            document.getElementById('time-display').innerText = `${Math.floor(cur/60)}:${(cur%60).toString().padStart(2,'0')} / ${Math.floor(dur/60)}:${(dur%60).toString().padStart(2,'0')}`;
-        };
-
-        document.getElementById('seek-bar').oninput = (e) => {
-            audio.currentTime = (e.target.value / 100) * audio.duration;
-        };
-
-        function switchTab(e, id) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('time-display').innerText = 
+                `${Math.floor(cur/60)}:${(cur%60).toString().padStart(2,'0')} / ${Math.floor(dur/60)}:${(dur%60).toString().padS
