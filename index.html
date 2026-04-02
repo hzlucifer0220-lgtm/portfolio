@@ -268,27 +268,68 @@
     </div>
 
     <script>
-        // --- 1. 資料庫 (你可以在這裡增加更多作品) ---
-        const worksData = [];
-        for (let i = 1; i <= 15; i++) {
-            worksData.push({
-                id: i,
-                title: `ARCHIVE_0${i < 10 ? '0'+i : i}`,
-                img: `work${i}.jpg`,
-                desc: 這是編號為 ${i} 的作品存檔。本介面嚴格遵循 Minecraft GUI 規範：背景色為 #C6C6C6，並採用內凹式陰影設計。作品展示框維持 3:4 比例，彈窗詳情維持 1:2 比例。
-            });
-        }
+        <script>
+    // 確保函式在最優先層級定義
+    window.nav = function(id) {
+        console.log("嘗試導航至: " + id); // 調試用：按下後看 F12 有沒有這行
+        
+        const screens = document.querySelectorAll('.screen');
+        screens.forEach(s => {
+            s.classList.add('hidden');
+            s.style.display = 'none'; // 強制隱藏
+        });
 
-        // --- 2. 導覽邏輯 ---
-        function nav(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            const target = document.getElementById(id);
+        const target = document.getElementById(id);
+        if (target) {
             target.classList.remove('hidden');
-            if (id === 'p2') renderWorks();
+            target.style.display = 'flex'; // 強制顯示
+            console.log("成功切換至: " + id);
+        } else {
+            console.error("找不到 ID: " + id);
         }
 
-        // --- 3. 渲染作品網格 ---
-        function renderWorks() {
-            const grid = document.getElementById('grid-content');
-            if(!grid) return;
-            grid
+        if (id === 'p2') renderWorks();
+    };
+
+    // 資料與渲染邏輯
+    const worksData = [];
+    for (let i = 1; i <= 15; i++) {
+        worksData.push({
+            id: i,
+            title: `ARCHIVE_0${i < 10 ? '0'+i : i}`,
+            img: `work${i}.jpg`,
+            desc: 這是編號為 ${i} 的作品存檔描述。
+        });
+    }
+
+    function renderWorks() {
+        const grid = document.getElementById('grid-content');
+        if(!grid) return;
+        grid.innerHTML = worksData.map(work => `
+            <div class="work-frame" onclick="openDetail(${work.id})">
+                <div class="image-slot">
+                    <img src="${work.img}" onerror="this.src='https://via.placeholder.com/300?text=NO+IMAGE'">
+                </div>
+                <div class="work-label">${work.title}</div>
+            </div>
+        `).join('');
+    }
+
+    // 分頁、彈窗等其餘函式...
+    window.openDetail = function(id) {
+        const work = worksData.find(w => w.id === id);
+        document.getElementById('det-title').innerText = work.title;
+        document.getElementById('det-img').src = work.img;
+        document.getElementById('det-desc').innerText = work.desc;
+        document.getElementById('detail-overlay').classList.remove('hidden');
+    };
+
+    window.closeDetail = function() {
+        document.getElementById('detail-overlay').classList.add('hidden');
+    };
+
+    // 確保一開始 P1 是顯示的，其餘隱藏
+    document.addEventListener('DOMContentLoaded', () => {
+        nav('p1'); 
+    });
+</script>
