@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated Portfolio System</title>
+    <style>
+        /* --- CSS 樣式區 (原本的 style.css) --- */
+        :root {
+            --accent: #00ffcc;
+            --bg-dark: #0a0a0a;
+            --panel-bg: rgba(15, 15, 15, 0.9);
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background: #000; color: #fff; overflow: hidden;
+            font-family: 'Segoe UI', '微軟正黑體', sans-serif;
+        }
+
+        .screen {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease;
+        }
+
+        .hidden { display: none !important; }
+
+        /* 背景設定 */
+        #p1 { background: url('cover_art.jpg') center/cover no-repeat; }
+        #p2 { background: url('gui_bg.jpg') center/cover no-repeat; }
+
+        /* Loader 樣式 */
+        .progress-container { width: 250px; height: 2px; background: #222; margin: 20px 0; }
+        #progress-fill { width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+        /* C1 控制台 */
+        .console-container {
+            width: 75%; height: 55%; background: var(--panel-bg);
+            border: 1px solid var(--accent); display: flex; flex-direction: column;
+        }
+        .tabs { display: flex; border-bottom: 1px solid #333; }
+        .tab-btn { 
+            flex: 1; padding: 12px; background: none; border: none; color: #666; 
+            cursor: pointer; transition: 0.3s;
+        }
+        .tab-btn.active { color: var(--accent); background: rgba(0, 255, 204, 0.1); }
+        .tab-scroll-area { flex: 1; overflow-y: auto; padding: 20px; }
+
+        /* M1 播放器 (3:1) */
+        .music-player {
+            position: fixed; bottom: 20px; left: 20px;
+            width: 18vw; aspect-ratio: 3 / 1;
+            background: rgba(0, 0, 0, 0.85); border: 1px solid #333;
+            display: flex; padding: 10px; z-index: 1000;
+        }
+        .m1-left { width: 30%; display: flex; align-items: center; justify-content: center; }
+        .disk-container { width: 85%; aspect-ratio: 1/1; border-radius: 50%; overflow: hidden; border: 2px solid #333; }
+        .rotating { animation: spin 4s linear infinite; }
+        .m1-right { width: 70%; padding-left: 12px; display: flex; flex-direction: column; justify-content: space-between; }
+
+        /* 跑馬燈 */
+        .marquee { overflow: hidden; white-space: nowrap; font-size: 11px; color: var(--accent); height: 15px; }
+        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 8s linear infinite; }
+
+        /* 控制鈕與進度條 */
+        .m1-row-2 { display: flex; justify-content: space-around; }
+        .m-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 14px; }
+        #seek-bar { width: 100%; height: 3px; accent-color: var(--accent); cursor: pointer; }
+        .time-text { font-size: 9px; color: #888; text-align: right; }
+
+        /* 通用按鈕 */
+        .btn-start { padding: 12px 35px; background: transparent; border: 1px solid var(--accent); color: var(--accent); cursor: pointer; }
+        .btn-start:hover { background: var(--accent); color: #000; }
+
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="screen">
+        <h2 id="loader-title">INITIALIZING</h2>
+        <div class="progress-container"><div id="progress-fill"></div></div>
+    </div>
+
+    <div id="p1" class="screen hidden">
+        <img src="tittle.jpg" style="max-width: 400px; margin-bottom: 30px;">
+        <button id="b1" class="btn-start">START SYSTEM</button>
+    </div>
+
+    <div id="p2" class="screen hidden">
+        <div class="console-container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab(event, 'tab1')">創作理念</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab2')">作品集</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab3')">創作歷程</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab4')">未來展望</button>
+            </div>
+            <div id="tab-content" class="tab-scroll-area">
+                </div>
+        </div>
+        <button id="b-add" class="hidden" style="margin-top:10px; color:var(--accent); background:none; border:1px solid var(--accent);">+ ADD WORK</button>
+    </div>
+
+    <div id="m1" class="music-player">
+        <div class="m1-left">
+            <div class="disk-container"><img src="dj.jpg" id="dj-disk" style="width:100%;"></div>
+        </div>
+        <div class="m1-right">
+            <div class="marquee"><span id="track-name">Loading Playlist...</span></div>
+            <div class="m1-row-2">
+                <button class="m-btn" onclick="changeTrack(-1)">◀</button>
+                <button class="m-btn" id="m-play">PLAY</button>
+                <button class="m-btn" onclick="changeTrack(1)">▶</button>
+            </div>
+            <div>
+                <input type="range" id="seek-bar" value="0">
+                <div id="time-display" class="time-text">00:00 / 00:00</div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop></audio>
+
+    <script>
+        /* --- JavaScript 邏輯區 (原本的 script.js) --- */
+        const audio = document.getElementById('bg-music');
+        const playlist = [
+            { name: "M.I.A1", src: "M.I.A1.mp3" },
+            { name: "made it through2", src: "made it through2.mp3" },
+            { name: "late night3", src: "late night3.mp3" }
+        ];
+        let currentIdx = 0;
+        let adminMode = false;
+        let keys = "";
+
+        // 初始化播放器
+        function initPlayer() {
+            audio.src = playlist[currentIdx].src;
+            document.getElementById('track-name').innerText = playlist[currentIdx].name + " - READY";
+        }
+
+        // 加載邏輯
+        function loadTo(target, isL2 = false) {
+            const loader = document.getElementById('loader');
+            const fill = document.getElementById('progress-fill');
+            loader.classList.remove('hidden');
+            fill.style.width = '0%';
+            document.getElementById('loader-title').innerText = isL2 ? "LOADING..." : "INITIALIZING";
+
+            let p = 0;
+            let inv = setInterval(() => {
+                p += Math.random() * 15;
+                fill.style.width = Math.min(p, 100) + '%';
+                if (p >= 100) {
+                    clearInterval(inv);
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                        show(target);
+                        if(target === 'p1') {
+                            document.addEventListener('click', () => {
+                                if(audio.paused) { audio.play(); updateUI(true); }
+                            }, {once: true});
+                        }
+                    }, 400);
+                }
+            }, 100);
+        }
+
+        function show(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function updateUI(playing) {
+            const disk = document.getElementById('dj-disk');
+            const btn = document.getElementById('m-play');
+            if(playing) {
+                disk.classList.add('rotating');
+                btn.innerText = "PAUSE";
+                document.getElementById('track-name').innerText = playlist[currentIdx].name + " - PLAYING";
+            } else {
+                disk.classList.remove('rotating');
+                btn.innerText = "PLAY";
+            }
+        }
+
+        function changeTrack(dir) {
+            currentIdx = (currentIdx + dir + playlist.length) % playlist.length;
+            audio.src = playlist[currentIdx].src;
+            audio.play().then(() => updateUI(true));
+        }
+
+        document.getElementById('m-play').onclick = () => {
+            if(audio.paused) { audio.play(); updateUI(true); }
+            else { audio.pause(); updateUI(false); }
+        };
+
+        audio.ontimeupdate = () => {
+            if(!audio.duration) return;
+            document.getElementById('seek-bar').value = (audio.currentTime / audio.duration) * 100;
+            const cur = Math.floor(audio.currentTime);
+            const dur = Math.floor(audio.duration);
+            document.getElementById('time-display').innerText = `${Math.floor(cur/60)}:${(cur%60).toString().padStart(2,'0')} / ${Math.floor(dur/60)}:${(dur%60).toString().padStart(2,'0')}`;
+        };
+
+        document.getElementById('seek-bar').oninput = (e) => {
+            audio.currentTime = (e.target.value / 100) * audio.duration;
+        };
+
+        function switchTab(e, id) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            const area = document.getElementById('tab-content');
+            area.scrollTop = 0;
+            if(id === 'tab2') {
+                area.innerHTML = '<p style="text-align:center; color:#444; margin-top:40px;">目前暫無作品</p>';
+                if(adminMode) document.getElementById('b-add').classList.remove('hidden');
+            } else {
+                area.innerHTML = `<h3>${id.toUpperCase()}</h3><p>此分頁內容準備中...</p>`;
+                document.getElementById('b-add').classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            keys += e.key.toLowerCase();
+            if(keys.includes("admin")) {
+                adminMode = true;
+                alert("ADMIN UNLOCKED");
+                keys = "";
