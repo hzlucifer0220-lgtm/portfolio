@@ -267,7 +267,7 @@
         </div>
     </div>
 
-   <script>
+<script>
     // 1. 確保函式在最優先層級定義
     window.nav = function(id) {
         console.log("嘗試導航至: " + id);
@@ -298,7 +298,7 @@
             title: `ARCHIVE_0${i < 10 ? '0'+i : i}`,
             img: `work${i}.jpg`,
             // 修正處：這裡必須用 ` 或 " 包起來
-            desc:
+            desc: `這是編號為 ${i} 的作品存檔描述。採用 Minecraft GUI 規範開發。`
         });
     }
 
