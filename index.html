@@ -267,11 +267,10 @@
         </div>
     </div>
 
-    <script>
-        <script>
-    // 確保函式在最優先層級定義
+   <script>
+    // 1. 確保函式在最優先層級定義
     window.nav = function(id) {
-        console.log("嘗試導航至: " + id); // 調試用：按下後看 F12 有沒有這行
+        console.log("嘗試導航至: " + id);
         
         const screens = document.querySelectorAll('.screen');
         screens.forEach(s => {
@@ -291,14 +290,15 @@
         if (id === 'p2') renderWorks();
     };
 
-    // 資料與渲染邏輯
+    // 2. 資料與渲染邏輯 (修正了 desc 的引號問題)
     const worksData = [];
     for (let i = 1; i <= 15; i++) {
         worksData.push({
             id: i,
             title: `ARCHIVE_0${i < 10 ? '0'+i : i}`,
             img: `work${i}.jpg`,
-            desc: 這是編號為 ${i} 的作品存檔描述。
+            // 修正處：這裡必須用 ` 或 " 包起來
+            desc:
         });
     }
 
@@ -315,21 +315,37 @@
         `).join('');
     }
 
-    // 分頁、彈窗等其餘函式...
+    // 3. 分頁、彈窗等其餘函式
     window.openDetail = function(id) {
         const work = worksData.find(w => w.id === id);
+        if(!work) return;
         document.getElementById('det-title').innerText = work.title;
         document.getElementById('det-img').src = work.img;
         document.getElementById('det-desc').innerText = work.desc;
         document.getElementById('detail-overlay').classList.remove('hidden');
+        document.getElementById('detail-overlay').style.display = 'flex';
     };
 
     window.closeDetail = function() {
         document.getElementById('detail-overlay').classList.add('hidden');
+        document.getElementById('detail-overlay').style.display = 'none';
     };
 
-    // 確保一開始 P1 是顯示的，其餘隱藏
+    // 4. 預設顯示 P1
     document.addEventListener('DOMContentLoaded', () => {
         nav('p1'); 
     });
+
+    // 5. 分頁切換功能 (補上漏掉的部分)
+    window.changeTab = function(btn, type) {
+        document.querySelectorAll('.mc-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        const panel = document.getElementById('main-panel');
+        if (type === 'works') {
+            panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
+            renderWorks();
+        } else {
+            panel.innerHTML = `<h2 style="color:#000">${type.toUpperCase()}</h2><p style="color:#444">系統資料讀取中...</p>`;
+        }
+    };
 </script>
