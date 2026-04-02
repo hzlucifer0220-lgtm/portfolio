@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integrated Portfolio System</title>
+    <title>Portfolio System - Direct Access</title>
     <style>
-        /* --- CSS 樣式區 (原本的 style.css) --- */
         :root {
             --accent: #00ffcc;
             --bg-dark: #0a0a0a;
@@ -21,67 +20,27 @@
         .screen {
             position: absolute; width: 100%; height: 100%;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.5s ease;
         }
 
-        .hidden { display: none !important; }
+        .hidden { display: none !important; opacity: 0; }
 
-        /* 背景設定 */
+        /* 背景 */
         #p1 { background: url('cover_art.jpg') center/cover no-repeat; }
         #p2 { background: url('gui_bg.jpg') center/cover no-repeat; }
 
-        /* Loader 樣式 */
-        // 替換 script 標籤內的 loadTo 函式
-function loadTo(target, isL2 = false) {
-    const loader = document.getElementById('loader');
-    const fill = document.getElementById('progress-fill');
-    
-    // 顯示 Loader
-    loader.classList.remove('hidden');
-    fill.style.width = '0%';
-    document.getElementById('loader-title').innerText = isL2 ? "LOADING..." : "INITIALIZING";
-
-    let p = 0;
-    // 使用一個絕對會跑完的計時器
-    let inv = setInterval(() => {
-        // 每次增加 5~15% 的隨機進度
-        p += Math.floor(Math.random() * 10) + 5; 
-        
-        if (p >= 100) {
-            p = 100;
-            clearInterval(inv);
-            
-            // 強制延遲一下下再跳轉，確保視覺流暢
-            setTimeout(() => {
-                loader.classList.add('hidden');
-                show(target);
-                
-                // 進入 P1 的特殊處理：監聽點擊解鎖音樂
-                if(target === 'p1') {
-                    const unlock = () => {
-                        audio.play().then(() => {
-                            updateUI(true);
-                        }).catch(e => console.log("等待手動播放"));
-                        document.removeEventListener('click', unlock);
-                    };
-                    document.addEventListener('click', unlock);
-                }
-            }, 500);
-        }
-        fill.style.width = p + '%';
-    }, 150); // 每 0.15 秒更新一次進度
-}
-        /* C1 控制台 */
+        /* C1 控制台 (55% 高度) */
         .console-container {
             width: 75%; height: 55%; background: var(--panel-bg);
             border: 1px solid var(--accent); display: flex; flex-direction: column;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
         }
-        .tabs { display: flex; border-bottom: 1px solid #333; }
+        .tabs { display: flex; border-bottom: 1px solid #333; background: #111; }
         .tab-btn { 
             flex: 1; padding: 12px; background: none; border: none; color: #666; 
-            cursor: pointer; transition: 0.3s;
+            cursor: pointer; transition: 0.3s; font-weight: bold;
         }
-        .tab-btn.active { color: var(--accent); background: rgba(0, 255, 204, 0.1); }
+        .tab-btn.active { color: var(--accent); background: rgba(0, 255, 204, 0.1); border-bottom: 2px solid var(--accent); }
         .tab-scroll-area { flex: 1; overflow-y: auto; padding: 20px; }
 
         /* M1 播放器 (3:1) */
@@ -94,21 +53,16 @@ function loadTo(target, isL2 = false) {
         .m1-left { width: 30%; display: flex; align-items: center; justify-content: center; }
         .disk-container { width: 85%; aspect-ratio: 1/1; border-radius: 50%; overflow: hidden; border: 2px solid #333; }
         .rotating { animation: spin 4s linear infinite; }
+        
         .m1-right { width: 70%; padding-left: 12px; display: flex; flex-direction: column; justify-content: space-between; }
-
-        /* 跑馬燈 */
         .marquee { overflow: hidden; white-space: nowrap; font-size: 11px; color: var(--accent); height: 15px; }
         .marquee span { display: inline-block; padding-left: 100%; animation: marquee 8s linear infinite; }
-
-        /* 控制鈕與進度條 */
-        .m1-row-2 { display: flex; justify-content: space-around; }
         .m-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 14px; }
         #seek-bar { width: 100%; height: 3px; accent-color: var(--accent); cursor: pointer; }
         .time-text { font-size: 9px; color: #888; text-align: right; }
 
-        /* 通用按鈕 */
-        .btn-start { padding: 12px 35px; background: transparent; border: 1px solid var(--accent); color: var(--accent); cursor: pointer; }
-        .btn-start:hover { background: var(--accent); color: #000; }
+        .btn-start { padding: 15px 40px; background: rgba(0,0,0,0.5); border: 1px solid var(--accent); color: var(--accent); cursor: pointer; font-size: 18px; letter-spacing: 2px; }
+        .btn-start:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
@@ -116,13 +70,8 @@ function loadTo(target, isL2 = false) {
 </head>
 <body>
 
-    <div id="loader" class="screen">
-        <h2 id="loader-title">INITIALIZING</h2>
-        <div class="progress-container"><div id="progress-fill"></div></div>
-    </div>
-
-    <div id="p1" class="screen hidden">
-        <img src="tittle.jpg" style="max-width: 400px; margin-bottom: 30px;">
+    <div id="p1" class="screen">
+        <img src="tittle.jpg" style="max-width: 450px; margin-bottom: 40px;">
         <button id="b1" class="btn-start">START SYSTEM</button>
     </div>
 
@@ -134,10 +83,9 @@ function loadTo(target, isL2 = false) {
                 <button class="tab-btn" onclick="switchTab(event, 'tab3')">創作歷程</button>
                 <button class="tab-btn" onclick="switchTab(event, 'tab4')">未來展望</button>
             </div>
-            <div id="tab-content" class="tab-scroll-area">
-                </div>
+            <div id="tab-content" class="tab-scroll-area"></div>
         </div>
-        <button id="b-add" class="hidden" style="margin-top:10px; color:var(--accent); background:none; border:1px solid var(--accent);">+ ADD WORK</button>
+        <button id="b-add" class="hidden" style="margin-top:20px; color:var(--accent); background:none; border:1px solid var(--accent); padding:5px 15px; cursor:pointer;">+ ADD WORK</button>
     </div>
 
     <div id="m1" class="music-player">
@@ -145,7 +93,7 @@ function loadTo(target, isL2 = false) {
             <div class="disk-container"><img src="dj.jpg" id="dj-disk" style="width:100%;"></div>
         </div>
         <div class="m1-right">
-            <div class="marquee"><span id="track-name">Loading Playlist...</span></div>
+            <div class="marquee"><span id="track-name">Initializing...</span></div>
             <div class="m1-row-2">
                 <button class="m-btn" onclick="changeTrack(-1)">◀</button>
                 <button class="m-btn" id="m-play">PLAY</button>
@@ -161,7 +109,6 @@ function loadTo(target, isL2 = false) {
     <audio id="bg-music" loop></audio>
 
     <script>
-        /* --- JavaScript 邏輯區 (原本的 script.js) --- */
         const audio = document.getElementById('bg-music');
         const playlist = [
             { name: "M.I.A1", src: "M.I.A1.mp3" },
@@ -172,42 +119,16 @@ function loadTo(target, isL2 = false) {
         let adminMode = false;
         let keys = "";
 
-        // 初始化播放器
         function initPlayer() {
             audio.src = playlist[currentIdx].src;
             document.getElementById('track-name').innerText = playlist[currentIdx].name + " - READY";
         }
 
-        // 加載邏輯
-        function loadTo(target, isL2 = false) {
-            const loader = document.getElementById('loader');
-            const fill = document.getElementById('progress-fill');
-            loader.classList.remove('hidden');
-            fill.style.width = '0%';
-            document.getElementById('loader-title').innerText = isL2 ? "LOADING..." : "INITIALIZING";
-
-            let p = 0;
-            let inv = setInterval(() => {
-                p += Math.random() * 15;
-                fill.style.width = Math.min(p, 100) + '%';
-                if (p >= 100) {
-                    clearInterval(inv);
-                    setTimeout(() => {
-                        loader.classList.add('hidden');
-                        show(target);
-                        if(target === 'p1') {
-                            document.addEventListener('click', () => {
-                                if(audio.paused) { audio.play(); updateUI(true); }
-                            }, {once: true});
-                        }
-                    }, 400);
-                }
-            }, 100);
-        }
-
         function show(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden');
+            const target = document.getElementById(id);
+            target.classList.remove('hidden');
+            setTimeout(() => target.style.opacity = 1, 10);
         }
 
         function updateUI(playing) {
@@ -226,11 +147,12 @@ function loadTo(target, isL2 = false) {
         function changeTrack(dir) {
             currentIdx = (currentIdx + dir + playlist.length) % playlist.length;
             audio.src = playlist[currentIdx].src;
-            audio.play().then(() => updateUI(true));
+            audio.play().then(() => updateUI(true)).catch(() => {});
         }
 
-        document.getElementById('m-play').onclick = () => {
-            if(audio.paused) { audio.play(); updateUI(true); }
+        document.getElementById('m-play').onclick = (e) => {
+            e.stopPropagation();
+            if(audio.paused) { audio.play().then(() => updateUI(true)); }
             else { audio.pause(); updateUI(false); }
         };
 
@@ -248,21 +170,50 @@ function loadTo(target, isL2 = false) {
 
         function switchTab(e, id) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            e.currentTarget.classList.add('active');
+            if(e) e.currentTarget.classList.add('active');
             const area = document.getElementById('tab-content');
             area.scrollTop = 0;
             if(id === 'tab2') {
                 area.innerHTML = '<p style="text-align:center; color:#444; margin-top:40px;">目前暫無作品</p>';
                 if(adminMode) document.getElementById('b-add').classList.remove('hidden');
             } else {
-                area.innerHTML = `<h3>${id.toUpperCase()}</h3><p>此分頁內容準備中...</p>`;
+                area.innerHTML = `<div style="padding:10px;"><h3>${id.toUpperCase()}</h3><p>此分頁內容準備中...</p></div>`;
                 document.getElementById('b-add').classList.add('hidden');
             }
         }
 
+        // 管理員解鎖
         document.addEventListener('keydown', (e) => {
             keys += e.key.toLowerCase();
             if(keys.includes("admin")) {
                 adminMode = true;
-                alert("ADMIN UNLOCKED");
+                alert("ADMIN MODE UNLOCKED");
                 keys = "";
+                if(!document.getElementById('p2').classList.contains('hidden')) {
+                    const activeTab = document.querySelector('.tab-btn.active').innerText;
+                    if(activeTab === '作品集') document.getElementById('b-add').classList.remove('hidden');
+                }
+            }
+            if(keys.length > 10) keys = "";
+        });
+
+        // P1 START 按鈕：直接跳轉 P2 (不經過 L2)
+        document.getElementById('b1').onclick = () => {
+            show('p2');
+            switchTab(null, 'tab1');
+        };
+
+        // 頁面加載時執行
+        window.onload = () => {
+            initPlayer();
+            // 監聽第一次點擊以啟動音樂
+            document.addEventListener('click', function unlock() {
+                if(audio.paused) {
+                    audio.play().then(() => updateUI(true)).catch(() => {});
+                }
+                document.removeEventListener('click', unlock);
+            }, { once: true });
+        };
+    </script>
+</body>
+</html>
