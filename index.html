@@ -31,9 +31,46 @@
         #p2 { background: url('gui_bg.jpg') center/cover no-repeat; }
 
         /* Loader 樣式 */
-        .progress-container { width: 250px; height: 2px; background: #222; margin: 20px 0; }
-        #progress-fill { width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        // 替換 script 標籤內的 loadTo 函式
+function loadTo(target, isL2 = false) {
+    const loader = document.getElementById('loader');
+    const fill = document.getElementById('progress-fill');
+    
+    // 顯示 Loader
+    loader.classList.remove('hidden');
+    fill.style.width = '0%';
+    document.getElementById('loader-title').innerText = isL2 ? "LOADING..." : "INITIALIZING";
 
+    let p = 0;
+    // 使用一個絕對會跑完的計時器
+    let inv = setInterval(() => {
+        // 每次增加 5~15% 的隨機進度
+        p += Math.floor(Math.random() * 10) + 5; 
+        
+        if (p >= 100) {
+            p = 100;
+            clearInterval(inv);
+            
+            // 強制延遲一下下再跳轉，確保視覺流暢
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                show(target);
+                
+                // 進入 P1 的特殊處理：監聽點擊解鎖音樂
+                if(target === 'p1') {
+                    const unlock = () => {
+                        audio.play().then(() => {
+                            updateUI(true);
+                        }).catch(e => console.log("等待手動播放"));
+                        document.removeEventListener('click', unlock);
+                    };
+                    document.addEventListener('click', unlock);
+                }
+            }, 500);
+        }
+        fill.style.width = p + '%';
+    }, 150); // 每 0.15 秒更新一次進度
+}
         /* C1 控制台 */
         .console-container {
             width: 75%; height: 55%; background: var(--panel-bg);
