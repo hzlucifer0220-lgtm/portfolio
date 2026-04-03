@@ -229,31 +229,28 @@
     window.clearCanvas = () => { const c = document.getElementById('tab-canvas'); if(c) c.getContext('2d').clearRect(0,0,c.width,c.height); };
 
     function initCanvas() {
-        const c = document.getElementById('tab-canvas'), b = document.getElementById('wall-box');
-        if(!c || !b) return;
-        const ctx = c.getContext('2d');
-        c.width = b.offsetWidth; c.height = b.offsetHeight;
-
-        /* 🏆 5. 優化版噴漆邏輯：更濃、更集中、霧化收斂 --- */
+                /* 🏆 優化版噴漆邏輯：加大筆刷、保持濃度、邊緣細膩 --- */
         const spray = (x, y) => {
-            // density 從 45 加倍到 90
-            const density = 90; 
-            // radius 從 18 收窄到 12 (直徑更小)
-            const radius = 12;  
+            // density 提升到 150，確保大筆刷依然紮實
+            const density = 150; 
+            // radius 增加到 25，展現大面積塗鴉感
+            const radius = 25;  
             
             ctx.fillStyle = currCol;
             for (let i = 0; i < density; i++) {
-                const r = Math.random() * radius, angle = Math.random() * Math.PI * 2;
-                const offsetX = r * Math.cos(angle), offsetY = r * Math.sin(angle);
+                const r = Math.random() * radius;
+                const angle = Math.random() * Math.PI * 2;
+                const offsetX = r * Math.cos(angle);
+                const offsetY = r * Math.sin(angle);
                 
-                // 🏆 修改霧化公式：Math.pow 的次方越大，邊緣下降越快 (霧化越少)
+                // 霧化公式維持 Math.pow(..., 4) 讓邊緣收斂，不至於太散
                 const opacity = Math.pow((radius - r) / radius, 4); 
                 
-                if (opacity > 0.05) { // 稍微過濾掉最外緣極透明的顆粒
+                if (opacity > 0.02) { 
                     ctx.globalAlpha = opacity;
                     ctx.beginPath();
-                    // 顆粒維持微小，確保細膩感
-                    ctx.arc(x + offsetX, y + offsetY, Math.random() * 1.0, 0, Math.PI * 2);
+                    // 顆粒大小微調，讓大筆刷看起來更有噴霧細節
+                    ctx.arc(x + offsetX, y + offsetY, Math.random() * 1.5, 0, Math.PI * 2);
                     ctx.fill();
                 }
             }
