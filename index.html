@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v9.8 - Walkman Edition</title>
+    <title>學習成果實作檔案庫 v10.0</title>
     <style>
         :root {
             --mc-gray: #C6C6C6;
@@ -57,37 +57,46 @@
             position: relative; overflow: hidden;
         }
 
-        /* 右上角音樂控制列 (右到左) */
+        /* 右上角音樂控制列 (右到左排列) */
         .music-player-bar {
             position: absolute; top: 15px; right: 15px;
-            width: 15vw; min-width: 240px; height: 40px;
-            display: flex; flex-direction: row-reverse; align-items: center; gap: 5px; z-index: 100;
+            width: 15vw; min-width: 250px; height: 40px;
+            display: flex; flex-direction: row-reverse; 
+            align-items: center; gap: 5px; z-index: 100;
         }
         .player-btn { width: 35px; height: 35px; font-size: 14px; flex-shrink: 0; }
         .marquee-container { 
-            flex: 1; height: 30px; background: rgba(0, 0, 0, 0.6); border: 2px solid #555; 
+            flex: 1; height: 30px; background: rgba(0, 0, 0, 0.8); border: 2px solid #555; 
             overflow: hidden; position: relative; display: flex; align-items: center; 
         }
         .marquee-text { 
-            position: absolute; white-space: nowrap; color: #FFFFFF; /* 🏆 改為白色 */
+            position: absolute; white-space: nowrap; color: #FFFFFF; 
             font-family: monospace; font-size: 12px; padding-left: 100%; animation: marquee 10s linear infinite; 
         }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-250%); } }
 
-        /* 作品集與噴漆牆樣式略... (保持之前的設定) */
-        .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; height: 100%; overflow-y: auto; }
-        .work-frame { aspect-ratio: 3/4; background: #8B8B8B; border: 3px solid #000; padding: 10px; cursor: pointer; }
-        .image-slot { width: 100%; aspect-ratio: 1/1; background: #000; border: 2px solid #333; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .image-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .work-label { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 14px; text-shadow: 1px 1px #000; font-weight: bold; }
-
-        .paint-area { width: 100%; height: 100%; background: #1a1a1a; display: flex; align-items: center; justify-content: center; position: relative; }
-        .wall-box { position: relative; width: 75%; height: 85%; border: 6px solid #000; background: #333; overflow: hidden; }
-        #tab-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; z-index: 5; }
-        .paint-sidebar { position: absolute; left: 15px; width: 85px; height: 85%; display: flex; flex-direction: column; gap: 8px; padding: 10px; background: rgba(0,0,0,0.7); border: 2px solid #FFF; overflow-y: auto; scrollbar-width: none; }
+        /* 噴漆牆區域 */
+        .paint-area { width: 100%; height: 100%; display: flex; position: relative; }
+        .wall-box { flex: 1; margin: 20px 20px 20px 110px; border: 4px solid #000; background: #333; position: relative; overflow: hidden; }
+        #tab-canvas { width: 100%; height: 100%; cursor: crosshair; }
+        .paint-sidebar { 
+            position: absolute; left: 15px; top: 20px; width: 85px; bottom: 20px;
+            display: flex; flex-direction: column; gap: 5px; padding: 10px; 
+            background: rgba(0,0,0,0.8); border: 2px solid #FFF; 
+            overflow-y: auto; scrollbar-width: none; z-index: 10;
+        }
         .color-dot { width: 100%; aspect-ratio: 1/1; border: 2px solid #FFF; cursor: pointer; flex-shrink: 0; }
         .bg-btn { background: #444; color: white; font-size: 10px; display: flex; align-items: center; justify-content: center; text-align: center; }
 
+        /* 作品集網格 */
+        .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; height: 100%; overflow-y: auto; }
+        .work-frame { aspect-ratio: 3/4; background: #8B8B8B; border: 3px solid #000; padding: 10px; cursor: pointer; transition: transform 0.2s; }
+        .work-frame:hover { transform: translateY(-5px); background: #9D9D9D; }
+        .image-slot { width: 100%; aspect-ratio: 1/1; background: #000; border: 2px solid #333; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .image-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .work-label { height: 30px; display: flex; align-items: center; justify-content: center; font-size: 13px; text-shadow: 1px 1px #000; font-weight: bold; }
+
+        /* 詳細彈窗 */
         #detail-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; display: none; align-items: center; justify-content: center; }
         #detail-view { width: 320px; height: 600px; background: var(--mc-gray); border: 4px solid #000; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         #det-img { width: 100%; aspect-ratio: 1/1; background: #000; border: 3px solid #555; object-fit: contain; }
@@ -103,20 +112,20 @@
     </div>
 
     <div id="p2" class="screen">
-        <button class="mc-button" style="position:absolute; top:15px; left:15px; width:80px; height:35px; font-size:12px; z-index: 20;" onclick="window.nav('p1')">返回</button>
+        <button class="mc-button" style="position:absolute; top:15px; left:15px; width:80px; height:35px; font-size:12px; z-index: 110;" onclick="window.nav('p1')">返回</button>
         
         <div class="music-player-bar">
             <button class="mc-button player-btn" onclick="window.toggleMusic()">
                 <span id="music-icon">🔇</span>
             </button>
-            <button class="mc-button player-btn" onclick="window.prevTrack()"> < </button>
-            <div class="marquee-container">
-                <div id="track-name" class="marquee-text">準備播放...</div>
-            </div>
             <button class="mc-button player-btn" onclick="window.nextTrack()"> > </button>
+            <div class="marquee-container">
+                <div id="track-name" class="marquee-text">等待播放...</div>
+            </div>
+            <button class="mc-button player-btn" onclick="window.prevTrack()"> < </button>
         </div>
         
-        <audio id="bg-audio"></audio>
+        <audio id="bg-audio" preload="auto"></audio>
 
         <div class="gui-container">
             <div class="tabs-row">
@@ -140,21 +149,16 @@
     </div>
 
 <script>
-    /* --- 1. 資料與變數 --- */
-    const worksData = Array.from({ length: 14 }, (_, i) => ({
-        id: i + 1, title: `實作作品 ${i + 1}`, image: `i${i + 1}.jpg`, desc: `這是關於作品 ${i + 1} 的詳細實作心得。`
-    }));
-
+    /* --- 1. 資料變數 --- */
     const playlist = [
         { name: "Now Playing: late night", src: "late_night.mp3" },
         { name: "Now Playing: make it through", src: "make_it_through.mp3" },
         { name: "Now Playing: M.I.A", src: "MIA.mp3" }
     ];
-    
-    let painting = false, currCol = 'red', currentTrackIndex = 0, isPlaying = false;
+    let currentTrackIndex = 0, isPlaying = false, painting = false, currCol = 'red';
     const audio = document.getElementById('bg-audio'), trackLabel = document.getElementById('track-name'), musicIcon = document.getElementById('music-icon');
 
-    /* --- 2. 音樂系統 (無限循環) --- */
+    /* --- 2. 音樂播放系統 --- */
     function loadTrack(index) {
         audio.src = playlist[index].src;
         trackLabel.innerText = playlist[index].name;
@@ -163,41 +167,28 @@
 
     window.toggleMusic = function() {
         if (isPlaying) { audio.pause(); musicIcon.innerText = '🔇'; isPlaying = false; }
-        else { audio.play().then(() => { musicIcon.innerText = '🎵'; isPlaying = true; }).catch(e => {}); }
+        else { audio.play().then(() => { musicIcon.innerText = '🎵'; isPlaying = true; }).catch(e => alert("請先點擊頁面，再切換音樂。")); }
     };
-    window.nextTrack = function() {
-        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        loadTrack(currentTrackIndex);
-        if (isPlaying) audio.play();
-    };
-    window.prevTrack = function() {
-        currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-        loadTrack(currentTrackIndex);
-        if (isPlaying) audio.play();
-    };
-    audio.onended = () => window.nextTrack(); // 🏆 自動無限循環下一首
+    window.nextTrack = function() { currentTrackIndex = (currentTrackIndex + 1) % playlist.length; loadTrack(currentTrackIndex); if (isPlaying) audio.play(); };
+    window.prevTrack = function() { currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length; loadTrack(currentTrackIndex); if (isPlaying) audio.play(); };
+    audio.onended = () => window.nextTrack();
 
-    /* --- 3. 導覽 --- */
+    /* --- 3. 導覽功能 --- */
     window.nav = function(id) {
         document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-        const target = document.getElementById(id);
-        if (target) {
-            target.style.display = 'flex';
-            if (id === 'p2') { window.changeTab(document.querySelectorAll('.mc-tab')[0], 'start'); stopStars(); }
-            else { startStars(); }
-        }
+        document.getElementById(id).style.display = 'flex';
+        if(id === 'p2') window.changeTab(document.querySelectorAll('.mc-tab')[0], 'start');
+        else startStars();
     };
 
-    /* --- 4. 噴漆系統 (大筆刷/高濃度) --- */
-    window.changeWall = (src) => { document.getElementById('wall-img').src = src; };
-    window.clearCanvas = () => { const c = document.getElementById('tab-canvas'); if(c) c.getContext('2d').clearRect(0,0,c.width,c.height); };
+    /* --- 4. 噴漆牆邏輯 --- */
     function initCanvas() {
         const c = document.getElementById('tab-canvas'), b = document.getElementById('wall-box');
         if(!c || !b) return;
         const ctx = c.getContext('2d');
         c.width = b.offsetWidth; c.height = b.offsetHeight;
         const spray = (x, y) => {
-            const density = 150, radius = 25; // 🏆 大筆刷半徑
+            const density = 150, radius = 25;
             ctx.fillStyle = currCol;
             for (let i = 0; i < density; i++) {
                 const r = Math.random() * radius, angle = Math.random() * Math.PI * 2;
@@ -210,50 +201,101 @@
             }
             ctx.globalAlpha = 1.0;
         };
-        const draw = (e) => { if(!painting) return; const r = c.getBoundingClientRect(); spray((e.clientX || e.touches[0].clientX) - r.left, (e.clientY || e.touches[0].clientY) - r.top); };
-        c.onmousedown = (e) => { painting = true; draw(e); };
+        const handle = (e) => { const r = c.getBoundingClientRect(); spray((e.clientX || e.touches[0].clientX) - r.left, (e.clientY || e.touches[0].clientY) - r.top); };
+        c.onmousedown = (e) => { painting = true; handle(e); };
         window.onmouseup = () => painting = false;
-        c.onmousemove = (e) => { if(painting) requestAnimationFrame(() => draw(e)); };
-        c.ontouchstart = (e) => { e.preventDefault(); painting = true; draw(e.touches[0]); };
-        c.ontouchmove = (e) => { e.preventDefault(); draw(e.touches[0]); };
-        c.ontouchend = () => painting = false;
+        c.onmousemove = (e) => { if(painting) requestAnimationFrame(() => handle(e)); };
+        c.ontouchstart = (e) => { e.preventDefault(); painting = true; handle(e.touches[0]); };
+        c.ontouchmove = (e) => { e.preventDefault(); handle(e.touches[0]); };
     }
 
-    /* --- 5. 標籤分頁與作品集邏輯 --- */
+    /* --- 5. 分頁切換 (含新版創作理念) --- */
     window.changeTab = function(btn, type) {
         document.querySelectorAll('.mc-tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
         const panel = document.getElementById('main-panel');
-        if (type === 'works') {
+        panel.innerHTML = ''; 
+
+        if (type === 'start') {
+            panel.innerHTML = `
+                <div style="width:100%; height:100%; overflow-y:auto; padding:35px; color:#1a1a1a;">
+                    <div style="border-bottom:4px solid #555; padding-bottom:15px; margin-bottom:25px;">
+                        <h2 style="margin:0; font-size:26px; letter-spacing:2px;">🧩 創作起點</h2>
+                        <span style="font-size:14px; color:#555; font-weight:bold;">跨越街頭與數位的創作實驗</span>
+                    </div>
+                    <div style="float: right; width: 38%; margin-left: 25px; margin-bottom: 20px; border: 5px solid #000; background:#000;">
+                        <img src="art.jpg" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/300'">
+                        <div style="background:#000; color:#FFF; font-size:10px; text-align:center; padding:5px; font-family:monospace;">PROJECT_VISUAL_01</div>
+                    </div>
+                    <div style="font-size:16px; line-height:1.9; text-align:justify;">
+                        <p>在過去的創作經驗中，我長期接觸<b>街頭塗鴉與音樂製作</b>，這些創作形式具有強烈的個人風格與即時性，但也存在著難以保存與延伸的限制。因此，我開始思考：是否能透過數位媒介與 AI 技術，讓這些創作突破原有的限制，轉化為更具互動性與延展性的形式。</p>
+                        <p>在本次實作中，我嘗試以<b>「網站」作為創作載體</b>，結合街頭塗鴉的視覺語言與數位互動設計，並引入 AI 作為創作過程中的輔助工具，探索藝術與科技之間的融合可能。</p>
+                        <p>在製作過程中，我發現與 AI 的互動並非單向操作，而是一種需要<b>反覆溝通與調整的協作關係</b>。從網站架構的建立到介面細節的設計，我必須學習如何將抽象的想法轉化為 AI 可以理解的指令。過程中任何細微的錯誤都可能影響系統運作，這也讓我重新理解「設計」不僅是視覺呈現，更包含邏輯與結構的建構。</p>
+                        <p>AI 在此不僅是工具，更像是一位<b>引導者</b>，使我能在陌生領域中快速建立基礎，將想像中的創意具體實現。未來的創作不再只是單一媒材呈現，而是跨領域整合與<b>人機協作</b>的過程。</p>
+                        <p style="background: #8B8B8B; color: #FFF; padding: 10px; border-left: 5px solid #333; margin-top: 30px; font-style: italic;">
+                            " 本次創作不僅是作品的呈現，更是一個探索創作方式轉變的過程。 "
+                        </p>
+                    </div>
+                    <div style="clear:both; height:20px;"></div>
+                </div>`;
+        } else if (type === 'paint') {
+            panel.innerHTML = `
+                <div class="paint-area">
+                    <div class="paint-sidebar">
+                        <div style="color:white; font-size:11px; text-align:center;">噴漆</div>
+                        <div class="color-dot" style="background:red" onclick="currCol='red'"></div>
+                        <div class="color-dot" style="background:lime" onclick="currCol='lime'"></div>
+                        <div class="color-dot" style="background:blue" onclick="currCol='blue'"></div>
+                        <div class="color-dot" style="background:yellow" onclick="currCol='yellow'"></div>
+                        <div class="color-dot" style="background:white" onclick="currCol='white'"></div>
+                        <div class="color-dot" style="background:black" onclick="currCol='black'"></div>
+                        <hr style="width:100%; border:1px dashed #555;">
+                        <div class="color-dot bg-btn" onclick="window.changeWall('wall.jpg')">磚牆</div>
+                        <div class="color-dot bg-btn" onclick="window.changeWall('shutter.jpg')">鐵門</div>
+                        <div class="color-dot bg-btn" onclick="window.changeWall('truck.jpg')">卡車</div>
+                        <div class="color-dot bg-btn" onclick="window.changeWall('sticker.jpg')">貼紙</div>
+                    </div>
+                    <div class="wall-box" id="wall-box">
+                        <img id="wall-img" src="wall.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute;">
+                        <canvas id="tab-canvas" style="position:absolute; top:0; left:0;"></canvas>
+                    </div>
+                    <button class="mc-button" style="position:absolute; bottom:20px; right:20px; width:100px; height:35px; font-size:12px; z-index:20;" onclick="window.clearCanvas()">清除全牆</button>
+                </div>`;
+            setTimeout(initCanvas, 100);
+        } else if (type === 'works') {
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
             const g = document.getElementById('grid-content');
-            g.innerHTML = worksData.map(w => `<div class="work-frame" onclick="window.showDetail(${w.id})"><div class="image-slot"><img src="${w.image}" onerror="this.src='https://via.placeholder.com/150'"></div><div class="work-label">${w.title}</div></div>`).join('');
-        } else if (type === 'paint') {
-            panel.innerHTML = `<div class="paint-area"><div class="paint-sidebar"><div style="color:white; font-size:11px; text-align:center;">噴漆</div><div class="color-dot" style="background:red" onclick="currCol='red'"></div><div class="color-dot" style="background:lime" onclick="currCol='lime'"></div><div class="color-dot" style="background:blue" onclick="currCol='blue'"></div><div class="color-dot" style="background:yellow" onclick="currCol='yellow'"></div><div class="color-dot" style="background:white" onclick="currCol='white'"></div><div class="color-dot" style="background:black" onclick="currCol='black'"></div><hr style="width:100%; border:1px dashed #555;"><div style="color:white; font-size:11px; text-align:center;">場景</div><div class="color-dot bg-btn" onclick="window.changeWall('wall.jpg')">磚牆</div><div class="color-dot bg-btn" onclick="window.changeWall('shutter.jpg')">鐵門</div><div class="color-dot bg-btn" onclick="window.changeWall('truck.jpg')">卡車</div><div class="color-dot bg-btn" onclick="window.changeWall('sticker.jpg')">貼紙</div></div><div class="wall-box" id="wall-box"><img id="wall-img" src="wall.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;" onerror="this.style.background='#222'"><canvas id="tab-canvas"></canvas></div><button class="mc-button" style="position:absolute; bottom:20px; right:20px; width:100px; height:35px; font-size:12px; z-index:10;" onclick="window.clearCanvas()">清除全牆</button></div>`;
-            setTimeout(initCanvas, 50);
-        } else if (type === 'start') {
-            panel.innerHTML = `<div style="width:100%; height:100%; overflow-y:auto; padding:30px;"><h2 style="color:#000; border-bottom:4px solid #555; padding-bottom:10px; margin-top:0;">🌱 創作起點</h2><div style="float: right; width: 35%; margin-left: 20px; margin-bottom: 15px; border: 4px solid #000;"><img src="art.jpg" style="width:100%; height:auto; display:block;" onerror="this.src='https://via.placeholder.com/300x400'"></div><div style="color:#1a1a1a; font-size:16px; line-height:1.8; text-align:justify;"><p>在本次實作中，我嘗試以網站作為創作載體，結合街頭塗鴉的視覺語言與數位互動設計...</p></div><div style="clear:both;"></div></div>`;
+            for(let i=1; i<=14; i++) {
+                g.innerHTML += `<div class="work-frame" onclick="window.showDetail(${i})"><div class="image-slot"><img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150'"></div><div class="work-label">作品 ${i}</div></div>`;
+            }
         } else {
-            panel.innerHTML = `<div style="padding:30px; color:#000;"><h2>${type === 'process' ? '🛠️ 歷程記錄' : '🚀 未來發展'}</h2><p>內容編輯中...</p></div>`;
+            panel.innerHTML = `<div style="padding:30px; color:#000;"><h2>${type === 'process' ? '🛠️ 歷程記錄' : '🚀 未來發展'}</h2><p>內容載入中...</p></div>`;
         }
     };
 
-    window.showDetail = function(id) {
-        const w = worksData.find(x => x.id === id);
-        if (!w) return;
-        document.getElementById('det-title').innerText = w.title;
-        document.getElementById('det-desc').innerText = w.desc;
-        document.getElementById('det-img').src = w.image;
+    window.showDetail = (i) => {
+        document.getElementById('det-title').innerText = `實作作品 ${i}`;
+        document.getElementById('det-desc').innerText = `這是關於作品 ${i} 的詳細實作心得與過程記錄。`;
+        document.getElementById('det-img').src = `i${i}.jpg`;
         document.getElementById('detail-overlay').style.display = 'flex';
     };
 
-    /* --- 6. 星星動畫略 (維持原本設定) --- */
-    const starCanvas = document.getElementById('star-canvas'), starCtx = starCanvas.getContext('2d');
-    let stars = [], starAnimationId;
-    class Star { constructor() { this.x = Math.random() * starCanvas.width; this.y = Math.random() * starCanvas.height; this.size = Math.random() * 2 + 0.5; this.blinkSpeed = Math.random() * 0.05 + 0.01; this.alpha = Math.random(); this.goingUp = Math.random() > 0.5; } draw() { starCtx.beginPath(); starCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); starCtx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`; starCtx.fill(); } update() { if (this.goingUp) { this.alpha += this.blinkSpeed; if (this.alpha > 1) this.goingUp = false; } else { this.alpha -= this.blinkSpeed; if (this.alpha < 0) this.goingUp = true; } } }
-    function startStars() { starCanvas.width = window.innerWidth; starCanvas.height = window.innerHeight; stars = Array.from({length:100}, () => new Star()); (function anim(){ starCtx.clearRect(0,0,starCanvas.width,starCanvas.height); stars.forEach(s=>{s.update();s.draw();}); starAnimationId = requestAnimationFrame(anim); })(); }
-    function stopStars() { cancelAnimationFrame(starAnimationId); starAnimationId = null; }
+    window.changeWall = (src) => { document.getElementById('wall-img').src = src; };
+    window.clearCanvas = () => { const c = document.getElementById('tab-canvas'); if(c) c.getContext('2d').clearRect(0,0,c.width,c.height); };
 
+    /* --- 星星系統 --- */
+    const starCanvas = document.getElementById('star-canvas'), starCtx = starCanvas.getContext('2d');
+    let starAnimationId;
+    function startStars() {
+        starCanvas.width = window.innerWidth; starCanvas.height = window.innerHeight;
+        const stars = Array.from({length:100}, () => ({ x:Math.random()*starCanvas.width, y:Math.random()*starCanvas.height, size:Math.random()*2, alpha:Math.random(), speed:Math.random()*0.05 }));
+        function anim() {
+            starCtx.clearRect(0,0,starCanvas.width,starCanvas.height);
+            stars.forEach(s => { s.alpha += s.speed; if(s.alpha>1 || s.alpha<0) s.speed *= -1; starCtx.fillStyle=`rgba(255,255,255,${Math.abs(s.alpha)})`; starCtx.beginPath(); starCtx.arc(s.x, s.y, s.size, 0, Math.PI*2); starCtx.fill(); });
+            starAnimationId = requestAnimationFrame(anim);
+        }
+        anim();
+    }
     document.addEventListener('DOMContentLoaded', () => { window.nav('p1'); });
 </script>
 </body>
