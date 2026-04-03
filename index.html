@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v12.2</title>
+    <title>學習成果實作檔案庫 v13.0 - Pro Gallery</title>
     <style>
         :root {
             --mc-gray: #C6C6C6;
@@ -21,7 +21,7 @@
             overflow: hidden; 
         }
 
-        /* Minecraft 按鈕 */
+        /* Minecraft 核心按鈕 */
         .mc-button {
             background: #707070; border: 3px solid #000; color: #E0E0E0; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
@@ -72,7 +72,7 @@
         .color-dot { width: 100%; aspect-ratio: 1/1; border: 2px solid #FFF; cursor: pointer; flex-shrink: 0; }
         .bg-btn { background: #444; color: white; font-size: 10px; display: flex; align-items: center; justify-content: center; text-align: center; }
 
-        /* 作品集 */
+        /* 作品集網格 */
         .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; height: 100%; overflow-y: auto; }
         .work-frame { aspect-ratio: 3/4; background: #8B8B8B; border: 3px solid #000; padding: 10px; cursor: pointer; transition: transform 0.2s; }
         .work-frame:hover { transform: translateY(-5px); background: #9D9D9D; }
@@ -80,8 +80,59 @@
         .image-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .work-label { height: 30px; display: flex; align-items: center; justify-content: center; font-size: 13px; text-shadow: 1px 1px #000; font-weight: bold; }
         
-        #detail-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:3000; display:none; align-items:center; justify-content:center; }
-        #detail-view { width: 320px; height: 600px; background: var(--mc-gray); border: 4px solid #000; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        /* 🏆 重新設計的專業彈窗樣式 */
+        #detail-overlay { 
+            position: fixed; top:0; left:0; width:100%; height:100%; 
+            background: rgba(0,0,0,0.9); /* 更深的背景，襯托作品 */
+            z-index: 3000; display: none; align-items: center; justify-content: center; 
+            cursor: pointer; /* 提示點擊關閉 */
+        }
+        #detail-view { 
+            /* 視覺大小約螢幕 50% */
+            width: 80vw; max-width: 1200px; /* 大螢幕也不過大 */
+            aspect-ratio: 2/1; /* 🏆 關鍵：2:1 橫向比例 */
+            
+            background: var(--mc-gray); 
+            border: 5px solid #000; 
+            display: flex; /* 🏆 關鍵：左右分欄 */
+            position: relative;
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.5); /* 增加厚重感 */
+            cursor: default; /* 彈窗內維持正常游標 */
+        }
+
+        /* 左半邊：圖片展示區 */
+        .det-left {
+            flex: 1; /* 佔 1/2 寬度 */
+            background: #000;
+            border-right: 4px solid #000;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; padding: 15px;
+        }
+        #det-img { 
+            max-width: 100%; max-height: 100%; 
+            object-fit: contain; /* 確保整張圖完整顯示 */
+            border: 2px solid #333;
+        }
+
+        /* 右半邊：資料說明區 */
+        .det-right {
+            flex: 1; /* 佔 1/2 寬度 */
+            display: flex; flex-direction: column;
+            padding: 30px; color: #1a1a1a;
+            overflow: hidden; /* 防止內容撐破 */
+        }
+        #det-title { margin: 0 0 10px 0; font-size: 28px; font-weight: bold; border-bottom: 3px solid #000; padding-bottom: 5px; }
+        #det-tag { display: inline-block; background: #333; color: #FFF; padding: 3px 8px; font-size: 12px; margin-bottom: 20px; font-family: monospace; }
+        #det-desc-container { flex: 1; overflow-y: auto; scrollbar-width: thin; padding-right: 10px; } /* 說明文字可滾動 */
+        #det-desc { font-size: 15px; line-height: 1.8; text-align: justify; }
+
+        /* 下方反白關閉提示 */
+        .close-tip {
+            position: absolute; bottom: -40px; left: 0; width: 100%;
+            text-align: center; color: #FFF; background: rgba(255,255,255,0.2);
+            font-size: 13px; padding: 5px 0; font-family: monospace;
+            pointer-events: none; /* 不影響點擊關閉 */
+        }
     </style>
 </head>
 <body>
@@ -121,10 +172,19 @@
 
     <div id="detail-overlay" onclick="this.style.display='none'">
         <div id="detail-view" onclick="event.stopPropagation()">
-            <img id="det-img" src="" style="width:100%; aspect-ratio:1/1; background:#000; border:3px solid #555; object-fit:contain;">
-            <h3 id="det-title" style="color: #000; margin: 0; border-bottom: 2px solid #8B8B8B;">標題</h3>
-            <div id="det-desc" style="flex: 1; color: #333; overflow-y: auto; font-size: 14px; line-height: 1.5;"></div>
-            <button class="mc-button" style="height: 45px; width: 100%;" onclick="document.getElementById('detail-overlay').style.display='none'">關閉</button>
+            <div class="det-left">
+                <img id="det-img" src="">
+            </div>
+            <div class="det-right">
+                <div id="det-tag">AI 輔助創作</div>
+                <h3 id="det-title">作品標題</h3>
+                
+                <div id="det-desc-container">
+                    <strong style="color:#555; border-bottom:1px solid #999;">實作心得與過程</strong><br>
+                    <div id="det-desc" style="margin-top:10px;"></div>
+                </div>
+            </div>
+            <div class="close-tip">>> [ 點擊任何地方關閉頁面 ] <<</div>
         </div>
     </div>
 
@@ -137,6 +197,14 @@
     ];
     let currentTrackIndex = 0, isPlaying = false, painting = false, currCol = 'red';
     const audio = document.getElementById('bg-audio'), trackLabel = document.getElementById('track-name'), musicIcon = document.getElementById('music-icon');
+
+    /* --- 作品資料庫：預設佔位符，請在這裡修改真實內容 --- */
+    const worksData = {
+        1: { title: "幻象街頭", tag: "AI 融合實驗", desc: "利用 Midjourney 生成基礎街圖，再透過 Photoshop 進行色彩調教與排版，展現數位與街頭的衝突美。<br>過程中使用 Prompt: /imagine cyperpunk street art, graffiti style, unreal engine 5, neon lighting.<br>這是我第一次嘗試將 AI 生成的作品整合到設計工作流中，遇到最大的挑戰是維持不同角度光影的一致性。" },
+        2: { title: "霓虹序列海報", tag: "平面設計", desc: "這件作品嘗試用重複的幾何圖形堆疊出節奏感，靈感來自於電子音樂的波形與霓虹燈光。<br>工具：Adobe Illustrator。" },
+        3: { title: "數位噴漆原型", tag: "網頁程式開發", desc: "探討數位媒介是否能還原噴漆的顆粒感與流動性。這也是本次網站中「互動塗鴉」功能的原型實驗。<br>技術：JavaScript Canvas API。" },
+        // ... 以此類推到 14，你可以先留空，程式會自動顯示預設內容
+    };
 
     /* --- 2. 音樂播放系統 --- */
     function loadTrack(index) {
@@ -157,7 +225,7 @@
     window.prevTrack = function() { currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length; loadTrack(currentTrackIndex); if (isPlaying) audio.play(); };
     audio.onended = () => window.nextTrack();
 
-    /* --- 3. 導覽功能 --- */
+    /* --- 3. 導覽與分頁功能 --- */
     window.nav = function(id) {
         document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
         document.getElementById(id).style.display = 'flex';
@@ -184,7 +252,7 @@
                     <div style="font-size:16px; line-height:1.9; text-align:justify;">
                         <p>在過去的創作經驗中，我長期接觸<b>街頭塗鴉與音樂製作</b>，這些創作形式具有強烈的個人風格與即時性，但也存在著難以保存與延伸的限制。因此，我開始思考：是否能透過數位媒介與 AI 技術，讓這些創作突破原有的限制，轉化為更具互動性與延展性的形式。</p>
                         <p>在本次實作中，我嘗試以<b>「網站」作為創作載體</b>，結合街頭塗鴉的視覺語言與數位互動設計，並引入 AI 作為創作過程中的輔助工具，探索藝術與科技之間的融合可能。</p>
-                        <p>在製作過程中，我發現與 AI 的互動並非單向操作，而是一種需要<b>反覆溝通與調整的協作關係</b>。這也讓我重新理解「設計」不僅是視覺呈現，更包含邏輯與結構的建構。</p>
+                        <p>在製作過程中，我發現與 AI 的互動並非單向操作，而是一種需要<b>反覆溝通與調整的協作關係</b>。從網站架構的建立到介面細節的設計，我必須學習如何將抽象的想法轉化為 AI 可以理解的指令。這也讓我重新理解「設計」不僅是視覺呈現，更包含邏輯與結構的建構。</p>
                         <p>AI 在此不僅是工具，更像是一位<b>引導者</b>，使我能在陌生領域中快速建立基礎。未來的創作不再只是單一媒材呈現，而是跨領域整合與<b>人機協作</b>的過程。</p>
                         <p style="background: #8B8B8B; color: #FFF; padding: 10px; border-left: 5px solid #333; margin-top: 30px; font-style: italic;">
                             " 本次創作不僅是作品的呈現，更是一個探索創作方式轉變的過程。 "
@@ -193,7 +261,6 @@
                     <div style="clear:both; height:20px;"></div>
                 </div>`;
         } else if (type === 'paint') {
-            // 🏆 修正處：完整包含四個場景按鈕
             panel.innerHTML = `
                 <div class="paint-area">
                     <div class="paint-sidebar">
@@ -223,7 +290,7 @@
                 g.innerHTML += `<div class="work-frame" onclick="window.showDetail(${i})"><div class="image-slot"><img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150'"></div><div class="work-label">作品 ${i}</div></div>`;
             }
         } else {
-            panel.innerHTML = `<div style="padding:30px; color:#000;"><h2>${type === 'process' ? '🛠️ 歷程記錄' : '🚀 未來發展'}</h2><p>內容載入中...</p></div>`;
+             panel.innerHTML = `<div style="padding:30px; color:#000;"><h2>${type === 'process' ? '🛠️ 歷程記錄' : '🚀 未來發展'}</h2><p>內容載入中...</p></div>`;
         }
     };
 
@@ -255,11 +322,24 @@
         c.ontouchmove = (e) => { e.preventDefault(); handle(e.touches[0]); };
     }
 
+    /* --- 🏆 修正後的專業顯示函數 --- */
     window.showDetail = (i) => {
-        document.getElementById('det-title').innerText = `實作作品 ${i}`;
-        document.getElementById('det-desc').innerText = `這是關於作品 ${i} 的詳細實作心得。`;
+        // 從資料庫抓取內容，若無則顯示預設
+        const data = worksData[i] || { title: `實作作品 ${i}`, tag: "未分類", desc: "暫無詳細心得說明。" };
+        
+        // 填入資料
+        document.getElementById('det-title').innerText = data.title;
+        document.getElementById('det-tag').innerText = data.tag;
+        document.getElementById('det-desc').innerHTML = data.desc; // 使用 HTML 允許換行 <b> 等
+        
+        // 設定圖片
         document.getElementById('det-img').src = `i${i}.jpg`;
+        
+        // 顯示彈窗
         document.getElementById('detail-overlay').style.display = 'flex';
+        
+        // 將右側滾動條重置回頂部
+        document.getElementById('det-desc-container').scrollTop = 0;
     };
 
     window.changeWall = (src) => { document.getElementById('wall-img').src = src; };
