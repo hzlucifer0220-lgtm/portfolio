@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archive System - Minecraft UI v3.0</title>
+    <title>學習成果實作檔案庫 - Minecraft v3.8</title>
     <style>
         /* --- Minecraft 核心樣式定義 --- */
         :root {
@@ -24,7 +24,7 @@
             overflow: hidden; 
         }
 
-        /* --- 基礎互動類：Minecraft 按鈕樣式 --- */
+        /* --- Minecraft 按鈕樣式 --- */
         .mc-button {
             background-color: var(--mc-button-bg);
             border: 3px solid #000;
@@ -35,198 +35,60 @@
             justify-content: center;
             text-shadow: 2px 2px #3F3F3F;
             box-shadow: inset 3px 3px 0px var(--mc-light), inset -3px -3px 0px var(--mc-shadow);
-            transition: transform 0.05s, background-color 0.1s;
+            transition: transform 0.05s;
             user-select: none;
             font-weight: bold;
         }
-
-        /* 觸碰反白 (Hover) */
         .mc-button:hover {
             background-color: var(--mc-hover-bg);
             color: #FFF;
             outline: 3px solid #FFF;
             outline-offset: -8px;
         }
+        .mc-button:active { transform: scale(0.95); }
 
-        /* 點擊縮小 (Active) */
-        .mc-button:active {
-            transform: scale(0.92);
-            background-color: var(--mc-dark);
-            box-shadow: inset 3px 3px 0px var(--mc-shadow), inset -3px -3px 0px var(--mc-light);
-        }
-
-        /* 頁面切換控制 */
-        .screen { 
-            position: absolute; width: 100%; height: 100%; 
-            display: flex; flex-direction: column; align-items: center; 
-            transition: opacity 0.3s;
-        }
-        .hidden { display: none !important; opacity: 0; }
+        /* 頁面切換 */
+        .screen { position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
+        .hidden { display: none !important; }
 
         /* --- P1: 封面介面 --- */
-        #p1 { 
-            background: url('cover_art.jpg') center/cover no-repeat; 
-            justify-content: flex-start;
-        }
-
-        .p1-title-area {
-            height: 40vh; /* 標題佔上半部 40% */
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 5vh;
-        }
-
-        #tittle-img {
-            max-height: 95%;
-            width: auto;
-            image-rendering: pixelated; /* 保持像素銳利度 */
-        }
-
-        .p1-button-area {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-start { width: 320px; height: 64px; font-size: 24px; letter-spacing: 2px; }
+        #p1 { background: url('cover_art.jpg') center/cover no-repeat; justify-content: flex-start; }
+        .p1-title-area { height: 40vh; width: 100%; display: flex; align-items: center; justify-content: center; margin-top: 5vh; }
+        #tittle-img { max-height: 95%; image-rendering: pixelated; }
+        .p1-button-area { flex: 1; display: flex; align-items: center; justify-content: center; }
 
         /* --- P2: 主控制台介面 --- */
         #p2 { 
             background: rgba(0,0,0,0.7) url('gui_bg.jpg') center/cover no-repeat; 
-            background-blend-mode: overlay; /* 讓背景變暗，突出 UI */
+            background-blend-mode: overlay;
             justify-content: center;
         }
 
-        .btn-back {
-            position: absolute; top: 20px; left: 20px;
-            width: 110px; height: 44px; font-size: 14px;
-        }
-
-        /* 3:2 主要介面容器 */
-        .gui-container {
-            width: 80vw; 
-            height: 53.33vw; /* 維持 3:2 比例 (80 / 1.5) */
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* 頂部四個分頁標籤 */
+        .gui-container { width: 85vw; height: 56.66vw; max-height: 85vh; display: flex; flex-direction: column; }
         .tabs-row { display: flex; gap: 4px; padding-left: 12px; }
-        .mc-tab { 
-            width: 120px; height: 42px; font-size: 15px; 
-            border-bottom: none; border-radius: 6px 6px 0 0;
-            margin-top: 5px;
-        }
-        .mc-tab.active { 
-            background-color: var(--mc-gray); color: #333; 
-            height: 48px; margin-top: 0px; z-index: 2;
-            text-shadow: none;
-            box-shadow: inset 3px 3px 0px var(--mc-light);
-        }
-
-        /* 滾動面板本體 */
-        .gui-panel {
-            flex: 1;
-            background-color: var(--mc-gray);
-            border: 4px solid #000;
-            box-shadow: inset 4px 4px 0px var(--mc-light), inset -4px -4px 0px var(--mc-dark);
-            overflow-y: auto;
-            padding: 30px;
-            z-index: 1;
-        }
-
-        /* Minecraft 像素風格滾動條 */
-        .gui-panel::-webkit-scrollbar { width: 16px; }
-        .gui-panel::-webkit-scrollbar-track { background: #333; border: 3px solid #000; }
-        .gui-panel::-webkit-scrollbar-thumb { background: #8B8B8B; border: 3px solid #FFF; }
-
-        /* --- 作品展示框 (3:4 比例) --- */
-        .work-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 嚴格一列三個 */
-            gap: 25px;
-        }
-
-        .work-frame {
-            aspect-ratio: 3 / 4;
-            background-color: #8B8B8B;
-            border: 3px solid #000;
-            box-shadow: inset 3px 3px 0px #555, inset -3px -3px 0px #DDD;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            transition: transform 0.05s;
-        }
+        .mc-tab { width: 110px; height: 40px; font-size: 14px; border-bottom: none; border-radius: 6px 6px 0 0; margin-top: 8px; }
+        .mc-tab.active { background-color: var(--mc-gray); color: #333; height: 48px; margin-top: 0px; z-index: 2; text-shadow: none; }
         
-        /* 展示框互動：反白與縮小 */
-        .work-frame:hover { outline: 4px solid #FFF; background-color: #9D9D9D; }
-        .work-frame:active { transform: scale(0.95); }
-
-        /* 展示框上邊的正方形圖片區 */
-        .image-slot {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background-color: #222;
-            border: 2px solid #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .image-slot img {
-            max-width: 100%; max-height: 100%;
-            object-fit: contain; /* 自動調整比例至框內 */
+        .gui-panel { 
+            flex: 1; background-color: var(--mc-gray); border: 4px solid #000; 
+            box-shadow: inset 4px 4px 0px var(--mc-light), inset -4px -4px 0px var(--mc-dark);
+            overflow: hidden; padding: 0; z-index: 1; position: relative;
         }
 
-        /* 作品標題空間 */
-        .work-label {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 16px;
-            color: #FFF;
-            text-shadow: 2px 2px #000;
-            padding-top: 8px;
-            font-weight: bold;
-        }
+        /* 作品集網格 */
+        .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 25px; height: 100%; overflow-y: auto; }
+        .work-frame { aspect-ratio: 3 / 4; background-color: #8B8B8B; border: 3px solid #000; padding: 10px; display: flex; flex-direction: column; cursor: pointer; }
+        .image-slot { width: 100%; aspect-ratio: 1 / 1; background-color: #222; border: 2px solid #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .image-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .work-label { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; color: #FFF; text-shadow: 2px 2px #000; font-weight: bold; }
 
-        /* --- 詳細視窗 (1:2 比例) --- */
-        #detail-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 99; display: flex; align-items: center; justify-content: center;
-        }
+        /* 詳細視窗 */
+        #detail-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 99; display: flex; align-items: center; justify-content: center; }
+        #detail-view { width: 38vh; height: 76vh; background-color: var(--mc-gray); border: 5px solid #000; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
 
-        #detail-view {
-            width: 38vh; height: 76vh; /* 嚴格 1:2 比例 */
-            background-color: var(--mc-gray);
-            border: 5px solid #000;
-            box-shadow: 20px 20px 0px rgba(0,0,0,0.5);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            animation: popIn 0.1s ease-out;
-        }
-
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .detail-img-box {
-            width: 100%; aspect-ratio: 1 / 1;
-            background: #000; border: 3px solid #555;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .detail-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
-        .detail-title { margin: 0; font-size: 22px; color: #000; border-bottom: 3px solid #8B8B8B; padding-bottom: 5px; }
-        .detail-desc { flex: 1; overflow-y: auto; color: #333; font-size: 15px; line-height: 1.6; padding-right: 5px; }
-
+        /* 噴漆控制點 */
+        .color-dot { width: 30px; height: 30px; border: 2px solid #FFF; cursor: pointer; transition: transform 0.1s; }
+        .color-dot:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -236,116 +98,102 @@
             <img src="tittle.jpg" id="tittle-img" alt="Title">
         </div>
         <div class="p1-button-area">
-            <button class="mc-button btn-start" onclick="nav('p2')">START SYSTEM</button>
+            <button class="mc-button" style="width:280px; height:60px; font-size:20px;" onclick="nav('p2')">啟動系統</button>
         </div>
     </div>
 
     <div id="p2" class="screen hidden">
-        <button class="mc-button btn-back" onclick="nav('p1')">BACK</button>
+        <button class="mc-button" style="position:absolute; top:20px; left:20px; width:100px; height:40px;" onclick="nav('p1')">返回</button>
         
         <div class="gui-container">
             <div class="tabs-row">
-                <button class="mc-button mc-tab active" onclick="changeTab(this, 'works')">WORKS</button>
-                <button class="mc-button mc-tab" onclick="changeTab(this, 'info')">INFO</button>
-                <button class="mc-button mc-tab" onclick="changeTab(this, 'log')">LOG</button>
-                <button class="mc-button mc-tab" onclick="changeTab(this, 'future')">FUTURE</button>
+                <button class="mc-button mc-tab" onclick="changeTab(this, 'start')">創作起點</button>
+                <button class="mc-button mc-tab" onclick="changeTab(this, 'paint')">互動塗鴉</button>
+                <button class="mc-button mc-tab active" onclick="changeTab(this, 'works')">作品集</button>
+                <button class="mc-button mc-tab" onclick="changeTab(this, 'process')">歷程記錄</button>
+                <button class="mc-button mc-tab" onclick="changeTab(this, 'future')">未來發展</button>
             </div>
             
             <div class="gui-panel" id="main-panel">
-                <div class="work-grid" id="grid-content">
-                    </div>
-            </div>
+                </div>
         </div>
     </div>
 
     <div id="detail-overlay" class="hidden" onclick="closeDetail()">
         <div id="detail-view" onclick="event.stopPropagation()">
-            <div class="detail-img-box"><img id="det-img" src=""></div>
-            <h2 class="detail-title" id="det-title">TITLE</h2>
-            <div class="detail-desc" id="det-desc">DESCRIPTION...</div>
-            <button class="mc-button" style="height: 50px; width: 100%; font-size: 18px;" onclick="closeDetail()">CLOSE</button>
+            <div style="width:100%; aspect-ratio:1/1; background:#000; border:3px solid #555;">
+                <img id="det-img" src="" style="width:100%; height:100%; object-fit:contain;">
+            </div>
+            <h2 id="det-title" style="color:#000; margin:0; border-bottom:3px solid #8B8B8B;">標題</h2>
+            <div id="det-desc" style="flex:1; overflow-y:auto; color:#333; font-size:14px; line-height:1.6;">描述內容...</div>
+            <button class="mc-button" style="height:45px; width:100%;" onclick="closeDetail()">關閉視窗</button>
         </div>
     </div>
 
 <script>
-    // 1. 確保函式在最優先層級定義
+    // --- 1. 基礎導覽邏輯 ---
     window.nav = function(id) {
-        console.log("嘗試導航至: " + id);
-        
-        const screens = document.querySelectorAll('.screen');
-        screens.forEach(s => {
-            s.classList.add('hidden');
-            s.style.display = 'none'; // 強制隱藏
-        });
-
+        document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
         const target = document.getElementById(id);
         if (target) {
             target.classList.remove('hidden');
-            target.style.display = 'flex'; // 強制顯示
-            console.log("成功切換至: " + id);
-        } else {
-            console.error("找不到 ID: " + id);
+            if (id === 'p2') {
+                // 進入 P2 時，預設觸發作品集標籤
+                const worksBtn = document.querySelectorAll('.mc-tab')[2];
+                changeTab(worksBtn, 'works');
+            }
         }
-
-        if (id === 'p2') renderWorks();
     };
 
-    // 2. 資料與渲染邏輯 (修正了 desc 的引號問題)
-    const worksData = [];
-    for (let i = 1; i <= 15; i++) {
-        worksData.push({
-            id: i,
-            title: `ARCHIVE_0${i < 10 ? '0'+i : i}`,
-            img: `work${i}.jpg`,
-            // 修正處：這裡必須用 ` 或 " 包起來
-            desc: `這是編號為 ${i} 的作品存檔描述。採用 Minecraft GUI 規範開發。`
-        });
-    }
-
-    function renderWorks() {
-        const grid = document.getElementById('grid-content');
-        if(!grid) return;
-        grid.innerHTML = worksData.map(work => `
-            <div class="work-frame" onclick="openDetail(${work.id})">
-                <div class="image-slot">
-                    <img src="${work.img}" onerror="this.src='https://via.placeholder.com/300?text=NO+IMAGE'">
-                </div>
-                <div class="work-label">${work.title}</div>
-            </div>
-        `).join('');
-    }
-
-    // 3. 分頁、彈窗等其餘函式
-    window.openDetail = function(id) {
-        const work = worksData.find(w => w.id === id);
-        if(!work) return;
-        document.getElementById('det-title').innerText = work.title;
-        document.getElementById('det-img').src = work.img;
-        document.getElementById('det-desc').innerText = work.desc;
-        document.getElementById('detail-overlay').classList.remove('hidden');
-        document.getElementById('detail-overlay').style.display = 'flex';
-    };
-
-    window.closeDetail = function() {
-        document.getElementById('detail-overlay').classList.add('hidden');
-        document.getElementById('detail-overlay').style.display = 'none';
-    };
-
-    // 4. 預設顯示 P1
-    document.addEventListener('DOMContentLoaded', () => {
-        nav('p1'); 
-    });
-
-    // 5. 分頁切換功能 (補上漏掉的部分)
+    // --- 2. 標籤切換與內容填充 ---
     window.changeTab = function(btn, type) {
         document.querySelectorAll('.mc-tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
         const panel = document.getElementById('main-panel');
+        panel.innerHTML = ''; // 清空
+
         if (type === 'works') {
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
             renderWorks();
-        } else {
-            panel.innerHTML = `<h2 style="color:#000">${type.toUpperCase()}</h2><p style="color:#444">系統資料讀取中...</p>`;
+        } 
+        else if (type === 'paint') {
+            panel.innerHTML = `
+                <div style="width:100%; height:100%; background:#1a1a1a; display:flex; flex-direction:column; align-items:center;">
+                    <div style="display:flex; justify-content:space-between; width:95%; padding:10px;">
+                        <span style="color:#FFF;">[ 街頭噴漆體驗區 ]</span>
+                        <button class="mc-button" style="width:100px; height:30px; font-size:12px;" onclick="clearTabCanvas()">清除牆面</button>
+                    </div>
+                    <div id="canvas-container" style="position:relative; width:95%; flex:1; border:4px solid #000; background:#333;">
+                        <img src="wall.jpg" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.background='#444'">
+                        <canvas id="tab-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair;"></canvas>
+                    </div>
+                    <div style="display:flex; gap:15px; padding:15px;">
+                        <div class="color-dot" style="background:#ff0000;" onclick="setTabColor('#ff0000')"></div>
+                        <div class="color-dot" style="background:#00ff00;" onclick="setTabColor('#00ff00')"></div>
+                        <div class="color-dot" style="background:#0000ff;" onclick="setTabColor('#0000ff')"></div>
+                        <div class="color-dot" style="background:#ffff00;" onclick="setTabColor('#ffff00')"></div>
+                        <div class="color-dot" style="background:#ffffff;" onclick="setTabColor('#ffffff')"></div>
+                        <div class="color-dot" style="background:#000000; border-color:#555;" onclick="setTabColor('#000000')"></div>
+                    </div>
+                </div>
+            `;
+            setTimeout(initTabCanvas, 50);
+        } 
+        else {
+            const titles = { 'start': '🌱 創作起點', 'process': '🛠️ 歷程記錄', 'future': '🚀 未來發展' };
+            panel.innerHTML = `
+                <div style="color:#000; padding:30px; animation: fadeIn 0.3s;">
+                    <h2 style="border-bottom:4px solid #555; padding-bottom:10px;">${titles[type]}</h2>
+                    <div style="margin-top:20px; line-height:1.8; font-size:16px;">
+                        <p>[ 系統檔案讀取成功 ]</p>
+                        <p>請在此處編輯您的個人學習心得與課程實作記錄內容...</p>
+                    </div>
+                </div>
+            `;
         }
     };
-</script>
+
+    // --- 3. 噴漆系統邏輯 ---
+    let tabPainting = false;
+    let tabColor = '#ff0000';
+    window.setTabColor = (c)
