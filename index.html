@@ -3,197 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 - Minecraft v3.8</title>
+    <title>個人學習成果作品集 v4.5</title>
     <style>
-        /* --- Minecraft 核心樣式定義 --- */
+        /* --- Minecraft 核心 UI 樣式 --- */
         :root {
             --mc-gray: #C6C6C6;
             --mc-dark: #555555;
             --mc-light: #FFFFFF;
             --mc-shadow: #373737;
-            --mc-button-bg: #707070;
-            --mc-hover-bg: #8B8B8B;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
-            background: #000; color: #FFF; 
-            font-family: 'Segoe UI', '微軟正黑體', sans-serif;
-            overflow: hidden; 
-        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; color: #FFF; font-family: 'Segoe UI', '微軟正黑體', sans-serif; overflow: hidden; }
 
-        /* --- Minecraft 按鈕樣式 --- */
         .mc-button {
-            background-color: var(--mc-button-bg);
-            border: 3px solid #000;
-            color: #E0E0E0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 2px 2px #3F3F3F;
+            background: #707070; border: 3px solid #000; color: #E0E0E0; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: inset 3px 3px 0px var(--mc-light), inset -3px -3px 0px var(--mc-shadow);
-            transition: transform 0.05s;
-            user-select: none;
-            font-weight: bold;
+            font-weight: bold; text-shadow: 2px 2px #3F3F3F; transition: transform 0.05s;
         }
-        .mc-button:hover {
-            background-color: var(--mc-hover-bg);
-            color: #FFF;
-            outline: 3px solid #FFF;
-            outline-offset: -8px;
-        }
+        .mc-button:hover { background: #8B8B8B; color: #FFF; outline: 3px solid #FFF; outline-offset: -8px; }
         .mc-button:active { transform: scale(0.95); }
 
-        /* 頁面切換 */
-        .screen { position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
-        .hidden { display: none !important; }
+        /* 頁面切換：預設隱藏 */
+        .screen { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; }
 
-        /* --- P1: 封面介面 --- */
-        #p1 { background: url('cover_art.jpg') center/cover no-repeat; justify-content: flex-start; }
-        .p1-title-area { height: 40vh; width: 100%; display: flex; align-items: center; justify-content: center; margin-top: 5vh; }
-        #tittle-img { max-height: 95%; image-rendering: pixelated; }
-        .p1-button-area { flex: 1; display: flex; align-items: center; justify-content: center; }
+        /* P1: 封面 */
+        #p1 { background: url('cover_art.jpg') center/cover no-repeat; display: flex; }
+        .title-area { height: 40vh; margin-top: 5vh; display: flex; align-items: center; justify-content: center; }
+        .title-area img { max-height: 90%; image-rendering: pixelated; }
 
-        /* --- P2: 主控制台介面 --- */
-        #p2 { 
-            background: rgba(0,0,0,0.7) url('gui_bg.jpg') center/cover no-repeat; 
-            background-blend-mode: overlay;
-            justify-content: center;
-        }
-
-        .gui-container { width: 85vw; height: 56.66vw; max-height: 85vh; display: flex; flex-direction: column; }
-        .tabs-row { display: flex; gap: 4px; padding-left: 12px; }
-        .mc-tab { width: 110px; height: 40px; font-size: 14px; border-bottom: none; border-radius: 6px 6px 0 0; margin-top: 8px; }
-        .mc-tab.active { background-color: var(--mc-gray); color: #333; height: 48px; margin-top: 0px; z-index: 2; text-shadow: none; }
+        /* P2: 主介面 */
+        #p2 { background: #222 url('gui_bg.jpg') center/cover no-repeat; background-blend-mode: overlay; }
+        .gui-container { width: 90vw; height: 60vw; max-height: 85vh; display: flex; flex-direction: column; margin-top: 50px; }
         
-        .gui-panel { 
-            flex: 1; background-color: var(--mc-gray); border: 4px solid #000; 
-            box-shadow: inset 4px 4px 0px var(--mc-light), inset -4px -4px 0px var(--mc-dark);
-            overflow: hidden; padding: 0; z-index: 1; position: relative;
-        }
+        .tabs-row { display: flex; gap: 4px; padding-left: 10px; }
+        .mc-tab { width: 110px; height: 40px; font-size: 13px; border-bottom: none; border-radius: 5px 5px 0 0; margin-top: 8px; }
+        .mc-tab.active { background: var(--mc-gray); color: #333; height: 48px; margin-top: 0; z-index: 2; text-shadow: none; box-shadow: inset 3px 3px 0 var(--mc-light); }
+
+        .gui-panel { flex: 1; background: var(--mc-gray); border: 4px solid #000; box-shadow: inset 4px 4px 0 var(--mc-light), inset -4px -4px 0 var(--mc-dark); position: relative; overflow: hidden; }
 
         /* 作品集網格 */
-        .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 25px; height: 100%; overflow-y: auto; }
-        .work-frame { aspect-ratio: 3 / 4; background-color: #8B8B8B; border: 3px solid #000; padding: 10px; display: flex; flex-direction: column; cursor: pointer; }
-        .image-slot { width: 100%; aspect-ratio: 1 / 1; background-color: #222; border: 2px solid #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; height: 100%; overflow-y: auto; }
+        .work-frame { aspect-ratio: 3/4; background: #8B8B8B; border: 3px solid #000; padding: 10px; cursor: pointer; }
+        .image-slot { width: 100%; aspect-ratio: 1/1; background: #000; border: 2px solid #333; display: flex; align-items: center; justify-content: center; }
         .image-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .work-label { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; color: #FFF; text-shadow: 2px 2px #000; font-weight: bold; }
+        .work-label { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 14px; text-shadow: 1px 1px #000; font-weight: bold; }
 
-        /* 詳細視窗 */
-        #detail-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 99; display: flex; align-items: center; justify-content: center; }
-        #detail-view { width: 38vh; height: 76vh; background-color: var(--mc-gray); border: 5px solid #000; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        /* 噴漆工具 */
+        .paint-ui { width: 100%; height: 100%; background: #1a1a1a; display: flex; align-items: center; justify-content: center; position: relative; }
+        .wall-frame { position: relative; width: 75%; height: 80%; border: 6px solid #000; background: #333; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .wall-frame img { width: 100%; height: 100%; object-fit: cover; }
+        #tab-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; }
+        
+        .color-sidebar { position: absolute; left: 20px; display: flex; flex-direction: column; gap: 10px; padding: 15px; background: rgba(0,0,0,0.6); border: 2px solid #FFF; }
+        .color-dot { width: 35px; height: 35px; border: 2px solid #FFF; cursor: pointer; }
+        .btn-clear-pos { position: absolute; bottom: 20px; right: 20px; }
 
-        /* 噴漆控制點 */
-        .color-dot { width: 30px; height: 30px; border: 2px solid #FFF; cursor: pointer; transition: transform 0.1s; }
-        .color-dot:hover { transform: scale(1.1); }
+        /* 詳細窗 */
+        #detail-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; display: none; align-items: center; justify-content: center; }
+        #detail-view { width: 320px; height: 600px; background: var(--mc-gray); border: 4px solid #000; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
     </style>
 </head>
 <body>
 
-    <div id="p1" class="screen">
-        <div class="p1-title-area">
-            <img src="tittle.jpg" id="tittle-img" alt="Title">
-        </div>
-        <div class="p1-button-area">
-            <button class="mc-button" style="width:280px; height:60px; font-size:20px;" onclick="nav('p2')">啟動系統</button>
+    <div id="p1" class="screen" style="display: flex;">
+        <div class="title-area"><img src="tittle.jpg" alt="Title" onerror="this.style.display='none'"></div>
+        <div style="flex: 1; display: flex; align-items: center;">
+            <button class="mc-button" style="width: 260px; height: 60px; font-size: 22px;" onclick="nav('p2')">啟動系統</button>
         </div>
     </div>
 
-    <div id="p2" class="screen hidden">
-        <button class="mc-button" style="position:absolute; top:20px; left:20px; width:100px; height:40px;" onclick="nav('p1')">返回</button>
-        
+    <div id="p2" class="screen">
+        <button class="mc-button" style="position:absolute; top:15px; left:15px; width:80px; height:35px; font-size:12px;" onclick="nav('p1')">返回</button>
         <div class="gui-container">
             <div class="tabs-row">
                 <button class="mc-button mc-tab" onclick="changeTab(this, 'start')">創作起點</button>
                 <button class="mc-button mc-tab" onclick="changeTab(this, 'paint')">互動塗鴉</button>
-                <button class="mc-button mc-tab active" onclick="changeTab(this, 'works')">作品集</button>
+                <button class="mc-button mc-tab" onclick="changeTab(this, 'works')">作品集</button>
                 <button class="mc-button mc-tab" onclick="changeTab(this, 'process')">歷程記錄</button>
                 <button class="mc-button mc-tab" onclick="changeTab(this, 'future')">未來發展</button>
             </div>
-            
-            <div class="gui-panel" id="main-panel">
-                </div>
+            <div class="gui-panel" id="main-panel"></div>
         </div>
     </div>
 
-    <div id="detail-overlay" class="hidden" onclick="closeDetail()">
+    <div id="detail-overlay" onclick="this.style.display='none'">
         <div id="detail-view" onclick="event.stopPropagation()">
-            <div style="width:100%; aspect-ratio:1/1; background:#000; border:3px solid #555;">
-                <img id="det-img" src="" style="width:100%; height:100%; object-fit:contain;">
-            </div>
-            <h2 id="det-title" style="color:#000; margin:0; border-bottom:3px solid #8B8B8B;">標題</h2>
-            <div id="det-desc" style="flex:1; overflow-y:auto; color:#333; font-size:14px; line-height:1.6;">描述內容...</div>
-            <button class="mc-button" style="height:45px; width:100%;" onclick="closeDetail()">關閉視窗</button>
+            <div style="width: 100%; aspect-ratio: 1/1; background: #000;"><img id="det-img" style="width:100%; height:100%; object-fit:contain;"></div>
+            <h3 id="det-title" style="color: #000; margin: 0;">標題</h3>
+            <div id="det-desc" style="flex: 1; color: #333; overflow-y: auto; font-size: 14px;"></div>
+            <button class="mc-button" style="height: 45px; width: 100%;" onclick="document.getElementById('detail-overlay').style.display='none'">關閉</button>
         </div>
     </div>
 
 <script>
-    // --- 1. 基礎導覽邏輯 ---
-    window.nav = function(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    // --- 1. 頁面導覽控制 ---
+    function nav(id) {
+        document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
         const target = document.getElementById(id);
         if (target) {
-            target.classList.remove('hidden');
+            target.style.display = 'flex';
             if (id === 'p2') {
-                // 進入 P2 時，預設觸發作品集標籤
-                const worksBtn = document.querySelectorAll('.mc-tab')[2];
-                changeTab(worksBtn, 'works');
+                const tabs = document.querySelectorAll('.mc-tab');
+                changeTab(tabs[2], 'works'); // 進入 P2 預設顯示作品集 (第 3 個標籤)
             }
         }
-    };
+    }
 
-    // --- 2. 標籤切換與內容填充 ---
-    window.changeTab = function(btn, type) {
+    // --- 2. 標籤內容切換 ---
+    function changeTab(btn, type) {
         document.querySelectorAll('.mc-tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
         const panel = document.getElementById('main-panel');
-        panel.innerHTML = ''; // 清空
+        panel.innerHTML = '';
 
         if (type === 'works') {
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
             renderWorks();
-        } 
-        else if (type === 'paint') {
+        } else if (type === 'paint') {
             panel.innerHTML = `
-                <div style="width:100%; height:100%; background:#1a1a1a; display:flex; flex-direction:column; align-items:center;">
-                    <div style="display:flex; justify-content:space-between; width:95%; padding:10px;">
-                        <span style="color:#FFF;">[ 街頭噴漆體驗區 ]</span>
-                        <button class="mc-button" style="width:100px; height:30px; font-size:12px;" onclick="clearTabCanvas()">清除牆面</button>
+                <div class="paint-ui">
+                    <div class="color-sidebar">
+                        <div class="color-dot" style="background:red" onclick="currCol='red'"></div>
+                        <div class="color-dot" style="background:lime" onclick="currCol='lime'"></div>
+                        <div class="color-dot" style="background:blue" onclick="currCol='blue'"></div>
+                        <div class="color-dot" style="background:yellow" onclick="currCol='yellow'"></div>
+                        <div class="color-dot" style="background:white" onclick="currCol='white'"></div>
+                        <div class="color-dot" style="background:black; border:2px solid #555;" onclick="currCol='black'"></div>
                     </div>
-                    <div id="canvas-container" style="position:relative; width:95%; flex:1; border:4px solid #000; background:#333;">
-                        <img src="wall.jpg" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.background='#444'">
-                        <canvas id="tab-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair;"></canvas>
+                    <div class="wall-frame" id="wall-box">
+                        <img src="wall.jpg" onerror="this.style.background='#444'">
+                        <canvas id="tab-canvas"></canvas>
                     </div>
-                    <div style="display:flex; gap:15px; padding:15px;">
-                        <div class="color-dot" style="background:#ff0000;" onclick="setTabColor('#ff0000')"></div>
-                        <div class="color-dot" style="background:#00ff00;" onclick="setTabColor('#00ff00')"></div>
-                        <div class="color-dot" style="background:#0000ff;" onclick="setTabColor('#0000ff')"></div>
-                        <div class="color-dot" style="background:#ffff00;" onclick="setTabColor('#ffff00')"></div>
-                        <div class="color-dot" style="background:#ffffff;" onclick="setTabColor('#ffffff')"></div>
-                        <div class="color-dot" style="background:#000000; border-color:#555;" onclick="setTabColor('#000000')"></div>
-                    </div>
-                </div>
-            `;
-            setTimeout(initTabCanvas, 50);
-        } 
-        else {
-            const titles = { 'start': '🌱 創作起點', 'process': '🛠️ 歷程記錄', 'future': '🚀 未來發展' };
-            panel.innerHTML = `
-                <div style="color:#000; padding:30px; animation: fadeIn 0.3s;">
-                    <h2 style="border-bottom:4px solid #555; padding-bottom:10px;">${titles[type]}</h2>
-                    <div style="margin-top:20px; line-height:1.8; font-size:16px;">
-                        <p>[ 系統檔案讀取成功 ]</p>
-                        <p>請在此處編輯您的個人學習心得與課程實作記錄內容...</p>
-                    </div>
-                </div>
-            `;
+                    <button class="mc-button btn-clear-pos" style="width:100px; height:35px; font-size:12px;" onclick="clearCanvas()">一次清除</button>
+                </div>`;
+            setTimeout(initCanvas, 50);
+        } else {
+            const t = {start:'🌱 創作起點', process:'🛠️ 歷程記錄', future:'🚀 未來發展'};
+            panel.innerHTML = `<div style="padding:30px; color:#000;"><h2>${t[type]}</h2><p>[ 檔案讀取成功 ]</p><p>請在此填寫相關心得內容...</p></div>`;
         }
-    };
+    }
 
     // --- 3. 噴漆系統邏輯 ---
-    let tabPainting = false;
-    let tabColor = '#ff0000';
-    window.setTabColor = (c)
+    let painting = false, currCol = 'red';
+    function clearCanvas() {
+        const c = document.getElementById('tab-canvas');
+        if(c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
+    }
+
+    function initCanvas() {
+        const c = document.getElementById('tab-canvas'), b = document.getElementById('wall-box');
+        if(!c || !b) return;
+        const ctx = c.getContext('2d');
+        c.width = b.offsetWidth; c.height = b.offsetHeight;
+
+        const draw = (e) => {
+            if(!painting) return;
+            const r = c.getBoundingClientRect();
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - r.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - r.top;
+            const g = ctx.createRadialGradient(x,y,2,x,y,18);
+            g.addColorStop(0, currCol); g.addColorStop(1, 'transparent');
+            ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,18,0,Math.PI*2); ctx.fill();
+        };
+
+        c.onmousedown = (e) => { painting = true; draw(e); };
+        window.onmouseup = () => painting = false;
+        c.onmousemove = draw;
+        c.ontouchstart = (e) => { e.preventDefault(); painting = true; draw(e.touches[0]); };
+        c.ontouchmove = (e) => { e.preventDefault(); draw(e.t
