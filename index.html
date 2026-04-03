@@ -117,19 +117,27 @@
     let painting = false;
     let currCol = '#ff0000';
 
-    // --- 1. 導航函式 (明確掛載到 window) ---
-    window.nav = function(id) {
-        document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-        const target = document.getElementById(id);
-        if (target) {
-            target.style.display = 'flex';
-            if (id === 'p2') {
-                // 進入 P2 時，自動點擊「作品集」(第 3 個標籤)
-                const tabs = document.querySelectorAll('.mc-tab');
-                changeTab(tabs[0], 'works');
+   window.nav = function(id) {
+    // 1. 隱藏所有頁面
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    
+    const target = document.getElementById(id);
+    if (target) {
+        // 2. 顯示目標頁面
+        target.style.display = 'flex';
+        
+        // 3. 如果是進入 P2，執行初始化標籤
+        if (id === 'p2') {
+            const panel = document.getElementById('main-panel');
+            const tabs = document.querySelectorAll('.mc-tab');
+            
+            if (panel && tabs.length > 0) {
+                panel.innerHTML = ''; // 【關鍵】先清空面板，防止殘留作品集網格
+                window.changeTab(tabs[0], 'start'); // 執行切換到「創作起點」
             }
         }
-    };
+    }
+};
 
     // --- 2. 標籤切換 ---
     window.changeTab = function(btn, type) {
