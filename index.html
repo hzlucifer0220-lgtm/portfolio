@@ -305,18 +305,27 @@
         const panel = document.getElementById('main-panel');
         panel.innerHTML = ''; 
 
-        if (type === 'start') {
-            panel.innerHTML = `<div style="width:100%; height:100%; overflow-y:auto; padding:35px; color:#1a1a1a;"><div style="border-bottom:4px solid #555; padding-bottom:15px; margin-bottom:25px;"><h2 style="margin:0; font-size:26px; letter-spacing:2px;">🧩 創作起點</h2><span style="font-size:14px; color:#555; font-weight:bold;">跨越街頭與數位的創作實驗</span></div><div style="float: right; width: 38%; margin-left: 25px; margin-bottom: 20px; border: 5px solid #000; background:#000;"><img src="art.jpg" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/300'"></div><div style="font-size:16px; line-height:1.9; text-align:justify;"><p>在過去的創作經驗中，我長期接觸<b>街頭塗鴉與音樂製作</b>，這些創作形式具有強烈的個人風格與即時性，但也存在著難以保存與延伸的限制。因此，我開始思考：是否能透過數位媒介與 AI 技術，讓這些創作突破原有的限制。</p><p>在本次實作中，我嘗試以<b>「網站」作為創作載體</b>，結合街頭塗鴉的視覺語言與數位互動設計，並引入 AI 作為創作過程中的輔助工具。AI 在此不僅是工具，更像是一位<b>引導者</b>，使我能在陌生領域中快速建立基礎。</p><p style="background: #8B8B8B; color: #FFF; padding: 10px; border-left: 5px solid #333; margin-top: 30px; font-style: italic;">" 本次創作不僅是作品的呈現，更是一個探索創作方式轉變的過程。 "</p></div><div style="clear:both; height:20px;"></div></div>`;
-        } else if (type === 'paint') {
-            panel.innerHTML = `<div class="paint-area"><div class="paint-sidebar"><div class="color-dot" style="background:red" onclick="currCol='red'"></div><div class="color-dot" style="background:lime" onclick="currCol='lime'"></div><div class="color-dot" style="background:blue" onclick="currCol='blue'"></div><div class="color-dot" style="background:yellow" onclick="currCol='yellow'"></div><div class="color-dot" style="background:white" onclick="currCol='white'"></div><div class="color-dot" style="background:black" onclick="currCol='black'"></div><hr style="width:100%; border:1px dashed #555;"><div class="color-dot bg-btn" onclick="window.changeWall('wall.jpg')">磚牆</div><div class="color-dot bg-btn" onclick="window.changeWall('shutter.jpg')">鐵門</div><div class="color-dot bg-btn" onclick="window.changeWall('truck.jpg')">卡車</div><div class="color-dot bg-btn" onclick="window.changeWall('sticker.jpg')">貼紙</div></div><div class="wall-box" id="wall-box"><img id="wall-img" src="wall.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute;" onerror="this.style.background='#222'"><canvas id="tab-canvas" style="position:absolute; top:0; left:0;"></canvas></div><button class="mc-button" style="position:absolute; bottom:20px; right:20px; width:100px; height:35px; font-size:12px; z-index:20;" onclick="window.clearCanvas()">清除全牆</button></div>`;
-            setTimeout(initCanvas, 100);
-        } else if (type === 'works') {
-            panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
-            const g = document.getElementById('grid-content');
-            for(let i=1; i<=14; i++) g.innerHTML += `<div class="work-frame" onclick="window.showDetail(${i})"><div class="image-slot"><img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150'"></div><div class="work-label">作品 ${i}</div></div>`;
-        } else {
-             panel.innerHTML = `<div style="padding:30px; color:#000;"><h2>${type === 'process' ? '🛠️ 歷程記錄' : '🚀 未來發展'}</h2><p>內容載入中...</p></div>`;
+                if (type === 'start') {
+            panel.innerHTML = `<div style="width:100%; height:100%; overflow-y:auto; padding:35px; color:#1a1a1a;">
+                <div style="border-bottom:4px solid #555; padding-bottom:15px; margin-bottom:25px;">
+                    <h2 style="margin:0; font-size:26px; letter-spacing:2px;">🧩 創作起點</h2>
+                    <span style="font-size:14px; color:#555; font-weight:bold;">跨越街頭與數位的創作實驗</span>
+                </div>
+                <div style="float: right; width: 38%; margin-left: 25px; margin-bottom: 20px; border: 5px solid #000; background:#000;">
+                    <img src="art.jpg" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/300'">
+                </div>
+                <div style="font-size:16px; line-height:1.9; text-align:justify;">
+                    <p>在過去的創作經驗中，我長期接觸<b>街頭塗鴉與音樂製作</b>，這些創作形式具有強烈的個人風格與即時性，但也存在著難以保存與延伸的限制。因此，我開始思考：是否能透過數位媒介與 AI 技術，讓這些創作突破原有的限制，並在不同的載體上呈現出新的生命力。</p>
+                    <p>在本次實作中，我嘗試以<b>「網站」作為創作載體</b>，將街頭塗鴉的視覺語言與數位互動設計結合。這不僅僅是將作品數位化，更是嘗試建立一個動態的、可互動的檔案庫，讓觀者能透過噴漆、點擊與聆聽，參與到我的創作過程之中。</p>
+                    <p>在技術實作上，我引入了 AI 作為創作過程中的輔助工具。AI 在此不僅僅是一個產生圖像的工具，更像是一位<b>引導者與協作者</b>，協助我處理複雜的程式邏輯與介面優化，使我能在相對陌生的數位領域中，快速建立起符合個人美學的基礎架構。這種「人機協作」的模式，也成為我本次實作中重要的探索方向。</p>
+                    <p style="background: #8B8B8B; color: #FFF; padding: 15px; border-left: 5px solid #333; margin-top: 30px; font-style: italic;">
+                        " 本次創作不僅是作品的呈現，更是一個探索創作方式轉變的過程，嘗試將設計轉化為可融入日常生活的表達形式，實踐「在生活中展現自我風格」的初衷。 "
+                    </p>
+                </div>
+                <div style="clear:both; height:20px;"></div>
+            </div>`;
         }
+
     };
 
     function initCanvas() {
