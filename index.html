@@ -379,9 +379,9 @@
                         <button class="mc-button" style="font-size:10px; padding:5px 0; margin-bottom:5px;" onclick="window.changeWall('truck.jpg')">卡車</button>
                         <button class="mc-button" style="font-size:10px; padding:5px 0;" onclick="window.changeWall('sticker.jpg')">貼紙</button>
                     </div>
-                    <div class="wall-box" id="wall-box" style="margin: 20px 20px 20px 125px; flex: 1; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);">
+                    <div class="wall-box" id="wall-box" style="margin: 20px 20px 20px 125px; flex: 1; position: relative;">
                         <img id="wall-img" src="wall.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute;">
-                        <canvas id="tab-canvas"></canvas>
+                        <canvas id="tab-canvas" style="position:absolute; top:0; left:0;"></canvas>
                     </div>
                     <button class="mc-button" style="position:absolute; bottom:35px; right:35px; width:100px; height:40px; z-index: 101;" onclick="window.clearCanvas()">清除全牆</button>
                 </div>
