@@ -66,8 +66,9 @@
         .work-frame:hover { transform: translateY(-5px); background: #9D9D9D; }
         .image-slot { width: 100%; aspect-ratio: 1/1; background: #000; border: 2px solid #333; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .image-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .work-label { height: 30px; display: flex; align-items: center; justify-content: center; font-size: 13px; text-shadow: 1px 1px #000; font-weight: bold; }
-        
+        /* 隱藏舊的底部文字，改用美編標籤 */
+.work-label { display: none; }
+
         /* 彈窗樣式 */
         #detail-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; cursor: pointer; }
         #detail-view { width: 85vw; max-width: 1300px; aspect-ratio: 2/1; background: #E0E0E0; border: 6px solid #000; display: flex; position: relative; cursor: default; }
