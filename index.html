@@ -310,22 +310,25 @@
                 </div>
             </div>`;
             setTimeout(initCanvas, 150); 
-        } else if (type === 'works') {
+               } else if (type === 'works') {
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
             const grid = document.getElementById('grid-content');
+            let htmlBuffer = ""; 
+
             for(let i=1; i<=14; i++) {
                 const item = worksData[i] || { title: `作品 ${i}`, tag: "分類" };
-                grid.innerHTML += `
-                <div class="work-frame" onclick="window.showDetail(${i})" style="position:relative; overflow:hidden;">
+                htmlBuffer += `
+                <div class="work-frame" onclick="window.showDetail(${i})">
                     <div class="image-slot">
-                        <img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150?text=Work+${i}'">
+                        <img src="i${i}.jpg" style="max-width:100%; max-height:100%; object-fit:contain;" onerror="this.src='https://via.placeholder.com/150?text=Work+${i}'">
                     </div>
-                    <div class="work-overlay-tag" style="position:absolute; bottom:0; left:0; width:100%; height:25%; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); display:flex; flex-direction:column; justify-content:center; padding:0 12px; border-top:2px solid #E67E22; pointer-events:none;">
-                        <div style="color:#E67E22; font-size:10px; font-weight:bold; text-transform:uppercase;">${item.tag}</div>
-                        <div style="color:#FFF; font-size:13px; font-weight:bold; text-shadow:1px 1px 2px #000;">${item.title}</div>
+                    <div class="work-overlay-tag" style="position:absolute; bottom:0; left:0; width:100%; height:25%; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); display:flex; flex-direction:column; justify-content:center; padding:0 12px; border-top:2px solid #E67E22; pointer-events:none; box-sizing:border-box;">
+                        <div style="color:#E67E22; font-size:10px; font-weight:bold; margin-bottom:2px;">${item.tag}</div>
+                        <div style="color:#FFF; font-size:12px; font-weight:bold; text-shadow:1px 1px 2px #000; line-height:1.2;">${item.title}</div>
                     </div>
                 </div>`;
             }
+            grid.innerHTML = htmlBuffer;
         } else {
             panel.innerHTML = `<div style="padding:40px; color:#1a1a1a;"><h2>功能開發中</h2><p>此區域尚未填寫內容。</p></div>`;
         }
