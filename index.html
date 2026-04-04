@@ -94,6 +94,43 @@
     border: 2px solid #333; /* 替圖片加個細邊框，增加專業感 */
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
+/* [增量美編] 作品集 1/4 半透明標籤 */
+.work-frame {
+    position: relative; /* 必備：讓標籤能絕對定位在內部 */
+    overflow: hidden;
+}
+
+.work-overlay-tag {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%; /* 準確的 1/4 高度 */
+    background: rgba(0, 0, 0, 0.65); /* 半透明黑 */
+    backdrop-filter: blur(4px); /* 磨砂玻璃效果 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 12px;
+    border-top: 2px solid var(--mc-accent, #E67E22); /* 頂部橘色飾條 */
+    pointer-events: none; /* 確保點擊能穿透到下層的 work-frame */
+    transition: transform 0.3s ease;
+}
+
+.tag-main-title {
+    color: #FFF;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.tag-sub-category {
+    color: var(--mc-accent, #E67E22);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
     </style>
 </head>
@@ -246,11 +283,22 @@
             </div>`;
             setTimeout(initCanvas, 150); 
 
-            // 延遲確保 DOM 就緒
-        } else if (type === 'works') {
+                  } else if (type === 'works') {
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
-            for(let i=1; i<=14; i++) document.getElementById('grid-content').innerHTML += `<div class="work-frame" onclick="window.showDetail(${i})"><div class="image-slot"><img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150'"></div><div class="work-label">作品 ${i}</div></div>`;
-        } else {
+            for(let i=1; i<=14; i++) {
+                const data = worksData[i] || { title: `作品 ${i}`, tag: "分類" };
+                document.getElementById('grid-content').innerHTML += `
+                <div class="work-frame" onclick="window.showDetail(${i})">
+                    <div class="image-slot">
+                        <img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150'">
+                    </div>
+                    <div class="work-overlay-tag">
+                        <div class="tag-sub-category">${data.tag}</div>
+                        <div class="tag-main-title">${data.title}</div>
+                    </div>
+                </div>`;
+            }
+    else {
             panel.innerHTML = `<div style="padding:40px; color:#1a1a1a;"><h2>功能開發中</h2><p>此區域尚未填寫內容。</p></div>`;
         }
     };
