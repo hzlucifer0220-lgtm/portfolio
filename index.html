@@ -414,10 +414,27 @@
 
     // 🏆 核心功能：噴漆畫布
     function initCanvas() {
-        const c = document.getElementById('tab-canvas'), b = document.getElementById('wall-box');
-        if(!c || !b) return;
-        const ctx = c.getContext('2d');
-        c.width = b.offsetWidth; c.height = b.offsetHeight;
+    const c = document.getElementById('tab-canvas');
+    const b = document.getElementById('wall-box');
+    const img = document.getElementById('wall-img');
+    if(!c || !b || !img) return;
+
+    const ctx = c.getContext('2d');
+
+    function resizeCanvas() {
+        c.width = b.offsetWidth;
+        c.height = b.offsetHeight;
+    }
+
+    // 👉 圖片載入後再同步尺寸
+    img.onload = () => {
+        resizeCanvas();
+    };
+
+    // 👉 頁面 resize 也同步
+    window.addEventListener('resize', resizeCanvas);
+
+    resizeCanvas();
 
         const spray = (x, y) => {
             const density = 150, radius = 25;
