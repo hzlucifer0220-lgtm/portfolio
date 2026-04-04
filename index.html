@@ -177,16 +177,32 @@
         panel.innerHTML = ''; 
 
         if (type === 'start') {
-            panel.innerHTML = `<div style="width:100%; height:100%; overflow-y:auto; padding:40px; color:#1a1a1a; background:#F0F0F0;">
-                <div style="border-bottom:5px solid #333; padding-bottom:15px; margin-bottom:25px;"><h2 style="margin:0; font-size:32px; font-weight:800; letter-spacing:2px;">🧩 創作起點</h2><span style="font-size:14px; color:#666; font-weight:bold;">跨越街頭與數位的創作實驗</span></div>
-                <div style="float: right; width: 42%; margin-left: 30px; border: 6px solid #000;"><img src="art.jpg" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/400'"></div>
-                <div style="font-size:17px; line-height:2; text-align:justify; color:#222;">
-                    <p>在過去的創作經驗中，我長期接觸<b>街頭塗鴉與音樂製作</b>，這些創作形式具有強烈的個人風格與即時性，但也存在著難以保存與延伸的限制。因此，我開始思考：是否能透過數位媒介與 AI 技術，讓這些創作突破原有的限制，並在不同的載體上呈現出新的生命力。</p>
-                    <p>在本次實作中，我嘗試以<b>「網站」作為創作載體</b>，將街頭塗鴉的視覺語言與數位互動設計結合。這不僅僅是將作品數位化，更是嘗試建立一個動態的、可互動的檔案庫，讓觀者能透過噴漆、點擊與聆聽，參與到我的創作過程之中。</p>
-                    <p>在技術實作上，我引入了 AI 作為創作過程中的輔助工具。AI 在此不僅僅是一個產生圖像的工具，更像是一位<b>引導者與協作者</b>，協助我處理複雜的程式邏輯與介面優化。</p>
+            panel.innerHTML = `
+            <div style="width:100%; height:100%; overflow-y:auto; padding:40px; color:#1a1a1a; background:#F0F0F0; font-family: '微軟正黑體', sans-serif;">
+                <div style="border-bottom:5px solid #333; padding-bottom:15px; margin-bottom:25px;">
+                    <h2 style="margin:0; font-size:28px; font-weight:800; letter-spacing:1px;">🧩 創作起點｜跨越街頭與數位的創作實驗</h2>
                 </div>
+
+                <div style="float: right; width: 40%; margin-left: 25px; border: 6px solid #000; background:#000;">
+                    <img src="art.jpg" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/400?text=ART+WORK'">
+                </div>
+
+                <div style="font-size:17px; line-height:2; text-align:justify; color:#222;">
+                    <p>在過去的創作經驗中，我長期接觸街頭塗鴉與音樂製作，這些創作形式具有強烈的個人風格與即時性，但也存在著難以保存與延伸的限制。因此，我開始思考：是否能透過數位媒介與AI技術，讓這些創作突破原有的限制，轉化為更具互動性與延展性的形式。</p>
+                    
+                    <p>在本次實作中，我嘗試以「網站」作為創作載體，結合街頭塗鴉的視覺語言與數位互動設計，並引入AI作為創作過程中的輔助工具，探索藝術與科技之間的融合可能。</p>
+                    
+                    <p>在製作過程中，我發現與AI的互動並非單向操作，而是一種需要反覆溝通與調整的協作關係。從網站架構的建立，到介面細節的設計，我必須學習如何將抽象的想法轉化為AI可以理解的指令，並透過不斷修正與測試，逐步接近理想成果。過程中，任何細微的錯誤都可能影響整體系統運作，這也讓我重新理解「設計」不僅是視覺呈現，更包含邏輯與結構的建構。</p>
+
+                    <div style="margin-top:30px; padding:20px; background:#FFF; border-left:8px solid var(--mc-accent, #E67E22); border-top:2px solid #DDD; border-right:2px solid #DDD; border-bottom:2px solid #DDD; box-shadow: 5px 5px 0px rgba(0,0,0,0.1); font-weight:bold;">
+                        <p style="margin:0;">AI在此不僅是工具，更像是一位引導者，使我能夠在陌生領域中快速建立基礎，並透過持續嘗試與修正，將原本停留在想像中的創意具體實現。這樣的經驗也讓我意識到，未來的創作不再只是單一媒材的呈現，而是跨領域整合與人機協作的過程。</p>
+                    </div>
+                </div>
+                
+                <div style="height:40px; clear:both;"></div>
             </div>`;
-        } else if (type === 'paint') {
+        }
+        else if (type === 'paint') {
             panel.innerHTML = `
             <div class="paint-area">
                 <div class="paint-sidebar">
