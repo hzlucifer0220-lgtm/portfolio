@@ -67,7 +67,6 @@
             grid-template-columns: repeat(3, 1fr); 
             gap: 25px; 
             padding: 20px; 
-            height: 100%; 
             overflow-y: auto; 
             align-content: start; 
         }
@@ -163,6 +162,32 @@
     font-weight: bold;
     text-shadow: 2px 2px 0 #333;  /* 2px 深色陰影 */
     font-family: "Segoe UI", "微軟正黑體", sans-serif;
+}
+        /* 🎨 塗鴉工具列修復 */
+.paint-sidebar {
+    position: absolute;
+    width: 80px;
+    background: #C6C6C6;
+    border: 3px solid #000;
+    box-shadow: inset 3px 3px 0 #FFF, inset -3px -3px 0 #555;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 5px;
+    gap: 8px;
+    z-index: 100;
+}
+
+/* 🎨 顏色按鈕 */
+.color-dot {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #000;
+    cursor: pointer;
+}
+
+.color-dot:hover {
+    transform: scale(1.1);
 }
     </style>
 </head>
