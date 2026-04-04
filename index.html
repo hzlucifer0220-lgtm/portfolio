@@ -437,17 +437,41 @@
     resizeCanvas();
 
         const spray = (x, y) => {
-            const density = 150, radius = 25;
-            ctx.fillStyle = currCol;
-            for (let i = 0; i < density; i++) {
-                const r = Math.random() * radius, angle = Math.random() * Math.PI * 2;
-                const offsetX = r * Math.cos(angle), offsetY = r * Math.sin(angle);
-                const opacity = Math.pow((radius - r) / radius, 4); 
-                if (opacity > 0.02) { ctx.globalAlpha = opacity; ctx.beginPath(); ctx.arc(x + offsetX, y + offsetY, Math.random() * 1.5, 0, Math.PI * 2); ctx.fill(); }
-            }
-            ctx.globalAlpha = 1.0;
-        };
+    const density = 180;
+    const radius = 30;
 
+    ctx.fillStyle = currCol;
+
+    for (let i = 0; i < density; i++) {
+        const r = Math.random() * radius;
+        const angle = Math.random() * Math.PI * 2;
+
+        const offsetX = r * Math.cos(angle);
+        const offsetY = r * Math.sin(angle);
+
+        // ✅ 邊緣更霧
+        const opacity = Math.pow((radius - r) / radius, 3);
+
+        if (opacity > 0.01) {
+            ctx.globalAlpha = opacity;
+
+            ctx.beginPath();
+
+            // ✅ 大小更隨機（更像噴漆）
+            ctx.arc(
+                x + offsetX,
+                y + offsetY,
+                Math.random() * 2.2,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+        }
+    }
+
+    ctx.globalAlpha = 1;
+};
         const handle = (e) => { 
             const r = c.getBoundingClientRect(); 
             const x = (e.clientX || (e.touches ? e.touches[0].clientX : 0)) - r.left;
