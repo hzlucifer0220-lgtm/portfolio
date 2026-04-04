@@ -71,7 +71,7 @@
         /* 彈窗樣式 */
         #detail-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; cursor: pointer; }
         #detail-view { width: 85vw; max-width: 1300px; aspect-ratio: 2/1; background: #E0E0E0; border: 6px solid #000; display: flex; position: relative; cursor: default; }
-        .det-left { flex: 1; background: #000; border-right: 4px solid #000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; }
+        .det-left { flex: 1; background: #111; border-right: 4px solid #000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; aspect-ratio: 1 / 1; / }
         .det-right { flex: 1; display: flex; flex-direction: column; padding: 0; color: #1a1a1a; overflow: hidden; }
         .det-header { background: #333; color: #FFF; padding: 25px 30px; }
         #det-tag { font-size: 11px; background: #E67E22; padding: 2px 8px; border-radius: 2px; margin-bottom: 8px; display: inline-block; font-weight: bold; }
@@ -84,6 +84,17 @@
         .color-dot { width: 100%; aspect-ratio: 1/1; border: 2px solid #FFF; cursor: pointer; flex-shrink: 0; }
         .wall-box { flex: 1; margin: 20px 20px 20px 115px; border: 4px solid #000; background: #222; position: relative; overflow: hidden; }
         #tab-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+        /* [增量修正] 確保彈窗圖片完整顯示在左側正方形感區域 */
+.det-left img {
+    width: auto;
+    height: auto;
+    max-width: 90%;  /* 留一點邊界感，更有作品集質感 */
+    max-height: 90%;
+    object-fit: contain; /* 確保原圖比例縮放，不裁切、不變形 */
+    border: 2px solid #333; /* 替圖片加個細邊框，增加專業感 */
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
     </style>
 </head>
 <body>
