@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v15.0 - Full Text Edition</title>
+    <title>學習成果實作檔案庫 v16.0 - Professional Layout</title>
     <style>
         :root {
             --mc-gray: #C6C6C6;
             --mc-dark: #555555;
             --mc-light: #FFFFFF;
             --mc-shadow: #373737;
+            --accent: #2c3e50;
         }
 
-        /* 基礎重置 */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
@@ -52,25 +52,15 @@
         }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-250%); } }
 
-        /* P1: 封面 */
+        /* P1 & P2 佈局 */
         #p1 { background: url('cover_art.jpg') center/cover no-repeat; display: flex; position: relative; flex-direction: column; justify-content: flex-end; }
         #star-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-
-        /* P2: 主面板 */
         #p2 { background: rgba(0,0,0,0.7) url('gui_bg.jpg') center/cover no-repeat; background-blend-mode: overlay; }
         .gui-container { width: 90vw; height: 60vw; max-height: 85vh; display: flex; flex-direction: column; margin-top: 65px; }
         .tabs-row { display: flex; gap: 4px; padding-left: 10px; }
         .mc-tab { width: 110px; height: 40px; font-size: 13px; border-bottom: none; border-radius: 5px 5px 0 0; margin-top: 8px; }
         .mc-tab.active { background: var(--mc-gray); color: #333; height: 48px; margin-top: 0; z-index: 2; text-shadow: none; box-shadow: inset 3px 3px 0 var(--mc-light); }
         .gui-panel { flex: 1; background: var(--mc-gray); border: 4px solid #000; box-shadow: inset 4px 4px 0 var(--mc-light), inset -4px -4px 0 var(--mc-dark); position: relative; overflow: hidden; }
-
-        /* 噴漆牆區域 */
-        .paint-area { width: 100%; height: 100%; display: flex; position: relative; }
-        .wall-box { flex: 1; margin: 20px 20px 20px 110px; border: 4px solid #000; background: #333; position: relative; overflow: hidden; }
-        #tab-canvas { width: 100%; height: 100%; cursor: crosshair; }
-        .paint-sidebar { position: absolute; left: 15px; top: 20px; width: 85px; bottom: 20px; display: flex; flex-direction: column; gap: 5px; padding: 10px; background: rgba(0,0,0,0.8); border: 2px solid #FFF; overflow-y: auto; z-index: 10; }
-        .color-dot { width: 100%; aspect-ratio: 1/1; border: 2px solid #FFF; cursor: pointer; flex-shrink: 0; }
-        .bg-btn { background: #444; color: white; font-size: 10px; display: flex; align-items: center; justify-content: center; text-align: center; }
 
         /* 作品集網格 */
         .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; height: 100%; overflow-y: auto; }
@@ -80,36 +70,28 @@
         .image-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .work-label { height: 30px; display: flex; align-items: center; justify-content: center; font-size: 13px; text-shadow: 1px 1px #000; font-weight: bold; }
         
-        /* 🏆 專業彈窗樣式 */
-        #detail-overlay { 
-            position: fixed; top:0; left:0; width:100%; height:100%; 
-            background: rgba(0,0,0,0.92); z-index: 3000; 
-            display: none; align-items: center; justify-content: center; 
-            cursor: pointer;
-        }
-        #detail-view { 
-            width: 85vw; max-width: 1300px; aspect-ratio: 2/1; 
-            background: var(--mc-gray); border: 6px solid #000; 
-            display: flex; position: relative;
-            box-shadow: 20px 20px 0px rgba(0,0,0,0.6); cursor: default;
-        }
+        /* 🏆 彈窗樣式優化 */
+        #detail-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; cursor: pointer; }
+        #detail-view { width: 85vw; max-width: 1300px; aspect-ratio: 2/1; background: #E0E0E0; border: 6px solid #000; display: flex; position: relative; box-shadow: 20px 20px 0px rgba(0,0,0,0.6); cursor: default; }
 
-        .det-left { flex: 1.1; background: #000; border-right: 4px solid #000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; }
-        #det-img { max-width: 100%; max-height: 100%; object-fit: contain; border: 2px solid #444; }
+        .det-left { flex: 1; background: #000; border-right: 4px solid #000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; }
+        #det-img { max-width: 100%; max-height: 100%; object-fit: contain; border: 1px solid #444; }
 
-        .det-right { flex: 1; display: flex; flex-direction: column; padding: 35px; color: #1a1a1a; overflow: hidden; }
-        #det-title { margin: 0 0 10px 0; font-size: 26px; font-weight: bold; border-bottom: 4px solid #000; padding-bottom: 8px; letter-spacing: 1px; }
-        #det-tag { display: inline-block; background: #333; color: #FFF; padding: 4px 10px; font-size: 12px; margin-bottom: 20px; font-family: monospace; align-self: flex-start; }
+        .det-right { flex: 1; display: flex; flex-direction: column; padding: 0; color: #1a1a1a; overflow: hidden; }
         
-        #det-desc-container { flex: 1; overflow-y: auto; padding-right: 15px; }
-        /* 滾動條美化 */
+        /* 新版標題區 */
+        .det-header { background: #333; color: #FFF; padding: 25px 30px; position: relative; }
+        #det-tag { font-size: 11px; background: #E67E22; padding: 2px 8px; border-radius: 2px; margin-bottom: 8px; display: inline-block; letter-spacing: 1px; font-weight: bold; text-transform: uppercase; }
+        #det-title { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+
+        #det-desc-container { flex: 1; overflow-y: auto; padding: 30px; background: #F5F5F5; }
         #det-desc-container::-webkit-scrollbar { width: 10px; }
-        #det-desc-container::-webkit-scrollbar-track { background: #AAA; border: 1px solid #888; }
-        #det-desc-container::-webkit-scrollbar-thumb { background: #555; border: 2px solid #AAA; }
+        #det-desc-container::-webkit-scrollbar-track { background: #DDD; }
+        #det-desc-container::-webkit-scrollbar-thumb { background: #555; }
         
-        #det-desc { font-size: 15.5px; line-height: 1.85; text-align: justify; white-space: pre-line; } /* pre-line 保留換行 */
+        #det-desc { font-size: 16px; line-height: 1.85; text-align: justify; white-space: pre-wrap; color: #333; letter-spacing: 0.5px; }
 
-        .close-tip { position: absolute; bottom: -45px; left: 0; width: 100%; text-align: center; color: #FFF; background: rgba(255,255,255,0.15); font-size: 14px; padding: 6px 0; font-family: monospace; pointer-events: none; }
+        .close-tip { position: absolute; bottom: -45px; left: 0; width: 100%; text-align: center; color: #FFF; font-size: 14px; font-family: monospace; }
     </style>
 </head>
 <body>
@@ -147,14 +129,15 @@
         <div id="detail-view" onclick="event.stopPropagation()">
             <div class="det-left"><img id="det-img" src=""></div>
             <div class="det-right">
-                <div id="det-tag">分類</div>
-                <h3 id="det-title">作品標題</h3>
+                <div class="det-header">
+                    <div id="det-tag">分類</div>
+                    <h3 id="det-title">作品標題</h3>
+                </div>
                 <div id="det-desc-container">
-                    <strong style="color:#555; border-bottom:1px solid #999;">實作心得與過程</strong><br>
-                    <div id="det-desc" style="margin-top:10px;"></div>
+                    <div id="det-desc"></div>
                 </div>
             </div>
-            <div class="close-tip">>> [ 點擊任何地方關閉頁面 ] <<</div>
+            <div class="close-tip">點擊背景關閉作品視窗</div>
         </div>
     </div>
 
@@ -164,129 +147,63 @@
         { name: "Now Playing: made it through", src: "made it through.mp3" },
         { name: "Now Playing: M.I.A", src: "M.I.A.mp3" }
     ];
-    let currentTrackIndex = 0, isPlaying = false, painting = false, currCol = 'red';
+    let currentTrackIndex = 0, isPlaying = false;
     const audio = document.getElementById('bg-audio'), trackLabel = document.getElementById('track-name'), musicIcon = document.getElementById('music-icon');
 
-    /* --- 🏆 14 件作品原始完整文字庫 --- */
+    /* --- 🏆 14 件作品一字不漏資料庫 --- */
     const worksData = {
-        1: { 
-            title: "個人風格帽踢", 
-            tag: "服飾設計 / 個人風格建構", 
-            desc: `本作品以「個人風格建構」為核心，嘗試創作一件有別於市面既有樣式的服飾設計，藉此探索自我認同與視覺語言之間的關係。整體設計不僅著重於外觀呈現，更強調服飾作為個人風格載體的可能性。
-
+        1: { title: "個人風格帽踢", tag: "服飾設計", desc: `本作品以「個人風格建構」為核心，嘗試創作一件有別於市面既有樣式的服飾設計，藉此探索自我認同與視覺語言之間的關係。整體設計不僅著重於外觀呈現，更強調服飾作為個人風格載體的可能性。
 在正面設計上，我以手繪草稿為起點，結合 AI 圖像生成技術進行多次修正與轉化，最終發展出一組帶有哥德式結構與荊棘意象的字體標誌。此標誌在視覺上呈現出銳利與有機交錯的特性，象徵個人風格中衝突與成長並存的狀態。
-
 背面設計則參考源自音樂文化中的「髒標」（Parental Advisory）視覺符號。此標誌從原先的警示功能，逐漸轉化為流行文化中的象徵語言。我將其重新詮釋，並結合以個人姓名字首延伸設計的標記圖像，以噴漆效果覆寫其上，形成具有街頭語彙的視覺層次，同時也回應標記（tagging）與個人存在感的表達。
+本作品不僅是一件服飾設計，更是一項跨媒材的創作實驗，透過手繪、AI 技術與街頭文化元素的整合，嘗試將設計轉化為可融入日常生活的表達形式，進一步實踐「在生活中展現自我風格」的創作理念。` },
+        2: { title: "班服設計藝術", tag: "班級服飾", desc: `本作品以班級服飾為創作載體，核心概念圍繞「和」字展開，並以「和諧（harmonious）」作為主要設計主題。透過字義延伸，將「和」轉化為視覺語言，不僅象徵人際之間的平衡與共存，也承載我對班級團結與凝聚力的期待。在整體設計上，我選擇以泰迪熊作為主要視覺媒介，作為溫溫暖與陪伴的象徵，試圖讓作品跳脫一般班服的制式印象，使其不只是服裝，更是一種具有情感溫度的設計表達。正反兩面皆融入泰迪熊元素，並透過不同構圖方式呈現，建立整體視覺的一致性與變化性。
+「和」（harmonious）一詞在畫面中以三種不同形式出現，透過排列與轉換，使其在視覺上彼此獨立卻不衝突，象徵多元個體之間仍能達成和諧共存的狀態，進一步呼應班級群體的精神。
+在製作過程中，正面設計先以手繪草稿構思整體構圖，再透過數位繪圖軟體進行線條描繪與細節修飾，使畫面更加精緻且具有設計感。背面則以泰迪熊結合夕陽場景作為主視覺，並透過畫面分割與交錯排列的方式，將畫面切分為三個區塊，營造出層次感與動態視覺效果，使單一圖像產生多重觀看可能。
+此外，在主視覺周圍加入多項輔助設計元素以強化整體完整度：上方以「harmonious」作為標題，明確點出主題；左側加入學校座標，建立場域連結；下方使用拉丁文「bona fide」象徵善意與真誠；右側則呈現班級資訊，使畫面在視覺與資訊層面皆達到平衡。本作品透過文字、圖像與排版的整合，將「和」的概念轉化為具體的視覺設計，並藉由服飾作為媒介，傳遞情感、文化與群體認同，使設計真正融入生活之中。` },
+        3: { title: "AI 藝術創意封面設計", tag: "音樂專輯封面", desc: `本作品為一張結合 AI 圖像生成技術之音樂專輯封面設計，創作核心圍繞「個體在情感與成長之間的拉扯狀態」，並嘗試將歌曲文本中的情緒張力轉譯為具體的視覺敘事結構。在創作過程中，我並非單次生成圖像，而是透過多次調整描述語句（prompt）與視覺參數，逐步控制畫面構圖、風格與情緒強度，使 AI 成為可被引導的創作工具，而非隨機生成的結果。此過程亦反映我對人機協作創作模式的探索。
+畫面以一扇發光的「門」作為視覺核心，其形式並非具體物件，而更接近一種空間裂縫（portal），象徵人生轉折與選擇的臨界點。主體人物以無臉背影呈現，去除個體特徵，使觀者得以投射自身經驗，強化作品的普遍性與情感共鳴。人物動作設定為「跨出門外的瞬間」，然而其腳部卻被後方延伸出的影子牽制，形成前進與停滯之間的張力，具象化內心尚未脫離過去的心理狀態。
+在視覺敘事上，本作品刻意設計觀看順序：觀者首先被高亮度的門吸引，其次注意到人物的行進動作，最後才察覺影子對其的拉扯，形成「延遲揭示（late reveal）」的觀看體驗。此種觀看機制使情緒並非一次性呈現，而是在時間中逐步展開，提升整體敘事深度。
+環境構成採用強烈對比策略：畫面左側以低明度、厚重筆觸與不穩定紋理呈現壓抑與混沌，象徵過去的情感負擔；右側則以紫藍色系銀河與流星構成開放空間，代表未來、希望與不確定性。流星元素進一步對應歌曲中「向宇宙許願」的意象，使視覺與聲音敘事形成跨媒材連結。整體透過明暗與色彩的對立，建立出一種雙重性（duality）的結構關係。
+在風格處理上，本作品融合油畫筆觸、電影式光影（cinematic lighting）與當代音樂封面視覺語彙，並透過顆粒質感（grain）與邊緣模糊（blur）降低數位生成的機械感，使畫面更接近真實藝術創作的質地。同時，角色造型參考當代音樂文化中的街頭風格，使整體視覺語言與音樂類型保持一致。
+本作品不僅是一張封面設計，更是一項關於「AI 視覺生成 × 情感敘事 × 音樂文化」的跨領域實驗。透過人為控制與機器生成之間的反覆調整，嘗試建立一種新的創作模式，並探索數位工具如何參與並擴展當代藝術表現的可能性。
 
-本作品不僅是一件服飾設計，更是一項跨媒材的創作實驗，透過手繪、AI 技術與街頭文化元素的整合，嘗試將設計轉化為可融入日常生活的表達形式，進一步實踐「在生活中展現自我風格」的創作理念。`
-        },
-        2: { 
-            title: "班服設計藝術", 
-            tag: "平面設計 / 班級凝聚", 
-            desc: `本作品以班級服飾為創作載體，核心概念圍繞「和」字展開，並以「和諧（harmonious）」作為主要設計主題。透過字義延伸，將「和」轉化為視覺語言，不僅象徵人際之間的平衡與共存，也承載我對班級團結與凝聚力的期待。在整體設計上，我選擇以泰迪熊作為主要視覺媒介，作為溫暖與陪伴的象徵，試圖讓作品跳脫一般班服的制式印象，使其不只是服裝，更是一種具有情感溫度的設計表達。正反兩面皆融入泰迪熊元素，並透過不同構圖方式呈現，建立視覺一致性。
-
-「和」（harmonious）一詞在畫面中以三種不同形式出現，透過排列與轉換，使其在視覺上彼此獨立卻不衝突，象徵多元個體之間仍能達成和諧共存。
-
-在製作過程中，正面設計先以手繪草稿構思整體構圖，再透過數位繪圖軟體進行線條描繪與細節修飾。背面則以泰迪熊結合夕陽場景作為主視覺，並透過畫面分割與交錯排列的方式，將畫面切分為三個區塊，營造出層次感與動態視覺效果。
-
-此外，在主視覺周圍加入多項輔助設計元素：上方以「harmonious」作為標題；左側加入學校座標，建立場域連結；下方使用拉丁文「bona fide」象徵善意與真誠；右側呈現班級資訊。本作品透過文字、圖像與排版的整合，將「和」的概念轉化為具體的視覺設計。`
-        },
-        3: { 
-            title: "AI 藝術創意封面設計", 
-            tag: "音樂專輯視覺 / AI 協作", 
-            desc: `本作品為一張結合 AI 圖像生成技術之音樂專輯封面設計，創作核心圍繞「個體在情感與成長之間的拉扯狀態」，並嘗試將歌曲文本中的情緒張力轉譯為具體的視覺敘事結構。在創作過程中，我並非單次生成圖像，而是透過多次調整描述語句（prompt）與視覺參數，逐步控制畫面構圖、風格與情緒強度。
-
-畫面以一扇發光的「門」作為視覺核心，其形式更接近一種空間裂縫（portal），象徵人生轉折。主體人物以無臉背影呈現，強化作品的普遍性與情感共鳴。人物動作設定為「跨出門外的瞬間」，然而其腳部卻被後方延伸出的影子牽制，形成前進與停滯之間的張力。
-
-在視覺敘事上，本作品刻意設計觀看順序：觀者首先被高亮度的門吸引，其次注意到人物的行進動作，最後才察覺影子對其的拉扯，形成「延遲揭示（late reveal）」的觀看體驗。
-
-環境構成採用強烈對比策略：左側以低明度、厚重筆觸呈現壓抑與混沌；右側則以紫藍色系銀河與流星構成開放空間，代表未來、希望與不確定性。
-
-<div style='text-align:center; margin:20px 0; background:#FFF; padding:15px; border:3px solid #000;'><img src='qr＿code.jpg' style='width:120px;' onerror='this.src=\"https://via.placeholder.com/120?text=QR+CODE\"'><div style='font-size:12px; color:#333; margin-top:5px;'>掃描 QR Code 聆聽專輯曲目</div></div>
-
-本作品不僅是一張封面設計，更是一項關於「AI 視覺生成 × 情感敘事 × 音樂文化」的跨領域實驗。`
-        },
-        4: { 
-            title: "字體藝術探索", 
-            tag: "字體藝術 / 哥德式研究", 
-            desc: `本作品為一組以「Island」為主題的哥德式字體手繪草稿，創作重點在於探索字體結構與裝飾性線條之間的關係。透過參考哥德字體的垂直延伸與尖銳筆觸特徵，將文字轉化為具有節奏感與視覺張力的圖像形式。
-
+<div style='text-align:center; margin:20px 0; background:#FFF; padding:15px; border:4px solid #000;'>
+    <img src='qr＿code.jpg' style='width:120px;' onerror='this.src=\"https://via.placeholder.com/120?text=QR+CODE\"'>
+    <div style='font-size:12px; color:#333; margin-top:5px; font-weight:bold;'>掃描 QR Code 聆聽專輯曲目</div>
+</div>` },
+        4: { title: "字體藝術探索", tag: "哥德式字體", desc: `本作品為一組以「Island」為主題的哥德式字體手繪草稿，創作重點在於探索字體結構與裝飾性線條之間的關係。透過參考哥德字體的垂直延伸與尖銳筆觸特徵，將文字轉化為具有節奏感與視覺張力的圖像形式。
 在設計過程中，我以手繪方式反覆調整字母比例、筆畫粗細與裝飾細節，使整體字體在保持可讀性的同時，仍具備藝術表現性。線條之間的銜接與延伸，形成類似結構體的視覺效果，使文字不僅作為語言符號存在，同時也成為畫面中的造型元素。
-
-此作品作為草稿階段的設計實驗，著重於字體造型的發展與可能性探索，並為後續更完整的視覺設計奠定基礎。`
-        },
-        5: { 
-            title: "線條與色彩實驗 I", 
-            tag: "街頭塗鴉 / Tag 風格", 
-            desc: `本作品為兩個街頭塗鴉 Tag（Selfish 與 Caught）的手繪設計，旨在探索街頭文字的節奏感與個人風格轉譯。作品延續 Tag 風格的自由筆觸與動態線條，強調字母間的流動性與連結性，使每個字母既獨立又形成整體視覺節奏。
-
+此作品作為草稿階段的設計實驗，著重於字體造型的發展與可能性探索，並為後續更完整的視覺設計奠定基礎，展現個人對字體藝術與風格轉譯的初步理解。` },
+        5: { title: "線條與色彩實驗 I", tag: "街頭塗鴉 Tag", desc: `本作品為兩個街頭塗鴉 Tag（Selfish 與 Caught）的手繪設計，旨在探索街頭文字的節奏感與個人風格轉譯。作品延續 Tag 風格的自由筆觸與動態線條，強調字母間的流動性與連結性，使每個字母既獨立又形成整體視覺節奏。
 在創作過程中，我使用手繪方式控制線條粗細與傾斜角度，刻意保留筆觸的粗糙感與不規則性，以呈現街頭文化中即興與叛逆的精神。字體設計不僅作為文字存在，同時作為視覺符號，傳達出個人風格與態度。
-
-此作品展示我對街頭塗鴉元素的理解與實踐能力，也反映了我在手繪與構圖上對節奏、平衡與個性化設計的掌握。`
-        },
-        6: { 
-            title: "線條與色彩實驗 II", 
-            tag: "風格對比 / 情感轉譯", 
-            desc: `本作品將 Bubble 風格與 Tag 風格結合，上方呈現「Smile」以圓潤、流動的 Bubble 字體，下方的「Pass Away」則使用街頭塗鴉 Tag 風格呈現，強調動態筆觸與線條的即興感。這種上下風格對比，形成柔和圓潤與尖銳個性的視覺衝突，呼應情感的多面性。
-
-在創作過程中，我刻意控制字母的比例、傾斜角度及線條延伸，讓上方的笑臉符號與文字有輕鬆、遊戲化的表情，下方「Pass Away」透過尖銳線條與黑紫色調，傳達沉重、略帶反叛的氛圍。上下對比不僅增強畫面的層次感，也讓作品在街頭文化的自由精神下，帶有個人化敘事。`
-        },
-        7: { 
-            title: "線條與色彩實驗 III", 
-            tag: "立體字體 / 空間探索", 
-            desc: `本作品以立體造型手法呈現街頭塗鴉文字「Loyalty」與「Shame」，探索字體結構在三維視覺中的表現可能性。透過立體化筆觸，文字不再僅作為符號，而成為具有深度與空間感的視覺元素，增強觀者的沉浸感與視覺衝擊力。
-
-創作過程中，我刻意強調字母邊緣的陰影與投影效果，使每個字母都呈現立體感與動態，保留街頭塗鴉自由奔放的筆觸。兩個詞的選擇形成對比：「Loyalty」象徵忠誠與穩定，「Shame」代表羞愧與矛盾，字體表現則呼應其內涵。`
-        },
-        8: { 
-            title: "永恆交響", 
-            tag: "雙語字體 / 色彩實驗", 
-            desc: `本作品以粉紅色為主色調，將中文「永遠」與英文「Forever」進行字體藝術設計，探索中英文在街頭塗鴉語言中的視覺互動。
-
-中文「永遠」以線條造型呈現，注重筆畫的延伸與節奏感，透過線條的粗細變化與流動，傳達持久與穩定的情感意象。英文「Forever」則採用 Bubble 風格，圓潤而具有彈性，與線條中文形成柔和對比，增強作品的視覺層次感與趣味性。上下、中文與英文的對應排列，使文字不僅是語言符號，更成為畫面構成的造型元素。`
-        },
-        9: { 
-            title: "手握夢想", 
-            tag: "敘事插畫 / 符號化", 
-            desc: `本作品以手部動態為視覺主體，呈現一隻戴手套的手握住 Bubble 風格的文字「Dream」，底部搭配姓名貼紙並使用類似簽名的 Tag 風格作簽名，將人物動作、文字造型與個人標識結合。
-
-創作中，我刻意強化手部的結構感與立體陰影，使握持動作呈現力量與專注感；同時 Bubble 字體柔潤的曲線與手部動作形成對比，增強畫面的視覺層次感。底部的 Tag 樣式簽名不僅作為個人標識，也呼應街頭塗鴉文化中簽名（Tag）的傳統表達方式。`
-        },
-        10: { 
-            title: "線條與色彩實驗 IV", 
-            tag: "流行文化 / 生活融合", 
-            desc: `本作品將兩種風格結合於一個畫面：上半部分以 Bubble 風格呈現「Squid Game」，靈感來自《魷魚遊戲》的視覺符號與造型語言，下半部分則進行街頭塗鴉練習，以「Street」字體呈現自由奔放的線條與動態感。
-
-創作中，我刻意對比兩種風格的表現：上半部分圓潤、柔和、具主題象徵性；下半部分保留街頭塗鴉的即興筆觸與個性線條。此作品的亮點在於展現街頭塗鴉如何與日常生活語境結合，讓街頭藝術不只存在於畫紙，而能自然融入日常生活。`
-        },
-        11: { 
-            title: "線條與色彩實驗 V", 
-            tag: "造型基礎 / 漸層練習", 
-            desc: `本作品以 Bubble 字體為主題進行練習，專注於文字的圓潤造型與線條流動感。透過筆畫的厚薄變化和弧線延伸，使字體在視覺上產生彈性與立體感，同時保留街頭塗鴉的即興與活力感。
-
-在創作過程中，我不僅探索字母之間的互動與空間布局，也對色彩進行嘗試。透過不同色彩搭配與漸層效果，我希望讓字體呈現更多層次與視覺趣味。這些技巧與手感都需要一再的練習，才能逐漸熟悉並靈活應用於未來的創作之中。`
-        },
-        12: { 
-            title: "夕陽下的故事", 
-            tag: "城市景色 / 街頭插畫", 
-            desc: `本作品以街頭插畫的方式呈現「Los Angle」字體設計，結合當地文化特色的 Low Rider 車輛作為視覺焦點，背景則以夕陽色彩鋪陳。Low Rider 飛越文字上方，形成文字與物件之間的空間互動，使整個畫面充滿街頭動感與地域特色。
-
-在創作過程中，我嘗試將街頭塗鴉字體與插畫物件結合，並利用夕陽色調探索光影與色彩表現。每一次手繪、色彩與構圖的練習，都讓我逐漸熟悉如何將街頭藝術融入現實場景，讓作品與城市氛圍和生活情境連結。`
-        },
-        13: { 
-            title: "財富交錯", 
-            tag: "概念美學 / 文字拆解", 
-            desc: `本作品以「Cash」字體為核心進行視覺設計，將文字從中間分裂，讓「Money」出現在裂縫之中，形成文字之間的對話與張力。這種設計將概念化的財富象徵、分裂與融合的意涵用視覺呈現出來，讓文字本身產生故事感與動態美感。
-
-在構圖上，我嘗試探索對稱與破碎的平衡，讓畫面同時具有穩定性與意外感。中間的「Money」則像是核心焦點，吸引觀者目光。這是一項視覺遊戲，探索如何透過簡單的元素創造豐富的情感與故事。`
-        },
-        14: { 
-            title: "線條與節奏", 
-            tag: "設計語言 / 韻律探索", 
-            desc: `本作品以交錯線條作為創作核心，將簡單的線條元素拆解、重組，探索視覺節奏、空間感與畫面層次。每一條線都像是一個有意識的筆觸，透過方向、粗細與排列的變化，在畫面中形成流動的韻律。
-
-在設計過程中，我特別強調線條的靈活運用：部分線條交錯、部分線條延伸，營造出平衡與張力的對比。這不只是單純的練習，更是一種對視覺語言的探索，讓每條線都能承載情緒、節奏與設計意圖，展現線條作為設計語言的可能性。`
-        }
+此作品展示我對街頭塗鴉元素的開理解與實踐能力，也反映了我在手繪與構圖上對節奏、平衡與個性化設計的掌握。` },
+        6: { title: "線條與色彩實驗 II", tag: "風格融合", desc: `本作品將 Bubble 風格與 Tag 風格結合，上方呈現「Smile」以圓潤、流動的 Bubble 字體，下方的「Pass Away」則使用街頭塗鴉 Tag 風格呈現，強調動態筆觸與線條的即興感。這種上下風格對比，形成柔和圓潤與尖銳個性的視覺衝突，呼應情感的多面性。
+在創作過程中，我刻意控制字母的比例、傾斜角度及線條延伸，讓上方的笑臉符號與文字有輕鬆、遊戲化的表情，下方「Pass Away」透過尖銳線條與黑紫色調，傳達沉重、略帶反叛的氛圍。上下對比不僅增強畫面的層次感，也讓作品在街頭文化的自由精神下，帶有個人化敘事。
+此作品展示我對不同街頭塗鴉風格的理解及融合能力，並展現手繪技巧、色彩掌控與視覺節奏的運用，強化個人風格探索與創作實踐。` },
+        7: { title: "線條與色彩實驗 III", tag: "立體造型", desc: `本作品以立體造型手法呈現街頭塗鴉文字「Loyalty」與「Shame」，探索字體結構在三維視覺中的表現可能性。透過立體化筆觸，文字不再僅作為符號，而成為具有深度與空間感的視覺元素，增強觀者的沉浸感與視覺衝擊力。
+創作過程中，我刻意強調字母邊緣的陰影與投影效果，使每個字母都呈現立體感與動態，保留街頭塗鴉自由奔放的筆觸，讓文字在形態上仍具有即興感與能量感。兩個詞的選擇形成對比：「Loyalty」象徵忠誠與穩定，「Shame」代表羞愧與矛盾，字體表現則呼應其內涵，透過空間感與線條設計，呈現概念上的張力。
+此作品展現我對街頭塗鴉的造型實驗能力，以及對字體空間感、結構與情感意象的掌握，突顯個人風格探索與創作技巧的成熟度。` },
+        8: { title: "永恆交響", tag: "雙語設計", desc: `本作品以粉紅色為主色調，將中文「永遠」與英文「Forever」進行字體藝術設計，探索中英文在街頭塗鴉語言中的視覺互動。
+中文「永遠」以線條造型呈現，注重筆畫的延伸與節奏感，透過線條的粗細變化與流動，傳達持久與穩定的情感意象。英文「Forever」則採用 Bubble 風格，圓潤而具有彈性，與線條中文形成柔和對比，增強作品的視覺層次感與趣味性。上下、中文與英文的對應排列，使文字不僅是語言符號，更成為畫面構成的造型元素。
+此作品展示我對中英文字體藝術的探索與創作思維，嘗試透過色彩、造型與風格對比，讓文字既能傳達情感意涵，也能作為畫面視覺的主體元素，呈現出兼具趣味性與表現力的作品。` },
+        9: { title: "手握夢想", tag: "插畫動態", desc: `本作品以手部動態為視覺主體，呈現一隻戴手套的手握住 Bubble 風格的文字「Dream」，底部搭配姓名貼紙並使用類似簽名的 Tag 風格作簽名，將人物動作、文字造型與個人標識結合。
+創作中，我刻意強化手部的結構感與立體陰影，使握持動作呈現力量與專注感；同時 Bubble 字體柔潤的曲線與手部動作形成對比，增強畫面的視覺層次感。底部的 Tag 樣式簽名不僅作為個人標識，也呼應街頭塗鴉文化中簽名（Tag）的傳統表達方式。
+此作品探索手部動作與文字造型的互動關係，結合街頭字體符號與個人標識，呈現出情感、行為與視覺語言的交織，使作品在符號化的街頭塗鴉語言中更具敘事性與個人風格。` },
+        10: { title: "線條與色彩實驗 IV", tag: "混搭風格", desc: `本作品將兩種風格結合於一個畫面：上半部分以 Bubble 風格呈現「Squid Game」，靈感來自《魷魚遊戲》的視覺符號與造型語言，下半部分則進行街頭塗鴉練習，以「Street」字體呈現自由奔放的線條與動態感。
+創作中，我刻意對比兩種風格的表現：上半部分圓潤、柔和、具主題象徵性；下半部分保留街頭塗鴉的即興筆觸與個性線條，使畫面呈現上下呼應但風格對比的視覺張力。這種混搭方式不僅練習字體控制，也探索主題與形式之間的互動。
+此作品的亮點在於上下風格的碰撞與協調，同時展現街頭塗鴉如何與日常生活語境結合：Bubble 字體的趣味感和街頭 Tag 的自由感，都能延伸至生活物件、服飾或個人標識上，讓街頭藝術不只存在於畫紙或牆面，而能自然融入日常生活。` },
+        11: { title: "線條與色彩實驗 V", tag: "Bubble 練習", desc: `本作品以 Bubble 字體為主題進行練習，專注於文字的圓潤造型與線條流動感。透過筆畫的厚薄變化和弧線延伸，使字體在視覺上產生彈性與立體感，同時保留街頭塗鴉的即興與活力感。
+在創作過程中，我不僅探索字母之間的互動與空間布局，也對色彩進行嘗試。透過不同色彩搭配與漸層效果，我希望讓字體呈現更多層次與視覺趣味，進一步提升畫面的豐富感和表現力。
+這件作品同時展現街頭塗鴉與生活的結合：Bubble 字體的趣味性和色彩表現，使這種街頭風格能自然延伸到生活中的服飾、物件或個人標識。這些技巧與手感都需要一再的練習，才能逐漸熟悉並靈活應用於未來的創作之中。` },
+        12: { title: "夕陽下的故事", tag: "城市背景", desc: `本作品以街頭插畫的方式呈現「Los Angle」字體設計，結合當地文化特色的 Low Rider 車輛作為視覺焦點，背景則以夕陽色彩鋪陳，營造溫暖且動感的氛圍。Low Rider 飛越文字上方，形成文字與物件之間的空間互動，使整個畫面充滿街頭動感與地域特色。
+在創作過程中，我嘗試將街頭塗鴉字體與插畫物件結合，並利用夕陽色調探索光影與色彩表現的層次感，讓文字與插畫更有立體感與視覺衝擊力。這種手法不僅訓練我在字體設計與場景安排上的掌握，也挑戰我對街頭藝術的創意表現能力。
+此作品的亮點於我能將街頭塗鴉結合城市特色，並利用城市景色作畫：文字、Low Rider 與夕陽背景相互呼應，呈現出街頭與城市環境的互動感。每一次手繪、色彩與構圖的練習，都讓我逐漸熟悉如何將街頭藝術融入現實場景，讓作品不只存在於紙上，而能與城市氛圍和生活情境連結。` },
+        13: { title: "財富交錯", tag: "概念設計", desc: `本作品以「Cash」字體為核心進行視覺設計，將文字從中間分裂，讓「Money」出現在裂縫之中，形成文字之間的對話與張力。這種設計不只是排列字母，而是將概念化的財富象徵、分裂與融合的意涵用視覺呈現出來，讓文字本身產生故事感與動態美感。
+在構圖上，我嘗試探索對稱與破碎的平衡，讓畫面同時具有穩定性與意外感。文字的分裂像是空間中的裂縫，帶出內在張力；中間的「Money」則像是核心焦點，吸引觀者目光，形成自然的視覺導引。色彩運用上，我保持簡潔而強烈的對比，使整體設計乾淨、現代且充滿張力。
+這件作品的精髓在於它是一種概念化的美感實驗：文字不再只是符號，而是一種可以被拆解、重組、賦予意義的創作元素。觀者可以自由解讀裂縫中「Money」的象徵意義，這讓作品本身像是一個視覺遊戲，也像是一種思維練習，探索如何透過簡單的元素創造豐富的情感與故事。` },
+        14: { title: "線條與節奏", tag: "視覺韻律", desc: `本作品以交錯線條作為創作核心，將簡單的線條元素拆解、重組，探索視覺節奏、空間感與畫面層次。每一條線都像是一個有意識的筆觸，透過方向、粗細與排列的變化，在畫面中形成流動的韻律，使靜態畫面產生動感與節奏感。
+在設計過程中，我特別強調線條的靈活運用：部分線條交錯、部分線條延伸，透過空間的留白與緊密排列，營造出平衡與張力的對比。這不只是單純的練習，更是一種對視覺語言的探索，讓每條線都能承載情緒、節奏與設計意圖。
+此作品展現了線條作為設計語言的可能性：即使是最簡單的元素，也能透過排列、交錯與重組，創造出豐富的畫面張力和視覺層次。這種練習讓我更清楚地理解如何以最基礎的元素表現複雜的情感與節奏，也提供了未來在字體設計、圖像插畫或視覺造型中靈活運用線條的思路與技巧。` }
     };
 
     function loadTrack(index) { audio.src = playlist[index].src; trackLabel.innerText = playlist[index].name; }
@@ -305,55 +222,38 @@
         const panel = document.getElementById('main-panel');
         panel.innerHTML = ''; 
 
-                if (type === 'start') {
-            panel.innerHTML = `<div style="width:100%; height:100%; overflow-y:auto; padding:35px; color:#1a1a1a;">
-                <div style="border-bottom:4px solid #555; padding-bottom:15px; margin-bottom:25px;">
-                    <h2 style="margin:0; font-size:26px; letter-spacing:2px;">🧩 創作起點</h2>
-                    <span style="font-size:14px; color:#555; font-weight:bold;">跨越街頭與數位的創作實驗</span>
+        if (type === 'start') {
+            panel.innerHTML = `<div style="width:100%; height:100%; overflow-y:auto; padding:40px; color:#1a1a1a; background:#F0F0F0;">
+                <div style="border-bottom:5px solid #333; padding-bottom:15px; margin-bottom:25px;">
+                    <h2 style="margin:0; font-size:32px; font-weight:800; letter-spacing:2px;">🧩 創作起點</h2>
+                    <span style="font-size:14px; color:#666; font-weight:bold; letter-spacing:1px;">跨越街頭與數位的創作實驗</span>
                 </div>
-                <div style="float: right; width: 38%; margin-left: 25px; margin-bottom: 20px; border: 5px solid #000; background:#000;">
-                    <img src="art.jpg" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/300'">
+                <div style="float: right; width: 42%; margin-left: 30px; margin-bottom: 20px; border: 6px solid #000; background:#000;">
+                    <img src="art.jpg" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/400'">
                 </div>
-                <div style="font-size:16px; line-height:1.9; text-align:justify;">
+                <div style="font-size:17px; line-height:2; text-align:justify; color:#222;">
                     <p>在過去的創作經驗中，我長期接觸<b>街頭塗鴉與音樂製作</b>，這些創作形式具有強烈的個人風格與即時性，但也存在著難以保存與延伸的限制。因此，我開始思考：是否能透過數位媒介與 AI 技術，讓這些創作突破原有的限制，並在不同的載體上呈現出新的生命力。</p>
                     <p>在本次實作中，我嘗試以<b>「網站」作為創作載體</b>，將街頭塗鴉的視覺語言與數位互動設計結合。這不僅僅是將作品數位化，更是嘗試建立一個動態的、可互動的檔案庫，讓觀者能透過噴漆、點擊與聆聽，參與到我的創作過程之中。</p>
                     <p>在技術實作上，我引入了 AI 作為創作過程中的輔助工具。AI 在此不僅僅是一個產生圖像的工具，更像是一位<b>引導者與協作者</b>，協助我處理複雜的程式邏輯與介面優化，使我能在相對陌生的數位領域中，快速建立起符合個人美學的基礎架構。這種「人機協作」的模式，也成為我本次實作中重要的探索方向。</p>
-                    <p style="background: #8B8B8B; color: #FFF; padding: 15px; border-left: 5px solid #333; margin-top: 30px; font-style: italic;">
+                    <p style="background: #333; color: #FFF; padding: 25px; border-left: 8px solid #E67E22; margin-top: 35px; font-style: italic; box-shadow: 5px 5px 0px rgba(0,0,0,0.1);">
                         " 本次創作不僅是作品的呈現，更是一個探索創作方式轉變的過程，嘗試將設計轉化為可融入日常生活的表達形式，實踐「在生活中展現自我風格」的初衷。 "
                     </p>
                 </div>
-                <div style="clear:both; height:20px;"></div>
+                <div style="clear:both; height:40px;"></div>
             </div>`;
+        } else if (type === 'paint') {
+            panel.innerHTML = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#333;"><h3>互動區域載入中...</h3></div>`;
+        } else if (type === 'works') {
+            panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
+            const g = document.getElementById('grid-content');
+            for(let i=1; i<=14; i++) g.innerHTML += `<div class="work-frame" onclick="window.showDetail(${i})"><div class="image-slot"><img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150'"></div><div class="work-label">作品 ${i}</div></div>`;
+        } else {
+             panel.innerHTML = `<div style="padding:40px; color:#1a1a1a;"><h2>${type === 'process' ? '🛠️ 歷程記錄' : '🚀 未來發展'}</h2><p>內容載入中...</p></div>`;
         }
-
     };
 
-    function initCanvas() {
-        const c = document.getElementById('tab-canvas'), b = document.getElementById('wall-box');
-        if(!c || !b) return;
-        const ctx = c.getContext('2d');
-        c.width = b.offsetWidth; c.height = b.offsetHeight;
-        const spray = (x, y) => {
-            const density = 150, radius = 25;
-            ctx.fillStyle = currCol;
-            for (let i = 0; i < density; i++) {
-                const r = Math.random() * radius, angle = Math.random() * Math.PI * 2;
-                const offsetX = r * Math.cos(angle), offsetY = r * Math.sin(angle);
-                const opacity = Math.pow((radius - r) / radius, 4); 
-                if (opacity > 0.02) { ctx.globalAlpha = opacity; ctx.beginPath(); ctx.arc(x + offsetX, y + offsetY, Math.random() * 1.5, 0, Math.PI * 2); ctx.fill(); }
-            }
-            ctx.globalAlpha = 1.0;
-        };
-        const handle = (e) => { const r = c.getBoundingClientRect(); spray((e.clientX || e.touches[0].clientX) - r.left, (e.clientY || e.touches[0].clientY) - r.top); };
-        c.onmousedown = (e) => { painting = true; handle(e); };
-        window.onmouseup = () => painting = false;
-        c.onmousemove = (e) => { if(painting) requestAnimationFrame(() => handle(e)); };
-        c.ontouchstart = (e) => { e.preventDefault(); painting = true; handle(e.touches[0]); };
-        c.ontouchmove = (e) => { e.preventDefault(); handle(e.touches[0]); };
-    }
-
     window.showDetail = (i) => {
-        const data = worksData[i] || { title: `實作作品 ${i}`, tag: "未分類", desc: "暫無詳細說明。" };
+        const data = worksData[i];
         document.getElementById('det-title').innerText = data.title;
         document.getElementById('det-tag').innerText = data.tag;
         document.getElementById('det-desc').innerHTML = data.desc;
@@ -361,9 +261,6 @@
         document.getElementById('detail-overlay').style.display = 'flex';
         document.getElementById('det-desc-container').scrollTop = 0;
     };
-
-    window.changeWall = (src) => { document.getElementById('wall-img').src = src; };
-    window.clearCanvas = () => { const c = document.getElementById('tab-canvas'); if(c) c.getContext('2d').clearRect(0,0,c.width,c.height); };
 
     const starCanvas = document.getElementById('star-canvas'), starCtx = starCanvas.getContext('2d');
     function startStars() {
