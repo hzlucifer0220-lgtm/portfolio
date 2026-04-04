@@ -218,7 +218,7 @@
     audio.onended = () => window.nextTrack();
     audio.src = playlist[0].src; trackLabel.innerText = playlist[0].name;
 
-    // 🏆 核心功能：分頁切換
+       // 🏆 核心功能：分頁切換 (已修正 308 行大括號與變數顯示問題)
     window.changeTab = function(btn, type) {
         document.querySelectorAll('.mc-tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
@@ -231,34 +231,27 @@
                 <div style="border-bottom:5px solid #333; padding-bottom:15px; margin-bottom:25px;">
                     <h2 style="margin:0; font-size:28px; font-weight:800; letter-spacing:1px;">🧩 創作起點｜跨越街頭與數位的創作實驗</h2>
                 </div>
-
                 <div style="float: right; width: 40%; margin-left: 25px; border: 6px solid #000; background:#000;">
                     <img src="art.jpg" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/400?text=ART+WORK'">
                 </div>
-
                 <div style="font-size:17px; line-height:2; text-align:justify; color:#222;">
                     <p>在過去的創作經驗中，我長期接觸街頭塗鴉與音樂製作，這些創作形式具有強烈的個人風格與即時性，但也存在著難以保存與延伸的限制。因此，我開始思考：是否能透過數位媒介與AI技術，讓這些創作突破原有的限制，轉化為更具互動性與延展性的形式。</p>
-                    
                     <p>在本次實作中，我嘗試以「網站」作為創作載體，結合街頭塗鴉的視覺語言與數位互動設計，並引入AI作為創作過程中的輔助工具，探索藝術與科技之間的融合可能。</p>
-                    
                     <p>在製作過程中，我發現與AI的互動並非單向操作，而是一種需要反覆溝通與調整的協作關係。從網站架構的建立，到介面細節的設計，我必須學習如何將抽象的想法轉化為AI可以理解的指令，並透過不斷修正與測試，逐步接近理想成果。過程中，任何細微的錯誤都可能影響整體系統運作，這也讓我重新理解「設計」不僅是視覺呈現，更包含邏輯與結構的建構。</p>
-
-                    <div style="margin-top:30px; padding:20px; background:#FFF; border-left:8px solid var(--mc-accent, #E67E22); border-top:2px solid #DDD; border-right:2px solid #DDD; border-bottom:2px solid #DDD; box-shadow: 5px 5px 0px rgba(0,0,0,0.1); font-weight:bold;">
+                    <div style="margin-top:30px; padding:20px; background:#FFF; border-left:8px solid #E67E22; border-top:2px solid #DDD; border-right:2px solid #DDD; border-bottom:2px solid #DDD; box-shadow: 5px 5px 0px rgba(0,0,0,0.1); font-weight:bold;">
                         <p style="margin:0;">AI在此不僅是工具，更像是一位引導者，使我能夠在陌生領域中快速建立基礎，並透過持續嘗試與修正，將原本停留在想像中的創意具體實現。這樣的經驗也讓我意識到，未來的創作不再只是單一媒材的呈現，而是跨領域整合與人機協作的過程。</p>
                     </div>
                 </div>
-                
                 <div style="height:40px; clear:both;"></div>
             </div>`;
-               } else if (type === 'paint') {
+        } else if (type === 'paint') {
             panel.innerHTML = `
             <div class="paint-area" style="flex-direction: column; display: flex; height: 100%;">
                 <div style="height: 20%; padding: 25px 40px; background: rgba(0,0,0,0.03); border-bottom: 2px solid rgba(0,0,0,0.1); display: flex; align-items: center;">
-                    <div style="color: #333; line-height: 1.8; font-size: 16px; text-align: justify; border-left: 5px solid var(--mc-accent, #E67E22); padding-left: 20px;">
+                    <div style="color: #333; line-height: 1.8; font-size: 16px; text-align: justify; border-left: 5px solid #E67E22; padding-left: 20px;">
                         本互動區域在設計上以不干擾主要畫面構圖為原則，將互動元素整合於介面之中，使操作過程維持流暢且直覺。透過適度的互動設計，讓觀看者在不影響視覺體驗的前提下，參與畫面並感受街頭塗鴉的創作過程。此設計兼顧功能性與畫面完整性，使互動成為視覺的一部分，而非干擾元素。
                     </div>
                 </div>
-
                 <div style="height: 80%; display: flex; position: relative; background: #DDD;">
                     <div class="paint-sidebar" style="top: 20px; bottom: 20px; left: 20px;">
                         <div class="color-dot" style="background:red" onclick="currCol='red'"></div>
@@ -273,26 +266,19 @@
                         <button class="mc-button" style="font-size:10px; padding:5px 0; margin-bottom:5px;" onclick="window.changeWall('truck.jpg')">卡車</button>
                         <button class="mc-button" style="font-size:10px; padding:5px 0;" onclick="window.changeWall('sticker.jpg')">貼紙</button>
                     </div>
-
                     <div class="wall-box" id="wall-box" style="margin: 20px 20px 20px 125px; flex: 1; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);">
                         <img id="wall-img" src="wall.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute;">
                         <canvas id="tab-canvas"></canvas>
                     </div>
-
                     <button class="mc-button" style="position:absolute; bottom:35px; right:35px; width:100px; height:40px; z-index: 101;" onclick="window.clearCanvas()">清除全牆</button>
                 </div>
             </div>`;
             setTimeout(initCanvas, 150); 
-
-                         } else if (type === 'works') {
+        } else if (type === 'works') {
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
             const grid = document.getElementById('grid-content');
-            
             for(let i=1; i<=14; i++) {
-                // [🔍 防錯檢查] 確保如果資料庫沒這筆，也不會當機
                 const item = worksData[i] || { title: `作品 ${i}`, tag: "分類" };
-                
-                // 使用反引號確保 HTML 結構完整注入
                 grid.innerHTML += `
                 <div class="work-frame" onclick="window.showDetail(${i})" style="position:relative; overflow:hidden;">
                     <div class="image-slot">
@@ -304,11 +290,11 @@
                     </div>
                 </div>`;
             }
-
-    else {
+        } else {
             panel.innerHTML = `<div style="padding:40px; color:#1a1a1a;"><h2>功能開發中</h2><p>此區域尚未填寫內容。</p></div>`;
         }
     };
+
 
     // 🏆 核心功能：噴漆畫布
     function initCanvas() {
