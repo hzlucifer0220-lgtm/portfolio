@@ -61,98 +61,70 @@
         .gui-panel { flex: 1; background: var(--mc-gray); border: 4px solid #000; box-shadow: inset 4px 4px 0 var(--mc-light), inset -4px -4px 0 var(--mc-dark); position: relative; overflow: hidden; }
 
         /* 作品集網格 */
-       /* 確保網格容器不會讓子元素互相擠壓 */
-.work-grid { 
-    display: grid !important; 
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px; /* 增加間距，防止視覺重疊 */
-    padding: 20px; 
-    height: 100%; 
-    overflow-y: auto; 
-    align-content: start; 
-}
+        /* --- 作品集網格系統：修正版 --- */
+        .work-grid { 
+            display: grid !important; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 15px; 
+            padding: 20px; 
+            height: 100%; 
+            overflow-y: auto; 
+            align-content: start; 
+        }
 
-/* 修正階梯重疊的關鍵 */
-.work-frame { 
-    position: relative; 
-    width: 100%; 
-    /* 強制固定比例，防止被內容撐開 */
-    aspect-ratio: 3/4; 
-    background: #8B8B8B; 
-    border: 3px solid #000; 
-    padding: 8px; 
-    cursor: pointer; 
-    box-sizing: border-box;
-    overflow: hidden; /* 這是重點：切掉任何溢出的部分，防止蓋到下一行 */
-    display: flex;
-    flex-direction: column;
-}
+        .work-frame { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 3 / 4; /* 強制外框比例，不被圖片撐開 */
+            background: #8B8B8B; 
+            border: 3px solid #000; 
+            padding: 8px; 
+            cursor: pointer; 
+            box-sizing: border-box;
+            overflow: hidden; /* 核心：切斷溢出內容，防止踩到下一行 */
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
 
-/* 確保圖片容器佔據上方固定空間 */
-.image-slot { 
-    width: 100%; 
-    height: 75%; /* 給下方的標籤留出 25% 空間 */
-    background: #000; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    overflow: hidden; 
-}
+        .work-frame:hover { 
+            transform: translateY(-5px); 
+            background: #9D9D9D; 
+        }
 
-        .work-frame:hover { transform: translateY(-5px); background: #9D9D9D; }
-        .image-slot { width: 100%; aspect-ratio: 1/1; background: #000; border: 2px solid #333; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .image-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        /* 隱藏舊的底部文字，改用美編標籤 */
-.work-label { display: none; }
+        .image-slot { 
+            width: 100%; 
+            height: 75%; /* 鎖定圖片區佔比 75% */
+            background: #000; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+        }
 
-        /* 彈窗樣式 */
-        #detail-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; cursor: pointer; }
-        #detail-view { width: 85vw; max-width: 1300px; aspect-ratio: 2/1; background: #E0E0E0; border: 6px solid #000; display: flex; position: relative; cursor: default; }
-        .det-left { flex: 1; background: #111; border-right: 4px solid #000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; aspect-ratio: 1 / 1; / }
-        .det-right { flex: 1; display: flex; flex-direction: column; padding: 0; color: #1a1a1a; overflow: hidden; }
-        .det-header { background: #333; color: #FFF; padding: 25px 30px; }
-        #det-tag { font-size: 11px; background: #E67E22; padding: 2px 8px; border-radius: 2px; margin-bottom: 8px; display: inline-block; font-weight: bold; }
-        #det-desc-container { flex: 1; overflow-y: auto; padding: 30px; background: #F5F5F5; }
-        #det-desc { font-size: 16px; line-height: 1.85; text-align: justify; white-space: pre-wrap; color: #333; }
+        .image-slot img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+        }
 
-        /* 互動塗鴉樣式 */
-        .paint-area { width: 100%; height: 100%; display: flex; position: relative; }
-        .paint-sidebar { position: absolute; left: 15px; top: 20px; width: 85px; bottom: 20px; display: flex; flex-direction: column; gap: 8px; padding: 12px; background: rgba(0,0,0,0.85); border: 2px solid #FFF; z-index: 100; overflow-y: auto; }
-        .color-dot { width: 100%; aspect-ratio: 1/1; border: 2px solid #FFF; cursor: pointer; flex-shrink: 0; }
-        .wall-box { flex: 1; margin: 20px 20px 20px 115px; border: 4px solid #000; background: #222; position: relative; overflow: hidden; }
-        #tab-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
-        /* [增量修正] 確保彈窗圖片完整顯示在左側正方形感區域 */
-.det-left img {
-    width: auto;
-    height: auto;
-    max-width: 90%;  /* 留一點邊界感，更有作品集質感 */
-    max-height: 90%;
-    object-fit: contain; /* 確保原圖比例縮放，不裁切、不變形 */
-    border: 2px solid #333; /* 替圖片加個細邊框，增加專業感 */
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-/* [增量美編] 作品集 1/4 半透明標籤 */
-.work-frame {
-    position: relative; /* 必備：讓標籤能絕對定位在內部 */
-    overflow: hidden;
-}
-
-.work-overlay-tag {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 25%; /* 準確的 1/4 高度 */
-    background: rgba(0, 0, 0, 0.65); /* 半透明黑 */
-    backdrop-filter: blur(4px); /* 磨砂玻璃效果 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 12px;
-    border-top: 2px solid var(--mc-accent, #E67E22); /* 頂部橘色飾條 */
-    pointer-events: none; /* 確保點擊能穿透到下層的 work-frame */
-    transition: transform 0.3s ease;
-}
+        /* 1/4 美編標籤：絕對定位 */
+        .work-overlay-tag {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 25%; /* 鎖定標籤區佔比 25% */
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 12px;
+            border-top: 2px solid #E67E22;
+            pointer-events: none;
+            box-sizing: border-box;
+        }
 
 .tag-main-title {
     color: #FFF;
@@ -316,19 +288,22 @@
                 </div>
             </div>`;
             setTimeout(initCanvas, 150); 
-               } else if (type === 'works') {
+                      } else if (type === 'works') {
+            // 建立網格容器
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
             const grid = document.getElementById('grid-content');
             let htmlBuffer = ""; 
 
             for(let i=1; i<=14; i++) {
                 const item = worksData[i] || { title: `作品 ${i}`, tag: "分類" };
+                
+                // 結構保持簡潔，透過 CSS 類名控制排版
                 htmlBuffer += `
                 <div class="work-frame" onclick="window.showDetail(${i})">
                     <div class="image-slot">
-                        <img src="i${i}.jpg" style="max-width:100%; max-height:100%; object-fit:contain;" onerror="this.src='https://via.placeholder.com/150?text=Work+${i}'">
+                        <img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150?text=Work+${i}'">
                     </div>
-                    <div class="work-overlay-tag" style="position:absolute; bottom:0; left:0; width:100%; height:25%; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); display:flex; flex-direction:column; justify-content:center; padding:0 12px; border-top:2px solid #E67E22; pointer-events:none; box-sizing:border-box;">
+                    <div class="work-overlay-tag">
                         <div style="color:#E67E22; font-size:10px; font-weight:bold; margin-bottom:2px;">${item.tag}</div>
                         <div style="color:#FFF; font-size:12px; font-weight:bold; text-shadow:1px 1px 2px #000; line-height:1.2;">${item.title}</div>
                     </div>
