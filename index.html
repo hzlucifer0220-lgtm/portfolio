@@ -201,30 +201,41 @@
                 
                 <div style="height:40px; clear:both;"></div>
             </div>`;
-        }
-        else if (type === 'paint') {
+               } else if (type === 'paint') {
             panel.innerHTML = `
-            <div class="paint-area">
-                <div class="paint-sidebar">
-                    <div class="color-dot" style="background:red" onclick="currCol='red'"></div>
-                    <div class="color-dot" style="background:lime" onclick="currCol='lime'"></div>
-                    <div class="color-dot" style="background:blue" onclick="currCol='blue'"></div>
-                    <div class="color-dot" style="background:yellow" onclick="currCol='yellow'"></div>
-                    <div class="color-dot" style="background:white" onclick="currCol='white'"></div>
-                    <div class="color-dot" style="background:black" onclick="currCol='black'"></div>
-                    <hr style="width:100%; border:1px dashed #555;">
-                    <button class="mc-button" style="font-size:10px; padding:5px 0; margin-bottom:5px;" onclick="window.changeWall('wall.jpg')">磚牆</button>
-                    <button class="mc-button" style="font-size:10px; padding:5px 0; margin-bottom:5px;" onclick="window.changeWall('shutter.jpg')">鐵門</button>
-                    <button class="mc-button" style="font-size:10px; padding:5px 0; margin-bottom:5px;" onclick="window.changeWall('truck.jpg')">卡車</button>
-                    <button class="mc-button" style="font-size:10px; padding:5px 0;" onclick="window.changeWall('sticker.jpg')">貼紙</button>
+            <div class="paint-area" style="flex-direction: column; display: flex; height: 100%;">
+                <div style="height: 20%; padding: 25px 40px; background: rgba(0,0,0,0.03); border-bottom: 2px solid rgba(0,0,0,0.1); display: flex; align-items: center;">
+                    <div style="color: #333; line-height: 1.8; font-size: 16px; text-align: justify; border-left: 5px solid var(--mc-accent, #E67E22); padding-left: 20px;">
+                        本互動區域在設計上以不干擾主要畫面構圖為原則，將互動元素整合於介面之中，使操作過程維持流暢且直覺。透過適度的互動設計，讓觀看者在不影響視覺體驗的前提下，參與畫面並感受街頭塗鴉的創作過程。此設計兼顧功能性與畫面完整性，使互動成為視覺的一部分，而非干擾元素。
+                    </div>
                 </div>
-                <div class="wall-box" id="wall-box">
-                    <img id="wall-img" src="wall.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute;">
-                    <canvas id="tab-canvas"></canvas>
+
+                <div style="height: 80%; display: flex; position: relative; background: #DDD;">
+                    <div class="paint-sidebar" style="top: 20px; bottom: 20px; left: 20px;">
+                        <div class="color-dot" style="background:red" onclick="currCol='red'"></div>
+                        <div class="color-dot" style="background:lime" onclick="currCol='lime'"></div>
+                        <div class="color-dot" style="background:blue" onclick="currCol='blue'"></div>
+                        <div class="color-dot" style="background:yellow" onclick="currCol='yellow'"></div>
+                        <div class="color-dot" style="background:white" onclick="currCol='white'"></div>
+                        <div class="color-dot" style="background:black" onclick="currCol='black'"></div>
+                        <hr style="width:100%; border:1px dashed #555; margin: 10px 0;">
+                        <button class="mc-button" style="font-size:10px; padding:5px 0; margin-bottom:5px;" onclick="window.changeWall('wall.jpg')">磚牆</button>
+                        <button class="mc-button" style="font-size:10px; padding:5px 0; margin-bottom:5px;" onclick="window.changeWall('shutter.jpg')">鐵門</button>
+                        <button class="mc-button" style="font-size:10px; padding:5px 0; margin-bottom:5px;" onclick="window.changeWall('truck.jpg')">卡車</button>
+                        <button class="mc-button" style="font-size:10px; padding:5px 0;" onclick="window.changeWall('sticker.jpg')">貼紙</button>
+                    </div>
+
+                    <div class="wall-box" id="wall-box" style="margin: 20px 20px 20px 125px; flex: 1; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);">
+                        <img id="wall-img" src="wall.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute;">
+                        <canvas id="tab-canvas"></canvas>
+                    </div>
+
+                    <button class="mc-button" style="position:absolute; bottom:35px; right:35px; width:100px; height:40px; z-index: 101;" onclick="window.clearCanvas()">清除全牆</button>
                 </div>
-                <button class="mc-button" style="position:absolute; bottom:30px; right:35px; width:100px; height:40px;" onclick="window.clearCanvas()">清除全牆</button>
             </div>`;
-            setTimeout(initCanvas, 150); // 延遲確保 DOM 就緒
+            setTimeout(initCanvas, 150); 
+
+            // 延遲確保 DOM 就緒
         } else if (type === 'works') {
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
             for(let i=1; i<=14; i++) document.getElementById('grid-content').innerHTML += `<div class="work-frame" onclick="window.showDetail(${i})"><div class="image-slot"><img src="i${i}.jpg" onerror="this.src='https://via.placeholder.com/150'"></div><div class="work-label">作品 ${i}</div></div>`;
