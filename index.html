@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v32.4.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v32.5.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -50,7 +50,16 @@
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-250%); } }
 
         /* P1 & P2 佈局 */
-        #p1 { background: url('cover_art.jpg') center/cover no-repeat; display: flex; position: relative; flex-direction: column; justify-content: flex-end; }
+       #p1 {
+    background: url('cover_art.jpg') center/cover no-repeat;
+    background-size: cover;      /* 確保填滿整個容器 */
+    width: 100%;
+    height: 100vh;               /* 使用視窗高度 */
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-end;
+}
         #star-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         #p2 { background: rgba(0,0,0,0.7) url('gui_bg.jpg') center/cover no-repeat; background-blend-mode: overlay; }
         
@@ -201,7 +210,12 @@
     background: #F9F9F9;
     color: #222;
 }
-
+.process-container, 
+.process-container p, 
+.process-container li {
+    color: #000; /* 黑色 */
+}
+        
 .timeline {
     display: flex;
     flex-direction: column;
