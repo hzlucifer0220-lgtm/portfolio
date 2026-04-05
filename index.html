@@ -471,7 +471,7 @@
             const grid = document.getElementById('grid-content');
             let htmlBuffer = ""; 
             for(let i=1; i<=14; i++) {
-                const item = worksData[i] || { title: `作品 ${i}`, tag: "分類" };
+                const item = works[i] || { title: `作品 ${i}`, tag: "分類" };
                 htmlBuffer += `
                 <div class="work-frame" onclick="window.showDetail(${i})">
                     <div class="image-slot">
