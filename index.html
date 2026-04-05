@@ -649,7 +649,7 @@
       .show { opacity:1; transform: translateX(0); }
     </style>
     `;
-            function initTimeline() {
+        
   // 點擊展開
   const titles = document.querySelectorAll('.toggle-title');
   titles.forEach(title => {
@@ -667,7 +667,6 @@
       if(rect.top < window.innerHeight - 50) step.classList.add('show');
     });
   });
-}
 }
         
             else if(type === 'future') {
