@@ -555,98 +555,159 @@
             panel.innerHTML = `
     <div class="timeline-container">
 
-      <h2 style="text-align:center; margin-bottom:40px;">📂 歷程記錄｜跨領域創作全紀錄</h2>
+  <!-- 流程總覽 -->
+  <div class="timeline-card">
+    <div class="card-header" style="background:#E67E22;">🗺️ 創作流程總覽</div>
+    <div class="card-body">
+      <p>專題起點：「單一作品集」升級為跨領域平台</p>
+      <ul>
+        <li>概念發想：將街頭塗鴉轉為數位互動概念</li>
+        <li>主題確立：「街頭 x AI x 數位互動」</li>
+        <li>架構設計：頁面分工與模組配置</li>
+        <li>素材整理：統一視覺風格</li>
+        <li>程式開發：HTML、CSS、JS實作</li>
+        <li>測試優化：跨瀏覽器測試、Canvas調整</li>
+      </ul>
 
-      <!-- 🔥 流程總覽 -->
-      <div class="timeline-step">
-        <h3 class="toggle-title">🗺️ 創作流程總覽</h3>
-        <div class="toggle-content">
-          <p>這次專題起點是「單一作品集」，但我希望將它升級為一個整合街頭藝術、數位設計與AI技術的跨領域平台。整個流程從概念發想到最終呈現，分為以下階段：</p>
-          <ul>
-            <li><b>概念發想：</b>將街頭塗鴉的即時性與個人風格轉化為數位互動概念</li>
-            <li><b>主題確立：</b>選擇「街頭 x AI x 數位互動」作為核心主題</li>
-            <li><b>架構設計：</b>決定頁面分工與模組配置，確保使用者體驗順暢</li>
-            <li><b>素材整理：</b>挑選塗鴉作品、照片、圖像素材，統一視覺風格</li>
-            <li><b>程式開發：</b>使用HTML、CSS、JavaScript建構互動功能與作品展示</li>
-            <li><b>測試優化：</b>跨瀏覽器測試、Canvas互動調整、細節優化</li>
-          </ul>
-          <p class="highlight">👉 核心能力：創意整合 × 系統規劃 × 技術實作</p>
+      <!-- 核心能力 -->
+      <div class="core-ability-card">
+        <div class="core-title">👉 核心能力</div>
+        <div class="core-content">
+          <p><span class="highlight">創意整合</span> × <span class="highlight">系統規劃</span> × <span class="highlight">技術實作</span></p>
         </div>
       </div>
-
-      <!-- 🧩 系統設計 -->
-      <div class="timeline-step">
-        <h3 class="toggle-title">🧩 系統與設計規劃</h3>
-        <div class="toggle-content">
-          <p>我將整體作品拆分為五大模組，每個模組都與使用者體驗密切相關：</p>
-          <ul>
-            <li><b>創作起點：</b>呈現創作理念與跨領域思維</li>
-            <li><b>互動塗鴉：</b>使用Canvas提供即時互動體驗，參與者可以自行繪製、上色、變換牆面</li>
-            <li><b>作品集：</b>網格展示每件作品，標註類別與創作故事</li>
-            <li><b>歷程記錄：</b>以時間軸呈現每一步的設計思路、技術挑戰與解決方式</li>
-            <li><b>未來發展：</b>提出延伸構想與AI創作的可能應用</li>
-          </ul>
-          <p>視覺設計上，我結合街頭塗鴉粗獷線條與數位UI整潔感，讓平台既有個性又具專業感。</p>
-          <p class="highlight">👉 核心能力：跨領域設計 × 使用者體驗 × 藝術風格統一</p>
-        </div>
-      </div>
-
-      <!-- ⚙️ 製作過程 -->
-      <div class="timeline-step">
-        <h3 class="toggle-title">⚙️ 製作過程與技術應用</h3>
-        <div class="toggle-content">
-          <p>製作過程中，我從零開始建立整個網站系統：</p>
-          <ul>
-            <li><b>分頁系統 (Tab切換)：</b>建立多模組分頁功能，方便瀏覽不同內容</li>
-            <li><b>作品集網格 (Grid Layout)：</b>使用CSS Grid動態生成作品展示，並加入點擊展開詳情</li>
-            <li><b>互動塗鴉 (Canvas)：</b>實作多色塗鴉、背景牆切換，增強使用者參與感</li>
-            <li><b>音樂播放器整合：</b>結合背景音樂，提升沉浸感</li>
-            <li><b>AI生成圖像：</b>使用AI工具生成部分設計元素，並將結果整合入作品展示</li>
-            <li><b>響應式設計：</b>兼顧桌面與行動裝置顯示</li>
-          </ul>
-          <p class="highlight">👉 關鍵能力：前端開發 × 互動設計 × AI應用 × 創意呈現</p>
-        </div>
-      </div>
-
-      <!-- ⚠️ 問題與解決 -->
-      <div class="timeline-step">
-        <h3 class="toggle-title">⚠️ 問題與解決</h3>
-        <div class="toggle-content">
-          <p><b>問題一：Canvas繪圖與版面衝突</b><br>解決：加入resize事件與圖片載入監聽，確保塗鴉區域自適應</p>
-          <p><b>問題二：作品集網格點擊無反應</b><br>解決：重新調整事件委派，確保動態生成元素可被觸發</p>
-          <p><b>問題三：AI生成圖像載入延遲</b><br>解決：先生成縮圖，後續再延遲載入高解析版本</p>
-          <p class="highlight">👉 展現能力：問題分析 × Debug能力 × 技術優化 × AI應用整合</p>
-        </div>
-      </div>
-
-      <!-- 🔬 細節 -->
-      <div class="timeline-step">
-        <h3 class="toggle-title">🔬 細節優化與設計思考</h3>
-        <div class="toggle-content">
-          <ul>
-            <li>UI比例調整，避免畫面擁擠</li>
-            <li>滾動與淡入動畫，增強動態呈現感</li>
-            <li>統一字體與配色，建立專屬視覺風格</li>
-            <li>互動區域設計，保持畫面完整性同時提供參與感</li>
-            <li>陰影、邊框與層次設計，使視覺更具立體感</li>
-            <li>AI生成的元素加入細節修飾，讓數位藝術與手繪風格融合</li>
-          </ul>
-          <p class="highlight">👉 核心特質：細節控 × 設計思維 × 使用者體驗 × AI協作能力</p>
-        </div>
-      </div>
-
     </div>
-    <style>
-      .timeline-container { margin: 0 auto; max-width: 900px; font-family: '微軟正黑體', sans-serif; }
-      .timeline-step { margin-bottom: 40px; border-left: 4px solid #E67E22; padding-left: 20px; position: relative; opacity:1; transform:translateX(0px); transition:0.6s ease-out; }
-      .timeline-step::before { content: ''; width: 12px; height: 12px; background:#E67E22; border-radius:50%; position:absolute; left:-8px; top:8px; }
-      .toggle-title { cursor:pointer; font-size:20px; font-weight:bold; margin-bottom:8px; transition:color 0.3s; }
-      .toggle-title:hover { color:#E67E22; }
-      .toggle-content { display:none; font-size:16px; line-height:1.8; color:#222; padding-left:10px; }
-      .toggle-content p, .toggle-content ul { margin: 10px 0; }
-      .highlight { font-weight:bold; color:#E67E22; }
-      .show { opacity:1; transform: translateX(0); }
-    </style>
+  </div>
+
+  <!-- 系統與設計 -->
+  <div class="timeline-card">
+    <div class="card-header" style="background:#3498DB;">🧩 系統與設計規劃</div>
+    <div class="card-body">
+      <ul>
+        <li>創作起點：呈現跨領域思維</li>
+        <li>互動塗鴉：Canvas即時互動</li>
+        <li>作品集：網格展示作品</li>
+        <li>歷程記錄：時間軸呈現設計思路</li>
+        <li>未來發展：AI創作延伸</li>
+      </ul>
+
+      <div class="core-ability-card">
+        <div class="core-title">👉 核心能力</div>
+        <div class="core-content">
+          <p><span class="highlight">跨領域設計</span> × <span class="highlight">使用者體驗</span> × <span class="highlight">藝術風格統一</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 製作過程（時間軸示範） -->
+  <div class="timeline-card">
+    <div class="card-header" style="background:#2ECC71;">⚙️ 製作過程與技術應用</div>
+    <div class="card-body">
+      <div class="timeline-steps">
+        <div class="timeline-node">
+          <div class="node-title">分頁系統</div>
+          <div class="node-content">建立多模組分頁功能，方便瀏覽不同內容</div>
+        </div>
+        <div class="timeline-node">
+          <div class="node-title">作品集網格</div>
+          <div class="node-content">使用CSS Grid動態生成作品展示</div>
+        </div>
+        <div class="timeline-node">
+          <div class="node-title">互動塗鴉</div>
+          <div class="node-content">Canvas多色塗鴉、背景牆切換</div>
+        </div>
+        <div class="timeline-node">
+          <div class="node-title">音樂播放器整合</div>
+          <div class="node-content">結合背景音樂，提升沉浸感</div>
+        </div>
+        <div class="timeline-node">
+          <div class="node-title">AI生成圖像</div>
+          <div class="node-content">生成部分設計元素並整合入作品展示</div>
+        </div>
+        <div class="timeline-node">
+          <div class="node-title">響應式設計</div>
+          <div class="node-content">兼顧桌面與行動裝置顯示</div>
+        </div>
+      </div>
+
+      <div class="core-ability-card">
+        <div class="core-title">👉 關鍵能力</div>
+        <div class="core-content">
+          <p><span class="highlight">前端開發</span> × <span class="highlight">互動設計</span> × <span class="highlight">AI應用</span> × <span class="highlight">創意呈現</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 問題與解決 -->
+  <div class="timeline-card">
+    <div class="card-header" style="background:#9B59B6;">⚠️ 問題與解決</div>
+    <div class="card-body">
+      <ul>
+        <li>Canvas繪圖與版面衝突</li>
+        <li>作品集網格點擊無反應</li>
+        <li>AI生成圖像載入延遲</li>
+        <li>頁面滾動卡頓</li>
+        <li>跨瀏覽器兼容問題</li>
+        <li>字體顯示異常</li>
+        <li>互動區域尺寸不適應</li>
+        <li>音樂播放器無法自動播放</li>
+        <li>時間軸節點連線錯位</li>
+        <li>色彩統一性不足</li>
+      </ul>
+
+      <div class="core-ability-card">
+        <div class="core-title">👉 展現能力</div>
+        <div class="core-content">
+          <p><span class="highlight">問題分析</span> × <span class="highlight">Debug能力</span> × <span class="highlight">技術優化</span> × <span class="highlight">AI應用整合</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 細節優化 -->
+  <div class="timeline-card">
+    <div class="card-header" style="background:#F39C12;">🔬 細節優化與設計思考</div>
+    <div class="card-body">
+      <ul>
+        <li>UI比例調整，避免畫面擁擠</li>
+        <li>滾動與淡入動畫增強動態感</li>
+        <li>統一字體與配色，建立專屬視覺風格</li>
+        <li>互動區域設計，提供參與感</li>
+        <li>陰影、邊框與層次設計</li>
+        <li>AI生成元素加入細節修飾</li>
+      </ul>
+
+      <div class="core-ability-card">
+        <div class="core-title">👉 核心特質</div>
+        <div class="core-content">
+          <p><span class="highlight">細節控</span> × <span class="highlight">設計思維</span> × <span class="highlight">使用者體驗</span> × <span class="highlight">AI協作能力</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.timeline-container { width:95%; max-width:1200px; margin:0 auto; font-family:'微軟正黑體', sans-serif; }
+.timeline-card { background:#fff; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); margin-bottom:30px; overflow:hidden; }
+.card-header { font-size:22px; font-weight:bold; padding:15px 20px; color:#fff; }
+.card-body { padding:15px 20px; }
+.core-ability-card { margin-top:15px; cursor:pointer; background:#fef5e6; border-left:4px solid #E67E22; border-radius:6px; overflow:hidden; transition:max-height 0.5s ease; }
+.core-title { padding:10px; font-weight:bold; }
+.core-content { max-height:0; padding:0 10px; transition:max-height 0.5s ease, padding 0.5s ease; }
+.core-content.show { max-height:200px; padding:10px; }
+.highlight { color:#E67E22; font-weight:bold; }
+
+/* 製作過程時間軸 */
+.timeline-steps { border-left:4px solid #ccc; margin-left:20px; padding-left:20px; }
+.timeline-node { position:relative; margin-bottom:20px; }
+.timeline-node::before { content:''; position:absolute; left:-12px; top:5px; width:12px; height:12px; background:#E67E22; border-radius:50%; }
+.node-title { font-weight:bold; font-size:18px; margin-bottom:5px; }
+.node-content { margin-left:5px; font-size:16px; }
+</style>
   `;
 
   // JS 功能，一定要在 HTML 插入後呼叫
