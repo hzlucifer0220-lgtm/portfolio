@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v25.5.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v26.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -496,9 +496,54 @@
                 </div>`;
             }
             grid.innerHTML = htmlBuffer;
-        }else if(tabName === 'process') {
-            panel.innerHTML = '<h2>歷程記錄</h2>...你的內容...';
-        } else if(tabName === 'future') {
+        }
+        else if(tabName === 'process') {
+            panel.innerHTML = `
+    <div style="width:100%; height:100%; overflow-y:auto; padding:40px; color:#1a1a1a; background:#F9F9F9; font-family: '微軟正黑體', sans-serif;">
+        <div style="border-bottom:5px solid #333; padding-bottom:15px; margin-bottom:25px;">
+            <h2 style="margin:0; font-size:28px; font-weight:800; letter-spacing:1px;">📂 歷程記錄｜從構想到實作的全程紀錄</h2>
+        </div>
+
+        <div style="font-size:17px; line-height:2; text-align:justify; color:#222;">
+
+            <div style="margin-bottom:25px;">
+                <h3 style="margin:0 0 10px 0; font-size:20px; font-weight:700;">🔹 靈感發想與規劃</h3>
+                <p>整理街頭塗鴉作品，思考如何透過網站呈現互動體驗。規劃頁面架構與主要功能，並列出可能使用的AI工具。</p>
+                <div style="margin-top:10px; padding:15px; background:#FFF8E1; border-left:6px solid #F1C40F; font-weight:bold;">
+                    <p style="margin:0;">重點：初步確定互動區域與展示方式，AI輔助概念確認。</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <h3 style="margin:0 0 10px 0; font-size:20px; font-weight:700;">✅ 素材收集與測試</h3>
+                <p>拍攝街頭塗鴉素材，整理數位圖像，進行AI生成實驗，測試不同顏色搭配和風格統一性。</p>
+                <div style="margin-top:10px; padding:15px; background:#E8F8F5; border-left:6px solid #1ABC9C; font-weight:bold;">
+                    <p style="margin:0;">重點：確定圖像風格與AI生成效果符合整體設計語言。</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <h3 style="margin:0 0 10px 0; font-size:20px; font-weight:700;">⚠️ 問題與調整</h3>
+                <p>整合互動區塊時，發現部分動畫與滾動效果衝突，需要修改CSS及JS程式邏輯。</p>
+                <div style="margin-top:10px; padding:15px; background:#FDEDEC; border-left:6px solid #E74C3C; font-weight:bold;">
+                    <p style="margin:0;">重點：程式調整與測試，確保互動區域流暢性。</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <h3 style="margin:0 0 10px 0; font-size:20px; font-weight:700;">🏆 完成與驗收</h3>
+                <p>歷程區塊完成，整合所有創作作品與互動功能，測試瀏覽器相容性，最終確認成果可以順利展示。</p>
+                <div style="margin-top:10px; padding:15px; background:#EAF2F8; border-left:6px solid #3498DB; font-weight:bold;">
+                    <p style="margin:0;">重點：完成全流程紀錄，生成可互動展示頁面。</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="height:40px; clear:both;"></div>
+    </div>`;
+}
+                else if(tabName === 'future') {
             panel.innerHTML = '<h2>未來發展</h2>...你的內容...';
         } else {
     panel.innerHTML = `<p>此區域尚未填寫內容</p>`;
