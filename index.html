@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v33.2.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v33.3.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -810,17 +810,14 @@
 
     const ctx = c.getContext('2d');
     let painting = false;
-    let currCol = currCol || 'red';
+    let currCol = 'red'; // ✅ 直接初始化顏色
 
     function resizeCanvas() {
         c.width = b.offsetWidth;
         c.height = b.offsetHeight;
     }
 
-    // 保險起見先 resize
     resizeCanvas();
-
-    img.onload = () => resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
     const spray = (x, y) => {
