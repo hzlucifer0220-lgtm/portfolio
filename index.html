@@ -650,23 +650,7 @@
     </style>
     `;
 }
-             // 點擊展開
-const titles = document.querySelectorAll('.toggle-title');
-titles.forEach(title => {
-  title.addEventListener('click', () => {
-    const content = title.nextElementSibling;
-    content.style.display = content.style.display === 'none' ? 'block' : 'none';
-  });
-});
-
-// 滾動動畫
-const steps = document.querySelectorAll('.timeline-step');
-window.addEventListener('scroll', () => {
-  steps.forEach(step => {
-    const rect = step.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 50) step.classList.add('show');
-  });
-});
+        
             else if(type === 'future') {
             panel.innerHTML = '<h2>未來發展</h2>...你的內容...';
         } else {
