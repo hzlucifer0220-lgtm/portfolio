@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v33.5.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v33.6.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -72,7 +72,10 @@
     flex-direction: column;
     justify-content: flex-end;
 }
-        
+        #tab-canvas {
+    cursor: url('spray-can.png') 16 16, auto;
+}
+
         #star-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         #p2 {
     position: fixed;
@@ -823,6 +826,15 @@
         const density = 180;
         const radius = 30;
         ctx.fillStyle = currCol;
+
+        const canvas = document.getElementById('tab-canvas');
+
+        canvas.addEventListener('mouseenter', () => {
+            canvas.style.cursor = "url('spray-can.png') 16 16, auto";
+        });
+        canvas.addEventListener('mouseleave', () => {
+            canvas.style.cursor = 'default';
+        });
 
         for (let i = 0; i < density; i++) {
             const r = Math.random() * radius;
