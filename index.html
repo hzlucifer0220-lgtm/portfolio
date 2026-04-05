@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v32.3.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v32.4.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -251,6 +251,85 @@
     border-left: 5px solid #E67E22;
     margin-top: 10px;
     font-weight: bold;
+}
+        body {
+    font-family: "Microsoft JhengHei", sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+/* 卡片基本樣式 */
+.card {
+    background-color: white;
+    border-radius: 12px;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: relative;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-3px);
+}
+
+/* 標題條 */
+.card-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    color: black;
+    margin: -20px -20px 10px -20px;
+    text-shadow: 0 0 5px #fff; /* 螢光筆風格 */
+}
+
+/* 螢光筆重點 */
+.highlight {
+    background-color: #ffff99;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+/* 卡片內容 */
+.card-content p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+/* 能力特質按鈕 */
+.ability-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    color: #444;
+    font-weight: bold;
+}
+.ability-toggle:hover {
+    color: #000;
+}
+.ability-toggle span {
+    margin-left: 8px;
+}
+
+/* 隱藏能力內容 */
+.ability-content {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f0f8ff;
+    border-left: 4px solid #4a90e2;
+    border-radius: 6px;
+}
+
+/* 能力標記 */
+.ability-item {
+    margin: 5px 0;
+}
+.ability-item span {
+    font-weight: bold;
+    color: #e67e22;
 }
     </style>
 </head>
@@ -555,161 +634,96 @@
         else if(type === 'process') {
             panel.style.minHeight = "600px";
             panel.innerHTML = `
-    <div class="timeline-container">
-
-  <!-- 流程總覽 -->
-  <div class="timeline-card">
-    <div class="card-header" style="background:#E67E22;">🗺️ 創作流程總覽</div>
-    <div class="card-body">
-      <p>專題起點：「單一作品集」升級為跨領域平台</p>
-      <ul>
-        <li>概念發想：將街頭塗鴉轉為數位互動概念</li>
-        <li>主題確立：「街頭 x AI x 數位互動」</li>
-        <li>架構設計：頁面分工與模組配置</li>
-        <li>素材整理：統一視覺風格</li>
-        <li>程式開發：HTML、CSS、JS實作</li>
-        <li>測試優化：跨瀏覽器測試、Canvas調整</li>
-      </ul>
-
-      <!-- 核心能力 -->
-      <div class="core-ability-card">
-        <div class="core-title">👉 核心能力</div>
-        <div class="core-content">
-          <p><span class="highlight">創意整合</span> × <span class="highlight">系統規劃</span> × <span class="highlight">技術實作</span></p>
-        </div>
-      </div>
+    <!-- 卡片 1：創作歷程總覽 -->
+<div class="card">
+    <div class="card-title" style="background: linear-gradient(90deg, #6fb1fc, #4a90e2);">創作歷程總覽</div>
+    <div class="card-content">
+        <p>起點：<span class="highlight">街頭塗鴉</span>與數位藝術的興趣</p>
+        <p>探索：自主學習 <span class="highlight">Canva / Figma / FL Studio / AI 工具</span></p>
+        <p>實作：作品收集與整理，形成個人作品集</p>
+        <p>設計網站：整合作品與學習歷程，打造互動頁面</p>
+        <p>優化與反思：改善 UX 與版面，提升使用體驗</p>
     </div>
-  </div>
-
-  <!-- 系統與設計 -->
-  <div class="timeline-card">
-    <div class="card-header" style="background:#3498DB;">🧩 系統與設計規劃</div>
-    <div class="card-body">
-      <ul>
-        <li>創作起點：呈現跨領域思維</li>
-        <li>互動塗鴉：Canvas即時互動</li>
-        <li>作品集：網格展示作品</li>
-        <li>歷程記錄：時間軸呈現設計思路</li>
-        <li>未來發展：AI創作延伸</li>
-      </ul>
-
-      <div class="core-ability-card">
-        <div class="core-title">👉 核心能力</div>
-        <div class="core-content">
-          <p><span class="highlight">跨領域設計</span> × <span class="highlight">使用者體驗</span> × <span class="highlight">藝術風格統一</span></p>
-        </div>
-      </div>
+    <div class="ability-toggle" onclick="toggleAbility(this)">
+        能力特質 <span>🖱 點擊查看</span>
     </div>
-  </div>
-
-  <!-- 製作過程（時間軸示範） -->
-  <div class="timeline-card">
-    <div class="card-header" style="background:#2ECC71;">⚙️ 製作過程與技術應用</div>
-    <div class="card-body">
-      <div class="timeline-steps">
-        <div class="timeline-node">
-          <div class="node-title">分頁系統</div>
-          <div class="node-content">建立多模組分頁功能，方便瀏覽不同內容</div>
-        </div>
-        <div class="timeline-node">
-          <div class="node-title">作品集網格</div>
-          <div class="node-content">使用CSS Grid動態生成作品展示</div>
-        </div>
-        <div class="timeline-node">
-          <div class="node-title">互動塗鴉</div>
-          <div class="node-content">Canvas多色塗鴉、背景牆切換</div>
-        </div>
-        <div class="timeline-node">
-          <div class="node-title">音樂播放器整合</div>
-          <div class="node-content">結合背景音樂，提升沉浸感</div>
-        </div>
-        <div class="timeline-node">
-          <div class="node-title">AI生成圖像</div>
-          <div class="node-content">生成部分設計元素並整合入作品展示</div>
-        </div>
-        <div class="timeline-node">
-          <div class="node-title">響應式設計</div>
-          <div class="node-content">兼顧桌面與行動裝置顯示</div>
-        </div>
-      </div>
-
-      <div class="core-ability-card">
-        <div class="core-title">👉 關鍵能力</div>
-        <div class="core-content">
-          <p><span class="highlight">前端開發</span> × <span class="highlight">互動設計</span> × <span class="highlight">AI應用</span> × <span class="highlight">創意呈現</span></p>
-        </div>
-      </div>
+    <div class="ability-content">
+        <div class="ability-item">⭐ 規劃能力</div>
+        <div class="ability-item">⭐ 美學敏感度</div>
+        <div class="ability-item">⭐ 使用者思維</div>
+        <div class="ability-item">⭐ 系統化整理能力</div>
     </div>
-  </div>
-
-  <!-- 問題與解決 -->
-  <div class="timeline-card">
-    <div class="card-header" style="background:#9B59B6;">⚠️ 問題與解決</div>
-    <div class="card-body">
-      <ul>
-        <li>Canvas繪圖與版面衝突</li>
-        <li>作品集網格點擊無反應</li>
-        <li>AI生成圖像載入延遲</li>
-        <li>頁面滾動卡頓</li>
-        <li>跨瀏覽器兼容問題</li>
-        <li>字體顯示異常</li>
-        <li>互動區域尺寸不適應</li>
-        <li>音樂播放器無法自動播放</li>
-        <li>時間軸節點連線錯位</li>
-        <li>色彩統一性不足</li>
-      </ul>
-
-      <div class="core-ability-card">
-        <div class="core-title">👉 展現能力</div>
-        <div class="core-content">
-          <p><span class="highlight">問題分析</span> × <span class="highlight">Debug能力</span> × <span class="highlight">技術優化</span> × <span class="highlight">AI應用整合</span></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 細節優化 -->
-  <div class="timeline-card">
-    <div class="card-header" style="background:#F39C12;">🔬 細節優化與設計思考</div>
-    <div class="card-body">
-      <ul>
-        <li>UI比例調整，避免畫面擁擠</li>
-        <li>滾動與淡入動畫增強動態感</li>
-        <li>統一字體與配色，建立專屬視覺風格</li>
-        <li>互動區域設計，提供參與感</li>
-        <li>陰影、邊框與層次設計</li>
-        <li>AI生成元素加入細節修飾</li>
-      </ul>
-
-      <div class="core-ability-card">
-        <div class="core-title">👉 核心特質</div>
-        <div class="core-content">
-          <p><span class="highlight">細節控</span> × <span class="highlight">設計思維</span> × <span class="highlight">使用者體驗</span> × <span class="highlight">AI協作能力</span></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
-<style>
-.timeline-container { width:95%; max-width:1200px; margin:0 auto; font-family:'微軟正黑體', sans-serif; }
-.timeline-card { background:#fff; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); margin-bottom:30px; overflow:hidden; }
-.card-header { font-size:22px; font-weight:bold; padding:15px 20px; color:#222; }
-.card-body { padding:15px 20px; }
-.core-ability-card { margin-top:15px; cursor:pointer; background:#fef5e6; border-left:4px solid #E67E22; border-radius:6px; overflow:hidden; transition:max-height 0.5s ease; }
-.core-title { padding:10px; font-weight:bold; }
-.core-content { max-height:0; padding:0 10px; transition:max-height 0.5s ease, padding 0.5s ease; }
-.core-content.show { max-height:200px; padding:10px; }
-.highlight { color:#E67E22; font-weight:bold; }
+<!-- 卡片 2：網站設計與架構 -->
+<div class="card">
+    <div class="card-title" style="background: linear-gradient(90deg, #7ed957, #4caf50);">網站設計與架構</div>
+    <div class="card-content">
+        <p>網站主題：呈現<span class="highlight">街頭塗鴉</span>與數位創作歷程</p>
+        <p>主要頁面：首頁 / 學習動機 / 作品展示 / 歷程記錄 / 反思與未來發展</p>
+        <p>設計理念：卡片化呈現、顏色分區、螢光筆標示重點、能力特質互動</p>
+        <p>功能設計：互動區域、滑鼠點擊查看能力特質提示</p>
+        <p>美術設計：簡約科技感結合街頭元素</p>
+    </div>
+    <div class="ability-toggle" onclick="toggleAbility(this)">
+        能力特質 <span>🖱 點擊查看</span>
+    </div>
+    <div class="ability-content">
+        <div class="ability-item">⭐ UX/UI 設計能力</div>
+        <div class="ability-item">⭐ 系統規劃能力</div>
+        <div class="ability-item">⭐ 美感統整能力</div>
+        <div class="ability-item">⭐ 創意表現力</div>
+    </div>
+</div>
 
-/* 製作過程時間軸 */
-.timeline-steps { border-left:4px solid #ccc; margin-left:20px; padding-left:20px; }
-.timeline-node { position:relative; margin-bottom:20px; }
-.timeline-node::before { content:''; position:absolute; left:-12px; top:5px; width:12px; height:12px; background:#E67E22; border-radius:50%; }
-.node-title { font-weight:bold; font-size:18px; margin-bottom:5px; }
-.node-content { margin-left:5px; font-size:16px; }
-</style>
+<!-- 卡片 3：製作過程 -->
+<div class="card">
+    <div class="card-title" style="background: linear-gradient(90deg, #ffb347, #ffcc33);">製作過程</div>
+    <div class="card-content">
+        <p>1. 作品整理與篩選：挑選代表性作品並歸類</p>
+        <p>2. 網站框架設計：首頁、作品頁、歷程頁、互動功能</p>
+        <p>3. 介面設計：版面排版、顏色區塊、字體設計</p>
+        <p>4. 程式製作：HTML、CSS、JS互動功能</p>
+        <p>5. 流程圖整理：以流程圖呈現網站架設過程</p>
+        <p>6. 測試與優化：調整排版與互動細節</p>
+        <p>7. 上線與反饋：收集使用者建議，持續改進</p>
+    </div>
+    <div class="ability-toggle" onclick="toggleAbility(this)">
+        能力特質 <span>🖱 點擊查看</span>
+    </div>
+    <div class="ability-content">
+        <div class="ability-item">⭐ 專案管理能力</div>
+        <div class="ability-item">⭐ 技術操作能力</div>
+        <div class="ability-item">⭐ 排版與視覺設計能力</div>
+        <div class="ability-item">⭐ 創意思考能力</div>
+    </div>
+</div>
+
+<!-- 卡片 4：發現問題與解決辦法 -->
+<div class="card">
+    <div class="card-title" style="background: linear-gradient(90deg, #ff6f61, #e94e77);">發現問題與解決辦法</div>
+    <div class="card-content">
+        <p>問題 1：頁面排版過於擁擠 → 調整邊距與留白</p>
+        <p>問題 2：文字顏色與背景對比不足 → 將文字改為<span class="highlight">黑色</span></p>
+        <p>問題 3：能力特質無法點擊 → 加入提示符號與展開功能</p>
+        <p>問題 4：圖片大小不一致 → 統一尺寸與比例</p>
+        <p>問題 5：互動區域不明顯 → 增加滑鼠提示與符號</p>
+        <p>問題 6：流程圖資訊不清楚 → 改為分步驟呈現並加顏色標示</p>
+        <p>問題 7：卡片重點不突出 → 使用螢光筆標示關鍵字</p>
+        <p>問題 8：網站顏色搭配混亂 → 統一四張卡片主色系</p>
+        <p>問題 9：頁面過長影響瀏覽 → 加入折疊功能</p>
+        <p>問題 10：使用者無法快速找到內容 → 增加流程圖總覽作為目錄</p>
+    </div>
+    <div class="ability-toggle" onclick="toggleAbility(this)">
+        能力特質 <span>🖱 點擊查看</span>
+    </div>
+    <div class="ability-content">
+        <div class="ability-item">⭐ 問題解決能力</div>
+        <div class="ability-item">⭐ 系統性思考</div>
+        <div class="ability-item">⭐ 創意思維</div>
+        <div class="ability-item">⭐ 使用者導向能力</div>
+    </div>
+</div>
   `;
 
   // JS 功能，一定要在 HTML 插入後呼叫
@@ -850,7 +864,16 @@
 
     steps.forEach(step => observer.observe(step));
 }
-   
+  <script>
+function toggleAbility(el){
+    const content = el.nextElementSibling;
+    if(content.style.display === "block"){
+        content.style.display = "none";
+    } else {
+        content.style.display = "block";
+    }
+}
+</script> 
     
 </script>
 </body>
