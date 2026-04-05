@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v28.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v29.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -195,6 +195,50 @@
 
 .color-dot:hover {
     transform: scale(1.1);
+}
+        .process-container {
+    padding: 40px;
+    background: #F9F9F9;
+    color: #222;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.step {
+    background: white;
+    padding: 20px;
+    border-left: 6px solid #E67E22;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.6s ease;
+}
+
+.step.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.highlight {
+    color: #E67E22;
+    font-weight: bold;
 }
     </style>
 </head>
@@ -447,34 +491,88 @@
 
         } else if (type === 'paint') {
             panel.innerHTML = `
-            <div class="paint-area" style="flex-direction: column; display: flex; height: 100%;">
-                <div style="height: 20%; padding: 25px 40px; background: rgba(0,0,0,0.03); border-bottom: 2px solid rgba(0,0,0,0.1); display: flex; align-items: center;">
-                    <div style="color: #333; line-height: 1.8; font-size: 16px; text-align: justify; border-left: 5px solid #E67E22; padding-left: 20px;">
-                       本互動區域在設計上以不干擾主要畫面構圖為原則，將互動元素整合於介面之中，使操作過程維持流暢且直覺。透過適度的互動設計，讓觀看者在不影響視覺體驗的前提下，參與畫面並感受街頭塗鴉的創作過程。此設計兼顧功能性與畫面完整性，使互動成為視覺的一部分，而非干擾元素。
-                    </div>
-                </div>
-                <div style="height: 80%; display: flex; position: relative; background: #DDD;">
-                    <div class="paint-sidebar" style="top: 20px; bottom: 20px; left: 20px;">
-                        <div class="color-dot" style="background:red" onclick="currCol='red'"></div>
-                        <div class="color-dot" style="background:lime" onclick="currCol='lime'"></div>
-                        <div class="color-dot" style="background:blue" onclick="currCol='blue'"></div>
-                        <div class="color-dot" style="background:yellow" onclick="currCol='yellow'"></div>
-                        <div class="color-dot" style="background:white" onclick="currCol='white'"></div>
-                        <div class="color-dot" style="background:black" onclick="currCol='black'"></div>
-                        <hr style="width:100%; border:1px dashed #555; margin: 10px 0;">
-                        <button class="mc-button" style="width:100%; height:35px; font-size:12px;" onclick="window.changeWall('wall.jpg')">磚牆</button>
-                        <button class="mc-button" style="width:100%; height:35px; font-size:12px;" onclick="window.changeWall('shutter.jpg')">鐵門</button>
-                        <button class="mc-button" style="width:100%; height:35px; font-size:12px;" onclick="window.changeWall('truck.jpg')">卡車</button>
-                        <button class="mc-button" style="width:100%; height:35px; font-size:12px;" onclick="window.changeWall('sticker.jpg')">貼紙</button>
-                    </div>
-                    <div class="wall-box" id="wall-box" style="margin: 20px 20px 20px 125px; flex: 1; position: relative;">
-                        <img id="wall-img" src="wall.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute;">
-                        <canvas id="tab-canvas" style="position:absolute; top:0; left:0;"></canvas>
-                    </div>
-                    <button class="mc-button" style="position:absolute; bottom:35px; right:35px; width:100px; height:40px; z-index: 101;" onclick="window.clearCanvas()">清除全牆</button>
-                </div>
-            </div>`;
-            setTimeout(initCanvas, 150); 
+            <div class="process-container">
+
+    <h2 class="fade-in">📂 歷程記錄｜從想法到系統的誕生</h2>
+
+    <div class="timeline">
+
+        <!-- 起點 -->
+        <div class="step slide-in">
+            <h3>🚀 創作起點</h3>
+            <p>
+                我不希望這份成果只是「被閱讀」，而是能夠「被體驗」。
+                因此我開始思考，如何將設計與AI科技結合，
+                打造一個具有互動性與沉浸感的數位創作平台。
+            </p>
+            <p class="highlight">
+                👉 核心概念：跨領域整合 × AI × 互動設計
+            </p>
+        </div>
+
+        <!-- 架構 -->
+        <div class="step slide-in">
+            <h3>🧩 系統架構設計</h3>
+            <p>
+                我將整個網站拆解成五個模組，
+                並以使用者體驗流程作為核心設計邏輯。
+            </p>
+            <ul>
+                <li>創作起點（概念）</li>
+                <li>互動塗鴉（體驗）</li>
+                <li>作品集（展示）</li>
+                <li>歷程記錄（過程）</li>
+                <li>未來發展（延伸）</li>
+            </ul>
+        </div>
+
+        <!-- AI -->
+        <div class="step slide-in">
+            <h3>🤖 AI整合實驗</h3>
+            <p>
+                在開發過程中，我透過AI協助建立網站架構與視覺設計，
+                並不斷透過調整指令（Prompt）來優化結果。
+            </p>
+            <p class="highlight">
+                👉 AI不是工具，而是「創作協作者」
+            </p>
+        </div>
+
+        <!-- 問題 -->
+        <div class="step slide-in">
+            <h3>⚠️ 問題與突破</h3>
+            <p>
+                我遇到多項技術問題：
+            </p>
+            <ul>
+                <li>分頁功能錯誤</li>
+                <li>canvas 與版面衝突</li>
+                <li>JS null error</li>
+            </ul>
+            <p>
+                透過除錯與重構，我逐步建立完整系統。
+            </p>
+        </div>
+
+        <!-- 完成 -->
+        <div class="step slide-in">
+            <h3>🏆 最終成果</h3>
+            <p>
+                我完成了一個結合：
+            </p>
+            <ul>
+                <li>街頭藝術</li>
+                <li>互動設計</li>
+                <li>AI技術</li>
+            </ul>
+            <p class="highlight">
+                👉 一個「可體驗的作品集」
+            </p>
+        </div>
+
+    </div>
+</div>`;
+            setTimeout(initProcessAnimation, 100);
 
         } else if (type === 'works') {
             panel.innerHTML = '<div class="work-grid" id="grid-content"></div>';
@@ -649,7 +747,20 @@
     }
     window.onload = () => { window.nav('p1'); };
     
- 
+ function initProcessAnimation() {
+    const steps = document.querySelectorAll('.step');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('show');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    steps.forEach(step => observer.observe(step));
+}
+    
 </script>
 </body>
 </html>
