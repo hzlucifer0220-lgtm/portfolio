@@ -29,7 +29,7 @@
         .mc-button:hover { background: #8B8B8B; color: #FFF; outline: 3px solid #FFF; outline-offset: -8px; }
         .mc-button:active { transform: scale(0.95); }
 
-        .screen { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; }
+        .screen { position: fixed; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; }
 
         /* 音樂播放器 */
         .global-music-bar {
@@ -61,7 +61,7 @@
     justify-content: flex-end;
 }
         #star-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        #p2 { background: rgba(0,0,0,0.7) url('gui_bg.jpg') center/cover no-repeat; background-blend-mode: overlay; }
+        #p2 { background: rgba(0,0,0,0.7) url('gui_bg.jpg') center/cover no-repeat; background-size: cover; background-blend-mode: overlay; }
         
         .gui-container { width: 90vw; height: 60vw; max-height: 85vh; display: flex; flex-direction: column; margin-top: 65px; }
         .tabs-row { display: flex; gap: 4px; padding-left: 10px; }
