@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v25.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v25.5.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -497,92 +497,11 @@
             }
             grid.innerHTML = htmlBuffer;
         }else if(tabName === 'process') {
-    panel.innerHTML = '<h2>歷程記錄</h2><div style="padding:20px; line-height:1.8; font-size:14px; color:#fff;">
-  <h2 class="highlight-blue">🛠️ 學習成果實作歷程</h2>
-
-  <ul>
-    <li>
-      <span class="highlight-orange">第一階段：風格定調與視覺破冰 (v1.0 - v5.0)</span>
-      <ul>
-        <li>過程：
-          <ul>
-            <li>核心語彙確立：決定跳脫平庸的網頁設計，採用 Minecraft GUI 作為視覺基調。</li>
-            <li>首頁意象營造：使用 Canvas 隨機星空演算法建立儀式感。</li>
-            <li>音樂整合：全站音樂播放系統與跑馬燈置入網站中。</li>
-          </ul>
-        </li>
-        <li>遇到的問題與解決辦法：
-          <ul>
-            <li>按鈕按了沒反應 → 檢查事件監聽與 JS 函數是否綁定正確。</li>
-            <li>音樂介面不易操作 → 調整控制按鈕位置、大小與 hover 效果，使操作直覺化。</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-
-    <li>
-      <span class="highlight-orange">第二階段：互動機制與 Canvas 攻堅 (v6.0 - v10.0)</span>
-      <ul>
-        <li>過程：
-          <ul>
-            <li>噴漆模擬：使用 spray() 函數模擬噴漆顆粒與透明層次。</li>
-            <li>場景切換邏輯：磚牆、鐵門、卡車等背景自動對齊。</li>
-            <li>側欄 UI 整合：設計六色色票與工具按鈕。</li>
-          </ul>
-        </li>
-        <li>遇到的問題與解決辦法：
-          <ul>
-            <li>互動區域 UI 不斷調適 → 調整按鈕位置、寬高與響應式行為。</li>
-            <li>繪圖區域配圖不自然 → 測試不同圖層與透明度，保持效果自然。</li>
-            <li>功能試錯 → 持續修改 JS 算法，確保噴漆顆粒與 Canvas 行為符合預期。</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-
-    <li>
-      <span class="highlight-orange">第三階段：作品集架構與內容主權 (v11.0 - v15.0)</span>
-      <ul>
-        <li>過程：
-          <ul>
-            <li>建立 14 格網格系統，使用 display: grid 佈局。</li>
-            <li>技術修正：統一圖片尺寸，強制 3/4 外框比例。</li>
-            <li>視覺優化：標題加大至 18px，卡片底部橘色強調標籤 (#E67E22)。</li>
-            <li>內容主權堅持：保留原始文本，不使用 AI 修飾。</li>
-          </ul>
-        </li>
-        <li>遇到的問題與解決辦法：
-          <ul>
-            <li>排版不穩定 → 調整 CSS grid 與圖片尺寸。</li>
-            <li>標題與文字可讀性差 → 調整字體大小、顏色與對比。</li>
-            <li>修改繁瑣 → 建立模板測試再更新，避免破壞其他區塊。</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-
-    <li>
-      <span class="highlight-orange">第四階段：體驗優化與最終封裝 (v16.0 - v17.0 Final)</span>
-      <ul>
-        <li>過程：
-          <ul>
-            <li>彈窗系統進化：左右分割詳情頁面（左圖右文字）。</li>
-            <li>操作優化：點擊空白處關閉 + 底部導引提示。</li>
-            <li>網站架構文件化：視覺規範、技術點、資料資產完整封裝。</li>
-          </ul>
-        </li>
-        <li>遇到的問題與解決辦法：
-          <ul>
-            <li>彈窗顯示不完整 → 調整 CSS z-index 與 flex 排版。</li>
-            <li>閱讀體驗不順 → 加入自動滾動條與 Close Hint。</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</div>';
-} else if(tabName === 'future') {
-    panel.innerHTML = '<h2>未來發展</h2>...你的內容...';
+            panel.innerHTML = '<h2>歷程記錄</h2>...你的內容...';
+        } else if(tabName === 'future') {
+            panel.innerHTML = '<h2>未來發展</h2>...你的內容...';
+        } else {
+    panel.innerHTML = `<p>此區域尚未填寫內容</p>`;
 }
     };
 
