@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v31.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v32.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -648,26 +648,6 @@
       .highlight { font-weight:bold; color:#E67E22; }
       .show { opacity:1; transform: translateX(0); }
     </style>
-
-    <script>
-      // 點擊展開
-      const titles = document.querySelectorAll('.toggle-title');
-      titles.forEach(title => {
-        title.addEventListener('click', () => {
-          const content = title.nextElementSibling;
-          content.style.display = content.style.display === 'none' ? 'block' : 'none';
-        });
-      });
-
-      // 滾動動畫
-      const steps = document.querySelectorAll('.timeline-step');
-      window.addEventListener('scroll', () => {
-        steps.forEach(step => {
-          const rect = step.getBoundingClientRect();
-          if (rect.top < window.innerHeight - 50) step.classList.add('show');
-        });
-      });
-    </script>
     `;
 }
             else if(type === 'future') {
@@ -791,6 +771,23 @@
 
     steps.forEach(step => observer.observe(step));
 }
+    // 點擊展開
+const titles = document.querySelectorAll('.toggle-title');
+titles.forEach(title => {
+  title.addEventListener('click', () => {
+    const content = title.nextElementSibling;
+    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+  });
+});
+
+// 滾動動畫
+const steps = document.querySelectorAll('.timeline-step');
+window.addEventListener('scroll', () => {
+  steps.forEach(step => {
+    const rect = step.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 50) step.classList.add('show');
+  });
+});
     
 </script>
 </body>
