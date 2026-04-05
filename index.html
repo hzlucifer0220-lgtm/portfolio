@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v33.3.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v33.4.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -801,8 +801,8 @@
 }
     };
 
-    // 🏆 核心功能：噴漆畫布
     function initCanvas() {
+        currCol = col; // ✅ 將全域 currCol 改成你點的顏色
     const c = document.getElementById('tab-canvas');
     const b = document.getElementById('wall-box');
     const img = document.getElementById('wall-img');
