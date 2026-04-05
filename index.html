@@ -827,14 +827,7 @@
         const radius = 30;
         ctx.fillStyle = currCol;
 
-        const canvas = document.getElementById('tab-canvas');
-
-        canvas.addEventListener('mouseenter', () => {
-            canvas.style.cursor = "url('spray-can.png') 16 16, auto";
-        });
-        canvas.addEventListener('mouseleave', () => {
-            canvas.style.cursor = 'default';
-        });
+        
 
         for (let i = 0; i < density; i++) {
             const r = Math.random() * radius;
@@ -868,6 +861,15 @@
 }
     function setCurrentColor(color) {
     currCol = color; // 🔹 改全域變數，噴漆就會跟著顏色改
+        
+        const canvas = document.getElementById('tab-canvas');
+
+        canvas.addEventListener('mouseenter', () => {
+            canvas.style.cursor = "url('spray-can.png') 16 16, auto";
+        });
+        canvas.addEventListener('mouseleave', () => {
+            canvas.style.cursor = 'default';
+        });
 }
 
     // 🏆 核心功能：作品彈窗與牆面更換
