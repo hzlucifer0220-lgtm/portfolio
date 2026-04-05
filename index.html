@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v33.4.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v33.5.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -429,6 +429,7 @@
     </div>
 
 <script>
+    
     // 全域變數
     let currCol = 'red', painting = false, currentTrackIndex = 0, isPlaying = false;
     const audio = document.getElementById('bg-audio'), trackLabel = document.getElementById('track-name'), musicIcon = document.getElementById('music-icon');
@@ -809,7 +810,6 @@
 
     const ctx = c.getContext('2d');
     let painting = false;
-    let currCol = 'red'; // ✅ 直接初始化顏色
 
     function resizeCanvas() {
         c.width = b.offsetWidth;
@@ -853,6 +853,9 @@
     c.onmousemove = (e) => { if(painting) handle(e); };
     c.ontouchstart = (e) => { e.preventDefault(); painting = true; handle(e); };
     c.ontouchmove = (e) => { e.preventDefault(); if(painting) handle(e); };
+}
+    function setCurrentColor(color) {
+    currCol = color; // 🔹 改全域變數，噴漆就會跟著顏色改
 }
 
     // 🏆 核心功能：作品彈窗與牆面更換
