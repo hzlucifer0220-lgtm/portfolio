@@ -858,6 +858,38 @@
     c.onmousemove = (e) => { if(painting) handle(e); };
     c.ontouchstart = (e) => { e.preventDefault(); painting = true; handle(e); };
     c.ontouchmove = (e) => { e.preventDefault(); if(painting) handle(e); };
+
+        let sprayInterval = null;
+
+c.onmousedown = (e) => {
+    painting = true;
+
+    sprayInterval = setInterval(() => {
+        handle(e);
+    }, 30); // 噴漆頻率（越小越密）
+};
+
+window.onmouseup = () => {
+    painting = false;
+    clearInterval(sprayInterval);
+};
+
+c.onmousemove = (e) => {
+    if (painting) {
+        handle(e);
+    }
+};
+        let sprayPower = 1;
+
+c.onmousedown = (e) => {
+    painting = true;
+    sprayPower = 1;
+
+    sprayInterval = setInterval(() => {
+        sprayPower += 0.1; // 越按越強
+        handle(e);
+    }, 30);
+};
 }
     function setCurrentColor(color) {
     currCol = color; // 🔹 改全域變數，噴漆就會跟著顏色改
