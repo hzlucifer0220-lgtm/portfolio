@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作檔案庫 v33.6.0 - Final Version</title>
+    <title>學習成果實作檔案庫 v34test.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -371,6 +371,87 @@
 .ability-item span {
     font-weight: bold;
     color: #e67e22;
+}
+        .future-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.map-wrapper {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+}
+
+/* 圖片層 */
+.map-bg {
+    width: 100%;
+    display: block;
+}
+
+.map-main {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+}
+
+/* 標點 */
+.map-point {
+    position: absolute;
+    width: 40px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* hover 放大 */
+.map-point:hover {
+    transform: scale(1.5);
+}
+
+/* 五芒星位置（你可以微調） */
+.p1 { top: 5%; left: 50%; transform: translateX(-50%); }
+.p2 { top: 35%; left: 90%; }
+.p3 { bottom: 5%; left: 70%; }
+.p4 { bottom: 5%; left: 30%; }
+.p5 { top: 35%; left: 10%; }
+
+/* tooltip */
+#tooltip {
+    position: absolute;
+    background: #000;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    display: none;
+    pointer-events: none;
+}
+
+/* modal */
+.modal {
+    display: none;
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    width: 60%;
+    max-width: 500px;
+    color: black;
+}
+
+.close {
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
 }
     </style>
 </head>
@@ -799,8 +880,55 @@
   });
 }     
             else if(type === 'future') {
-            panel.innerHTML = '<h2>未來發展</h2>...你的內容...';
-        } else {
+            panel.innerHTML = '<div class="future-container">
+
+    <!-- 背景 -->
+    <div class="map-wrapper">
+
+        <!-- 圖1 -->
+        <img src="map-bg.jpg" class="map-bg">
+
+        <!-- 圖2 -->
+        <img src="map.jpg" class="map-main">
+
+        <!-- 五個標點 -->
+        <img src="sign.jpg" class="map-point p1" data-title="創作延伸" onclick="openModal(1)">
+        <img src="sign.jpg" class="map-point p2" data-title="AI應用" onclick="openModal(2)">
+        <img src="sign.jpg" class="map-point p3" data-title="技術發展" onclick="openModal(3)">
+        <img src="sign.jpg" class="map-point p4" data-title="未來目標" onclick="openModal(4)">
+        <img src="sign.jpg" class="map-point p5" data-title="探索方向" onclick="openModal(5)">
+
+        <!-- hover 標題 -->
+        <div id="tooltip"></div>
+
+    </div>
+
+</div>
+
+<!-- 彈窗 -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal()" class="close">&times;</span>
+        <h2 id="modal-title"></h2>
+        <p id="modal-text"></p>
+    </div>
+</div>';
+        }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            else {
     panel.innerHTML = `<p>此區域尚未填寫內容</p>`;
 }
     };
@@ -952,6 +1080,52 @@ function toggleAbility(el){
     } else {
         content.style.display = "block";
     }
+}
+    // hover 顯示標題
+document.addEventListener("mousemove", (e) => {
+    const tooltip = document.getElementById("tooltip");
+    if(e.target.classList.contains("map-point")){
+        tooltip.style.display = "block";
+        tooltip.innerText = e.target.dataset.title;
+        tooltip.style.left = e.pageX + 10 + "px";
+        tooltip.style.top = e.pageY + 10 + "px";
+    } else {
+        tooltip.style.display = "none";
+    }
+});
+
+// modal內容
+function openModal(id){
+    const modal = document.getElementById("modal");
+    const title = document.getElementById("modal-title");
+    const text = document.getElementById("modal-text");
+
+    modal.style.display = "flex";
+
+    if(id===1){
+        title.innerText = "創作延伸";
+        text.innerText = "未來我將延續街頭塗鴉風格...";
+    }
+    if(id===2){
+        title.innerText = "AI應用";
+        text.innerText = "未來將結合AI與設計...";
+    }
+    if(id===3){
+        title.innerText = "技術發展";
+        text.innerText = "我將精進網頁與互動設計...";
+    }
+    if(id===4){
+        title.innerText = "未來目標";
+        text.innerText = "發展完整作品集與個人品牌...";
+    }
+    if(id===5){
+        title.innerText = "探索方向";
+        text.innerText = "持續嘗試不同創作形式...";
+    }
+}
+
+function closeModal(){
+    document.getElementById("modal").style.display = "none";
 }
 
     
