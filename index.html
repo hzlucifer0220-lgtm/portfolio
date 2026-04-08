@@ -880,40 +880,33 @@
   });
 }     
             else if(type === 'future') {
-            panel.innerHTML = '<div class="future-container">
+    panel.innerHTML = `
+<div class="future-container">
 
-    <!-- 背景 -->
     <div class="map-wrapper">
-
-        <!-- 圖1 -->
         <img src="map-bg.jpg" class="map-bg">
-
-        <!-- 圖2 -->
         <img src="map.jpg" class="map-main">
 
-        <!-- 五個標點 -->
         <img src="sign.jpg" class="map-point p1" data-title="創作延伸" onclick="openModal(1)">
         <img src="sign.jpg" class="map-point p2" data-title="AI應用" onclick="openModal(2)">
         <img src="sign.jpg" class="map-point p3" data-title="技術發展" onclick="openModal(3)">
         <img src="sign.jpg" class="map-point p4" data-title="未來目標" onclick="openModal(4)">
         <img src="sign.jpg" class="map-point p5" data-title="探索方向" onclick="openModal(5)">
 
-        <!-- hover 標題 -->
         <div id="tooltip"></div>
-
     </div>
 
 </div>
 
-<!-- 彈窗 -->
 <div id="modal" class="modal">
     <div class="modal-content">
         <span onclick="closeModal()" class="close">&times;</span>
         <h2 id="modal-title"></h2>
         <p id="modal-text"></p>
     </div>
-</div>';
-        }
+</div>
+`;
+}
             
             
             
@@ -940,7 +933,7 @@
     if(!c || !b || !img) return;
 
     const ctx = c.getContext('2d');
-    let painting = false;
+   
 
     function resizeCanvas() {
         c.width = b.offsetWidth;
@@ -955,7 +948,12 @@
         const radius = 30;
         ctx.fillStyle = currCol;
 
-        
+        canvas.addEventListener('mouseenter', () => {
+            canvas.style.cursor = "url('spray-can.png') 16 16, auto";
+        });
+        canvas.addEventListener('mouseleave', () => {
+            canvas.style.cursor = 'default';
+        });
 
         for (let i = 0; i < density; i++) {
             const r = Math.random() * radius;
@@ -1024,12 +1022,7 @@ c.onmousedown = (e) => {
         
         const canvas = document.getElementById('tab-canvas');
 
-        canvas.addEventListener('mouseenter', () => {
-            canvas.style.cursor = "url('spray-can.png') 16 16, auto";
-        });
-        canvas.addEventListener('mouseleave', () => {
-            canvas.style.cursor = 'default';
-        });
+        
 }
 
     // 🏆 核心功能：作品彈窗與牆面更換
