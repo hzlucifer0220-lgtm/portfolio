@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作 v35.0 </title>
+    <title>學習成果實作 v36.0 </title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -380,35 +380,20 @@
 }
 
 .map-wrapper {
-    position: relative;
-    width: 80%;
-    max-width: 800px;
-}
-
-/* 圖片層 */
-.map-bg {
-    width: 100%;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .map-main {
-    position: absolute;
-    top: 10%;
-    left: 15%;
-    width: 60%;   /* 縮小 */
-    transform: rotate(-90deg); /* 向左90度 */
+    width: 80%;
+    max-width: 700px;
+    transform: rotate(-90deg);
+}
+.map-point {
     transform-origin: center;
 }
 
-/* 標點 */
-.map-point {
-    position: absolute;
-    width: 40px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-/* hover 放大 */
 .map-point:hover {
     transform: scale(1.5);
 }
@@ -885,7 +870,7 @@
 <div class="future-container">
 
     <div class="map-wrapper">
-        <img src="map-bg.jpg" class="map-bg">
+        
         <img src="map.jpg" class="map-main">
 
         <img src="sign.jpg" class="map-point p1" data-title="創作延伸" onclick="openModal(1)">
@@ -1007,14 +992,24 @@
         document.getElementById('detail-overlay').style.display = 'flex';
         document.getElementById('det-desc-container').scrollTop = 0;
     };
-    window.changeWall = (src) => {
+   window.changeWall = (src) => {
     const img = document.getElementById('wall-img');
-    c.addEventListener = document.getElementById('tab-canvas');
+    const c = document.getElementById('tab-canvas');
 
     if (img) img.src = src;
-    if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
+
+    if (c) {
+        const ctx = c.getContext('2d');
+        ctx.clearRect(0, 0, c.width, c.height);
+    }
 };
-    window.clearCanvas = () => { c.addEventListener = document.getElementById('tab-canvas'); if(c) c.getContext('2d').clearRect(0,0,c.width,c.height); };
+    window.clearCanvas = () => {
+    const c = document.getElementById('tab-canvas');
+    if (!c) return;
+
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, c.width, c.height);
+};
 
     // 🏆 背景星星動畫
     function startStars() {
@@ -1063,6 +1058,7 @@ function toggleAbility(el){
 
         tooltip.style.left = rect.left + rect.width / 2 + "px";
         tooltip.style.top = rect.top - 30 + "px";  // ⭐ 上方
+        tooltip.style.position = "fixed";
         tooltip.style.transform = "translateX(-50%)";
     } else {
         tooltip.style.display = "none";
