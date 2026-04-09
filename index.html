@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作 v39.0 </title>
+    <title>學習成果實作 v39.5.0 </title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -390,18 +390,14 @@
 }
 
 .map-main {
-    position: relative;
-
+    width: 80%;
     max-width: 100%;
     max-height: 100%;
 
-    width: auto;
-    height: auto;
-
-    object-fit: contain;
-
-    transform: rotate(-90deg);
+    transform: rotate(-90deg) translateX(12.5%); /* ⭐右移1/8 */
     transform-origin: center;
+
+    position: relative;
 }
 .map-point {
     position: absolute;   /* ⭐ 必須 */
@@ -445,12 +441,30 @@
 
 .modal-content {
     background: #fff;
-    padding: 25px;
-    width: 60%;
-    max-width: 500px;
+
+    width: 50%;        /* ⭐ UI一半 */
+    aspect-ratio: 4 / 3;  /* ⭐ 4:3 */
+
+    max-width: 800px;
+
+    padding: 20px;
     border: 3px solid #000;
     box-shadow: 8px 8px 0 #000;
     border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+        #modal-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#modal-text {
+    flex: 1;
+    overflow-y: auto;
+    line-height: 1.6;
 }
         .modal {
     display: none;
@@ -1136,6 +1150,9 @@ function openModal(id){
 function closeModal(){
     document.getElementById("modal").style.display = "none";
 }
+    document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+});
 function setCurrentColor(color) {
     window.currCol = color;
 }
