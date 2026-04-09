@@ -87,7 +87,7 @@
     background-blend-mode: overlay;
 }
         
-        .gui-container { width: 90vw; height: 60vw; max-height: 85vh; display: flex; flex-direction: column; margin-top: 0; }
+        .gui-container { width: 90vw; height: 85vw; max-width: 1200px; display: flex; flex-direction: column; margin-top: 0; }
         .tabs-row { display: flex; gap: 4px; padding-left: 10px; }
         .mc-tab { width: 110px; height: 40px; font-size: 13px; border-bottom: none; border-radius: 5px 5px 0 0; margin-top: 8px; }
         .mc-tab.active { background: var(--mc-gray); color: #333; height: 48px; margin-top: 0; z-index: 2; text-shadow: none; box-shadow: inset 3px 3px 0 var(--mc-light); }
@@ -380,20 +380,28 @@
 }
 .map-wrapper {
     position: relative;
-    width: 80%;
-    max-width: 700px;
-    margin: auto;
 
-    display: inline-block;   /* ⭐ 加這行（關鍵） */
+    width: 100%;
+    height: 100%;   /* ⭐這行超重要 */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .map-main {
-    width: 80%;
-    max-width: 700px;
+    position: relative;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
     transform: rotate(-90deg);
     transform-origin: center;
-
-    position: relative;   /* ⭐ 改這個 */
 }
 .map-point {
     position: absolute;   /* ⭐ 必須 */
