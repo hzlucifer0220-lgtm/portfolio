@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作 v34.0 - Final Version</title>
+    <title>學習成果實作 v35.0 </title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -928,7 +928,7 @@
     };
 
     function initCanvas() {
-    const c = document.getElementById('tab-canvas');
+    c.addEventListener = document.getElementById('tab-canvas');
     const b = document.getElementById('wall-box');
     const img = document.getElementById('wall-img');
     if(!c || !b || !img) return;
@@ -949,9 +949,8 @@
         const radius = 30;
         ctx.fillStyle = currCol;
 
-        canvas.addEventListener('mouseenter', () => {
-            canvas.style.cursor = "url('spray-can.png') 16 16, auto";
-        });
+        c.style.cursor = "url('spray-can.png') 16 16, crosshair";
+        
         canvas.addEventListener('mouseleave', () => {
             canvas.style.cursor = 'default';
         });
@@ -986,14 +985,17 @@
     c.ontouchstart = (e) => { e.preventDefault(); painting = true; handle(e); };
     c.ontouchmove = (e) => { e.preventDefault(); if(painting) handle(e); };
 
-        let sprayInterval = null;
+let sprayInterval = null;
+let sprayPower = 1;
 
 c.onmousedown = (e) => {
     painting = true;
+    sprayPower = 1;
 
     sprayInterval = setInterval(() => {
+        sprayPower += 0.05;
         handle(e);
-    }, 30); // 噴漆頻率（越小越密）
+    }, 30);
 };
 
 window.onmouseup = () => {
@@ -1002,40 +1004,19 @@ window.onmouseup = () => {
 };
 
 c.onmousemove = (e) => {
-    if (painting) {
-        handle(e);
-    }
+    if (painting) handle(e);
 };
-        let sprayPower = 1;
+        
 
-c.onmousedown = (e) => {
-    painting = true;
-    sprayPower = 1;
-
-    sprayInterval = setInterval(() => {
-        sprayPower += 0.1; // 越按越強
-        handle(e);
-    }, 30);
-};
-        let sprayInterval = null;
-
-    c.onmousedown = (e) => {
+        c.onmousedown = (e) => {
         painting = true;
         sprayInterval = setInterval(() => handle(e), 30);
     };
 
-    window.onmouseup = () => {
-        painting = false;
-        clearInterval(sprayInterval);
-    };
-
-    c.onmousemove = (e) => {
-        if (painting) handle(e);
-}
+        
     function setCurrentColor(color) {
     currCol = color; // 🔹 改全域變數，噴漆就會跟著顏色改
         
-        const canvas = document.getElementById('tab-canvas');
     };
 }
 
@@ -1051,12 +1032,12 @@ c.onmousedown = (e) => {
     };
     window.changeWall = (src) => {
     const img = document.getElementById('wall-img');
-    const c = document.getElementById('tab-canvas');
+    c.addEventListener = document.getElementById('tab-canvas');
 
     if (img) img.src = src;
     if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
 };
-    window.clearCanvas = () => { const c = document.getElementById('tab-canvas'); if(c) c.getContext('2d').clearRect(0,0,c.width,c.height); };
+    window.clearCanvas = () => { c.addEventListener = document.getElementById('tab-canvas'); if(c) c.getContext('2d').clearRect(0,0,c.width,c.height); };
 
     // 🏆 背景星星動畫
     function startStars() {
