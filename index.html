@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作 v34test.0 - Final Version</title>
+    <title>學習成果實作 v34.0 - Final Version</title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -394,8 +394,10 @@
 .map-main {
     position: absolute;
     top: 10%;
-    left: 10%;
-    width: 80%;
+    left: 15%;
+    width: 60%;   /* 縮小 */
+    transform: rotate(-90deg); /* 向左90度 */
+    transform-origin: center;
 }
 
 /* 標點 */
@@ -411,12 +413,11 @@
     transform: scale(1.5);
 }
 
-/* 五芒星位置（你可以微調） */
-.p1 { top: 5%; left: 50%; transform: translateX(-50%); }
-.p2 { top: 35%; left: 90%; }
+.p1 { bottom: 10%; left: 50%; transform: translateX(-50%); }
+.p2 { bottom: 25%; left: 80%; }
 .p3 { bottom: 5%; left: 70%; }
 .p4 { bottom: 5%; left: 30%; }
-.p5 { top: 35%; left: 10%; }
+.p5 { bottom: 25%; left: 20%; }
 
 /* tooltip */
 #tooltip {
@@ -944,7 +945,7 @@
     window.addEventListener('resize', resizeCanvas);
 
     const spray = (x, y) => {
-        const density = 180;
+        const density = 60;
         const radius = 30;
         ctx.fillStyle = currCol;
 
@@ -1016,13 +1017,26 @@ c.onmousedown = (e) => {
         handle(e);
     }, 30);
 };
+        let sprayInterval = null;
+
+    c.onmousedown = (e) => {
+        painting = true;
+        sprayInterval = setInterval(() => handle(e), 30);
+    };
+
+    window.onmouseup = () => {
+        painting = false;
+        clearInterval(sprayInterval);
+    };
+
+    c.onmousemove = (e) => {
+        if (painting) handle(e);
 }
     function setCurrentColor(color) {
     currCol = color; // 🔹 改全域變數，噴漆就會跟著顏色改
         
         const canvas = document.getElementById('tab-canvas');
-
-        
+    };
 }
 
     // 🏆 核心功能：作品彈窗與牆面更換
@@ -1035,7 +1049,13 @@ c.onmousedown = (e) => {
         document.getElementById('detail-overlay').style.display = 'flex';
         document.getElementById('det-desc-container').scrollTop = 0;
     };
-    window.changeWall = (src) => { document.getElementById('wall-img').src = src; };
+    window.changeWall = (src) => {
+    const img = document.getElementById('wall-img');
+    const c = document.getElementById('tab-canvas');
+
+    if (img) img.src = src;
+    if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
+};
     window.clearCanvas = () => { const c = document.getElementById('tab-canvas'); if(c) c.getContext('2d').clearRect(0,0,c.width,c.height); };
 
     // 🏆 背景星星動畫
@@ -1074,14 +1094,18 @@ function toggleAbility(el){
         content.style.display = "block";
     }
 }
-    // hover 顯示標題
-document.addEventListener("mousemove", (e) => {
+   document.addEventListener("mousemove", (e) => {
     const tooltip = document.getElementById("tooltip");
+
     if(e.target.classList.contains("map-point")){
+        const rect = e.target.getBoundingClientRect();
+
         tooltip.style.display = "block";
         tooltip.innerText = e.target.dataset.title;
-        tooltip.style.left = e.pageX + 10 + "px";
-        tooltip.style.top = e.pageY + 10 + "px";
+
+        tooltip.style.left = rect.left + rect.width / 2 + "px";
+        tooltip.style.top = rect.top - 30 + "px";  // ⭐ 上方
+        tooltip.style.transform = "translateX(-50%)";
     } else {
         tooltip.style.display = "none";
     }
