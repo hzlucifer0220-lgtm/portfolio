@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作 v36.0 </title>
+    <title>學習成果實作 v37.0 </title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -389,13 +389,18 @@
     width: 80%;
     max-width: 700px;
     transform: rotate(-90deg);
+    transform-origin: center;
+
+    position: relative;   /* ⭐ 改這個 */
 }
 .map-point {
-    transform-origin: center;
+    width: 16%;   /* ⭐ 約1/6 */
+    max-width: 80px;
+    transition: transform 0.3s ease;
 }
 
 .map-point:hover {
-    transform: scale(1.5);
+    transform: scale(1.3);
 }
 
 .p1 { bottom: 10%; left: 50%; transform: translateX(-50%); }
@@ -409,8 +414,8 @@
     position: absolute;
     background: #000;
     color: #fff;
-    padding: 5px 10px;
-    font-size: 12px;
+    padding: 8px 14px;
+    font-size: 16px;
     display: none;
     pointer-events: none;
 }
@@ -427,11 +432,31 @@
 }
 
 .modal-content {
-    background: white;
-    padding: 20px;
+    background: #fff;
+    padding: 25px;
     width: 60%;
     max-width: 500px;
-    color: black;
+    border: 3px solid #000;
+    box-shadow: 8px 8px 0 #000;
+    border-radius: 10px;
+}
+        .modal {
+    display: none;
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity:0; }
+    to { transform: scale(1); opacity:1; }
 }
 
 .close {
@@ -885,7 +910,7 @@
 </div>
 
 <div id="modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span onclick="closeModal()" class="close">&times;</span>
         <h2 id="modal-title"></h2>
         <p id="modal-text"></p>
@@ -923,7 +948,9 @@
         c.width = b.offsetWidth;
         c.height = b.offsetHeight;
     }
-
+function setCurrentColor(color) {
+    window.currCol = color;
+}
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
@@ -935,8 +962,8 @@
     const spray = (x, y) => {
         const density = 60 * sprayPower;
         const radius = 30;
-
-        ctx.fillStyle = currCol;
+        window.currCol = 'red';
+        ctx.fillStyle = window.currCol;
 
         for (let i = 0; i < density; i++) {
             const r = Math.random() * radius;
@@ -1072,6 +1099,7 @@ function openModal(id){
     const text = document.getElementById("modal-text");
 
     modal.style.display = "flex";
+    modal.onclick = () => closeModal();
 
     if(id===1){
         title.innerText = "創作延伸";
