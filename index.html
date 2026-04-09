@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學習成果實作 v38.0 </title>
+    <title>學習成果實作 v39.0 </title>
     <style>
         :root {
             --mc-gray: #C6C6C6; --mc-dark: #555555; --mc-light: #FFFFFF; --mc-shadow: #373737;
@@ -378,12 +378,13 @@
     align-items: center;
     height: 100%;
 }
-
 .map-wrapper {
-    position: relative;   /* ⭐ 必須 */
+    position: relative;
     width: 80%;
     max-width: 700px;
     margin: auto;
+
+    display: inline-block;   /* ⭐ 加這行（關鍵） */
 }
 
 .map-main {
@@ -402,14 +403,14 @@
     transform-origin: center;
 }
 
-.p1 { top: 20%; left: 50%;  transform: translate(-50%, -50%) scale(1); }
-.p2 { bottom: 35%; left: 75%; transform: scale(1); }
-.p3 { bottom: 65%; left: 70%; transform: scale(1); }
-.p4 { bottom: 75%; left: 35%; transform: scale(1); }
-.p5 { bottom: 45%; left: 20%; transform: scale(1); }
-
+.p1 { top: 20%; left: 50%; transform: translate(-50%, -50%); }
+.p2 { top: 35%; left: 75%; }
+.p3 { top: 65%; left: 70%; }
+.p4 { top: 75%; left: 35%; }
+.p5 { top: 45%; left: 20%; }
+        
 .map-point:hover {
-    transform: scale(1.3);
+    transform: scale(1.3) translate(-50%, -50%);
 }
 
 /* tooltip */
@@ -527,9 +528,9 @@
     </div>
 
 <script>
-    window.currCol = 'red';
+   
     // 全域變數
-    let currCol = 'red', painting = false, currentTrackIndex = 0, isPlaying = false;
+    window.currCol = 'red'; painting = false, currentTrackIndex = 0, isPlaying = false;
     const audio = document.getElementById('bg-audio'), trackLabel = document.getElementById('track-name'), musicIcon = document.getElementById('music-icon');
     const playlist = [
         { name: "Now Playing: late night", src: "late night.mp3" },
@@ -1076,6 +1077,7 @@ function toggleAbility(el){
 }
    document.addEventListener("mousemove", (e) => {
     const tooltip = document.getElementById("tooltip");
+       if (!tooltip) return;   // ⭐加這行
 
     if(e.target.classList.contains("map-point")){
         const rect = e.target.getBoundingClientRect();
