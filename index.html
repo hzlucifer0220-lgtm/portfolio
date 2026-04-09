@@ -928,13 +928,11 @@
     };
 
     function initCanvas() {
-    c.addEventListener = document.getElementById('tab-canvas');
+    const c = document.getElementById('tab-canvas');
     const b = document.getElementById('wall-box');
-    const img = document.getElementById('wall-img');
-    if(!c || !b || !img) return;
+    if(!c || !b) return;
 
     const ctx = c.getContext('2d');
-   
 
     function resizeCanvas() {
         c.width = b.offsetWidth;
@@ -944,79 +942,58 @@
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    const spray = (x, y) => {
-        const density = 60;
-        const radius = 30;
-        ctx.fillStyle = currCol;
+    c.style.cursor = "url('spray-can.png') 16 16, crosshair";
 
-        c.style.cursor = "url('spray-can.png') 16 16, crosshair";
-        
-        canvas.addEventListener('mouseleave', () => {
-            canvas.style.cursor = 'default';
-        });
+    let sprayInterval = null;
+    let sprayPower = 1;
+
+    const spray = (x, y) => {
+        const density = 60 * sprayPower;
+        const radius = 30;
+
+        ctx.fillStyle = currCol;
 
         for (let i = 0; i < density; i++) {
             const r = Math.random() * radius;
             const angle = Math.random() * Math.PI * 2;
+
             const offsetX = r * Math.cos(angle);
             const offsetY = r * Math.sin(angle);
-            const opacity = Math.pow((radius - r) / radius, 3);
 
-            if (opacity > 0.01) {
-                ctx.globalAlpha = opacity;
-                ctx.beginPath();
-                ctx.arc(x + offsetX, y + offsetY, Math.random() * 2.2, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            ctx.globalAlpha = (radius - r) / radius;
+
+            ctx.beginPath();
+            ctx.arc(x + offsetX, y + offsetY, Math.random() * 2, 0, Math.PI * 2);
+            ctx.fill();
         }
+
         ctx.globalAlpha = 1;
     };
 
     const handle = (e) => {
-        const r = c.getBoundingClientRect();
-        const x = e.touches ? e.touches[0].clientX - r.left : e.clientX - r.left;
-        const y = e.touches ? e.touches[0].clientY - r.top : e.clientY - r.top;
+        const rect = c.getBoundingClientRect();
+        const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+        const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
         spray(x, y);
     };
 
-    c.onmousedown = (e) => { painting = true; handle(e); };
-    window.onmouseup = () => painting = false;
-    c.onmousemove = (e) => { if(painting) handle(e); };
-    c.ontouchstart = (e) => { e.preventDefault(); painting = true; handle(e); };
-    c.ontouchmove = (e) => { e.preventDefault(); if(painting) handle(e); };
-
-let sprayInterval = null;
-let sprayPower = 1;
-
-c.onmousedown = (e) => {
-    painting = true;
-    sprayPower = 1;
-
-    sprayInterval = setInterval(() => {
-        sprayPower += 0.05;
-        handle(e);
-    }, 30);
-};
-
-window.onmouseup = () => {
-    painting = false;
-    clearInterval(sprayInterval);
-};
-
-c.onmousemove = (e) => {
-    if (painting) handle(e);
-};
-        
-
-        c.onmousedown = (e) => {
+    c.onmousedown = (e) => {
         painting = true;
-        sprayInterval = setInterval(() => handle(e), 30);
+        sprayPower = 1;
+
+        sprayInterval = setInterval(() => {
+            sprayPower += 0.05;
+            handle(e);
+        }, 30);
     };
 
-        
-    function setCurrentColor(color) {
-    currCol = color; // 🔹 改全域變數，噴漆就會跟著顏色改
-        
+    window.onmouseup = () => {
+        painting = false;
+        clearInterval(sprayInterval);
+    };
+
+    c.onmousemove = (e) => {
+        if (painting) handle(e);
     };
 }
 
