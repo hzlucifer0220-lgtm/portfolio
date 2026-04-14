@@ -9,14 +9,15 @@
 
 <body>
 
-  <!-- 背景 -->
-  <div class="bg"></div>
+  <!-- BACK BUTTON（2~5頁才會出現） -->
+  <div class="back-btn" onclick="goHome()">BACK</div>
 
-  <!-- Corner Card -->
+  <!-- 左上角卡片 -->
   <div class="corner-card top-left">
     MUSIC / CONTROL
   </div>
 
+  <!-- 右下角卡片 -->
   <div class="corner-card bottom-right">
     ABOUT / TAG
   </div>
@@ -34,13 +35,13 @@
       Between modern structure and street expression
     </p>
 
-    <button class="start-btn" onclick="startTransition()">
+    <button class="start-btn" onclick="startSite()">
       START
     </button>
 
   </section>
 
-  <!-- TAB SYSTEM -->
+  <!-- TAB SYSTEM（5 tabs） -->
   <nav class="tabs">
 
     <div class="tab active">HOME</div>
@@ -48,7 +49,6 @@
     <div class="tab">INTERACTION</div>
     <div class="tab">WORKS</div>
     <div class="tab">PROCESS</div>
-    <div class="tab">FUTURE</div>
 
   </nav>
 
