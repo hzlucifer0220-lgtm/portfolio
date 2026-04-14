@@ -1,44 +1,56 @@
-/* ===== BASE ===== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #F3EDE3;
   overflow: hidden;
+  color: #111;
 }
 
-/* 背景 */
-.bg {
+/* ===== BACK BUTTON ===== */
+.back-btn {
   position: fixed;
-  inset: 0;
-  background: #F3EDE3;
-  z-index: -1;
+  top: 20px;
+  left: 20px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  opacity: 0;
+  transition: 0.4s;
 }
 
-/* ===== CORNER CARDS ===== */
+body.active .back-btn {
+  opacity: 1;
+}
+
+/* ===== CORNER CARDS（33% 視覺區塊） ===== */
 .corner-card {
   position: absolute;
-  width: 180px;
-  height: 120px;
+  width: 33vw;
+  height: 33vh;
   background: #6B1F2B;
-  color: white;
-  padding: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  color: #F3EDE3;
+  padding: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
   transition: 0.6s;
 }
 
+/* 左上（上寬下窄） */
 .top-left {
-  top: 20px;
-  left: 20px;
+  top: 0;
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
 }
 
+/* 右下（下寬上窄） */
 .bottom-right {
-  bottom: 20px;
-  right: 20px;
+  bottom: 0;
+  right: 0;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
 }
 
-/* START TRANSITION STATE */
+/* START後卡片收走 */
 body.active .corner-card {
-  transform: translateX(-200px);
+  transform: translateX(-120%);
   opacity: 0;
 }
 
@@ -46,43 +58,42 @@ body.active .corner-card {
 .hero {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  text-align: center;
+  left: 15%;
+  transform: translateY(-50%);
+  max-width: 500px;
 }
 
 .title {
-  font-size: 48px;
+  font-size: 64px;
   margin: 0;
 }
 
 .subtitle {
   letter-spacing: 2px;
   margin-top: 10px;
+  font-size: 14px;
 }
 
 .desc {
-  margin-top: 10px;
-  opacity: 0.7;
+  margin-top: 15px;
+  opacity: 0.6;
+  line-height: 1.6;
 }
 
-/* START BUTTON */
+/* START */
 .start-btn {
-  margin-top: 20px;
-  padding: 10px 24px;
-  border: none;
-  background: #6B1F2B;
-  color: white;
+  margin-top: 30px;
+  padding: 12px 28px;
+  border: 1px solid #6B1F2B;
+  background: transparent;
+  color: #6B1F2B;
   cursor: pointer;
   transition: 0.3s;
 }
 
 .start-btn:hover {
-  transform: scale(1.05);
-}
-
-.start-btn:active {
-  transform: scale(0.95);
+  background: #6B1F2B;
+  color: #F3EDE3;
 }
 
 /* ===== TAB SYSTEM ===== */
@@ -94,7 +105,6 @@ body.active .corner-card {
   display: flex;
   flex-direction: column;
   gap: 12px;
-
   padding-left: 20px;
 
   opacity: 0;
@@ -102,18 +112,18 @@ body.active .corner-card {
   transition: 0.8s ease;
 }
 
-/* tab 出現 */
+/* START後 tab 出現 */
 body.active .tabs {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* ===== TAB SHAPE (arrow ribbon) ===== */
+/* ===== ARROW TAB（你最新形狀） ===== */
 .tab {
   background: #6B1F2B;
-  color: white;
+  color: #F3EDE3;
   padding: 12px 20px;
-  width: 160px;
+  width: 170px;
 
   clip-path: polygon(
     0 0,
@@ -123,18 +133,15 @@ body.active .tabs {
     0 100%
   );
 
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-
-  transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   cursor: pointer;
+  transition: 0.3s;
 }
 
-/* hover */
 .tab:hover {
   transform: translateX(8px);
 }
 
-/* active */
 .tab.active {
   background: #8a2434;
   transform: scale(1.05);
