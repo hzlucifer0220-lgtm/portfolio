@@ -27,13 +27,19 @@ body.active .back-btn {
   position: absolute;
   width: 33vw;
   height: 33vh;
+
   background: #6B1F2B;
   color: #F3EDE3;
-  padding: 16px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  transition: 0.6s;
-}
 
+  padding: 20px;
+
+  /* 層次感 */
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.25),
+    0 10px 20px rgba(0,0,0,0.15);
+
+  backdrop-filter: blur(6px);
+}
 /* 左上（上寬下窄） */
 .top-left {
   top: 0;
@@ -82,11 +88,17 @@ body.active .corner-card {
 
 /* START */
 .start-btn {
-  margin-top: 30px;
-  padding: 12px 28px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 14px 34px;
   border: 1px solid #6B1F2B;
   background: transparent;
   color: #6B1F2B;
+
+  letter-spacing: 3px;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -95,7 +107,6 @@ body.active .corner-card {
   background: #6B1F2B;
   color: #F3EDE3;
 }
-
 /* ===== TAB SYSTEM ===== */
 .tabs {
   position: absolute;
