@@ -74,6 +74,7 @@ function goHome() {
   currentPage = 0;
 }
 /* ===== 音樂系統 ===== */
+const vinylDisc = document.querySelector(".vinyl-disc");
 const tracks = [
   { name: "late night", src: "late night.mp3" },
   { name: "made it through", src: "made it through.mp3" },
@@ -99,7 +100,7 @@ function loadTrack(index) {
 /* 自動播放（第一次 START） */
 function startMusic() {
   audio.play().catch(() => {});
-  vinyl.classList.add("spin");
+  vinylDisc.classList.add("spin");
   playBtn.innerText = "⏸";
 }
 
@@ -107,14 +108,11 @@ function startMusic() {
 function togglePlay() {
   if (audio.paused) {
     audio.play();
-    const vinylDisc = document.querySelector(".vinyl-disc");
-
-vinylDisc.classList.add("spin");
-vinylDisc.classList.remove("spin");
+    vinylDisc.classList.add("spin");
     playBtn.innerText = "⏸";
   } else {
     audio.pause();
-    vinyl.classList.remove("spin");
+    vinylDisc.classList.remove("spin");
     playBtn.innerText = "▶";
   }
 }
