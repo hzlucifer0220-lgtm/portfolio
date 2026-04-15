@@ -2,6 +2,9 @@ let currentPage = 0; // 0 = 封面
 
 function startSite() {
   document.body.classList.add("active");
+
+  startMusic(); // ⭐ 加這行
+
   goToPage(1);
 }
 
@@ -76,71 +79,72 @@ function goHome() {
 
   currentPage = 0;
 }
+/* ===== 音樂系統 ===== */
 const tracks = [
-  {
-    name: "Track 1 - Artist",
-    src: "music1.mp3"
-  },
-  {
-    name: "Track 2 - Artist",
-    src: "music2.mp3"
-  }
+  { name: "late night", src: "late night.mp3" },
+  { name: "made it through", src: "made it through.mp3" },
+  { name: "M.I.A", src: "M.I.A.mp3" }
 ];
 
 let currentTrack = 0;
-let audio = new Audio(tracks[currentTrack].src);
+const audio = new Audio();
+audio.loop = false; // 我們自己控制循環
 
 const trackName = document.getElementById("track-name");
 const progress = document.getElementById("progress");
 const playBtn = document.getElementById("playBtn");
 const vinyl = document.querySelector(".vinyl");
 
-trackName.innerText = tracks[currentTrack].name;
+/* 載入歌曲 */
+function loadTrack(index) {
+  currentTrack = index;
+  audio.src = tracks[currentTrack].src;
+  trackName.innerText = tracks[currentTrack].name;
+}
 
-/* 播放 / 暫停 */
+/* 自動播放（第一次 START） */
+function startMusic() {
+  audio.play().catch(() => {});
+  vinyl.classList.add("spin");
+  playBtn.innerText = "⏸";
+}
+
+/* 播放控制 */
 function togglePlay() {
   if (audio.paused) {
     audio.play();
-    playBtn.innerText = "⏸";
     vinyl.classList.add("spin");
+    playBtn.innerText = "⏸";
   } else {
     audio.pause();
-    playBtn.innerText = "▶";
     vinyl.classList.remove("spin");
+    playBtn.innerText = "▶";
   }
 }
 
-/* 下一首 */
+/* 切歌 */
 function nextTrack() {
-  currentTrack = (currentTrack + 1) % tracks.length;
-  loadTrack();
-}
-
-/* 上一首 */
-function prevTrack() {
-  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-  loadTrack();
-}
-
-function loadTrack() {
-  audio.src = tracks[currentTrack].src;
-  trackName.innerText = tracks[currentTrack].name;
+  loadTrack((currentTrack + 1) % tracks.length);
   audio.play();
-  playBtn.innerText = "⏸";
-  vinyl.classList.add("spin");
 }
+
+function prevTrack() {
+  loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
+  audio.play();
+}
+
+/* 自動下一首（無限循環） */
+audio.addEventListener("ended", () => {
+  nextTrack();
+});
 
 /* 進度條 */
 audio.addEventListener("timeupdate", () => {
   progress.value = (audio.currentTime / audio.duration) * 100 || 0;
-
-  document.getElementById("current").innerText = formatTime(audio.currentTime);
-  document.getElementById("duration").innerText = formatTime(audio.duration);
 });
 
-progress.addEventListener("input", () => {
-  audio.currentTime = (progress.value / 100) * audio.duration;
-});
+/* 初始化 */
+loadTrack(0);
 
 /* 時間格式 */
 function formatTime(time) {
