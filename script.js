@@ -74,7 +74,7 @@ function goHome() {
   currentPage = 0;
 }
 /* ===== 音樂系統 ===== */
-const vinylDisc = document.querySelector(".vinyl-disc");
+
 const tracks = [
   { name: "late night", src: "late night.mp3" },
   { name: "made it through", src: "made it through.mp3" },
@@ -87,8 +87,10 @@ audio.loop = false; // 我們自己控制循環
 
 const trackName = document.getElementById("track-name");
 const progress = document.getElementById("progress");
+const currentTimeEl = document.getElementById("current");
+const durationEl = document.getElementById("duration");
 const playBtn = document.getElementById("playBtn");
-const vinyl = document.querySelector(".vinyl");
+const vinylDisc = document.querySelector(".vinyl-disc");
 
 /* 載入歌曲 */
 function loadTrack(index) {
@@ -147,9 +149,7 @@ function formatTime(time) {
   const sec = Math.floor(time % 60);
   return `${min}:${sec < 10 ? "0" : ""}${sec}`;
 }
-const progress = document.getElementById("progress");
-const currentTimeEl = document.getElementById("current");
-const durationEl = document.getElementById("duration");
+
 
 /* 更新進度 */
 audio.addEventListener("timeupdate", () => {
@@ -168,10 +168,6 @@ progress.addEventListener("input", () => {
 
   audio.currentTime = (progress.value / 100) * audio.duration;
 });
-
-/* 格式化時間 */
-function formatTime(time) {
-  const min = Math.floor(time / 60);
   const sec = Math.floor(time % 60);
   return `${min}:${sec < 10 ? "0" : ""}${sec}`;
 }
