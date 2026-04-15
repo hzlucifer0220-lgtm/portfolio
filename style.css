@@ -241,11 +241,24 @@ body.active .back-btn {
   opacity: 1;
 }
 .title-img {
-  width: 400px;   /* 可調整 */
-  max-width: 80%;
-  display: block;
-  margin-bottom: 20px;
+  position: absolute;
+
+  /* 靠左 + 在卡片下面 */
+  top: 36vh;       /* 剛好在左上卡片下方 */
+  left: 5vw;
+
+  /* 尺寸 ≈ 畫面 2/5 */
+  width: 40vw;
+  max-width: none;
+
+  z-index: 1; /* 在卡片下面 */
+
+  /* 微調視覺 */
+  transform: translateY(-10px);
+
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
 }
+
 /* ===== PAGE SLIDE SYSTEM ===== */
 
 .page {
