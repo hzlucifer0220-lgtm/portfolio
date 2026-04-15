@@ -321,8 +321,8 @@ body.active .back-btn {
 
 /* 黑膠 */
 .vinyl {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background: radial-gradient(circle, #111 40%, #333 60%, #000 100%);
   position: relative;
@@ -356,8 +356,9 @@ body.active .back-btn {
 }
 
 /* 進度條 */
-.progress-area input {
-  width: 100%;
+.progress-area {
+  width: 75%;   /* ⭐ 約 3.5 / 5 */
+  margin: 0 auto;  /* 置中 */
 }
 
 .time {
@@ -368,8 +369,12 @@ body.active .back-btn {
 
 /* 控制 */
 .controls {
+  width: 40%;   /* ⭐ 約 1.5 / 5 */
+  margin: 0 auto;
+
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .controls button {
@@ -377,7 +382,7 @@ body.active .back-btn {
   border: none;
   color: #F3EDE3;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 30px;
 }
 /* 黑膠容器 */
 .vinyl {
@@ -425,7 +430,7 @@ body.active .back-btn {
 .music-top {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 18px;
 }
 
 /* 曲目區 */
@@ -438,7 +443,7 @@ body.active .back-btn {
 .marquee {
   overflow: hidden;
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .marquee span {
