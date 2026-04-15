@@ -13,7 +13,40 @@
   <div class="back-btn" onclick="goHome()">BACK</div>
 
   <!-- Corner Cards -->
-  <div class="corner-card top-left">MUSIC / CONTROL</div>
+ <div class="corner-card top-left">
+
+  <div class="music-player">
+
+    <!-- 上排 -->
+    <div class="music-top">
+      <div class="vinyl"></div>
+
+      <div class="track-info">
+        <div class="marquee">
+          <span id="track-name">Track Name - Artist</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 中間：進度 -->
+    <div class="progress-area">
+      <input type="range" id="progress" value="0">
+      <div class="time">
+        <span id="current">0:00</span>
+        <span id="duration">0:00</span>
+      </div>
+    </div>
+
+    <!-- 控制 -->
+    <div class="controls">
+      <button onclick="prevTrack()">⏮</button>
+      <button onclick="togglePlay()" id="playBtn">▶</button>
+      <button onclick="nextTrack()">⏭</button>
+    </div>
+
+  </div>
+
+</div>
   <div class="corner-card bottom-right">ABOUT / TAG</div>
 
   <!-- ===== 封面 ===== -->
