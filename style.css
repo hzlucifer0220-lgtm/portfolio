@@ -199,3 +199,9 @@ body.active .tabs {
 body.active .back-btn {
   opacity: 1;
 }
+.title-img {
+  width: 400px;   /* 可調整 */
+  max-width: 80%;
+  display: block;
+  margin-bottom: 20px;
+}
