@@ -227,34 +227,36 @@ body.active .tabs {
 }
 
 /* ===== VINYL ===== */
+/* 外層：只負責位置 */
 .vinyl {
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
+  position: relative;
+}
 
+/* 旋轉層（動畫放這） */
+.vinyl-disc {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   background: radial-gradient(circle, #111 30%, #000 70%);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.vinyl img {
-      width: 20%;
-    height: 30%;
-    object-fit: cover;
-    position: absolute;
-    top: 17%;
-    left: 15.5%;
-    transform: translate(-50%, -50%);
-}
-
-.vinyl.spin {
+/* ⭐ 旋轉只作用在這層 */
+.vinyl-disc.spin {
   animation: spin 2.5s linear infinite;
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* 圖片永遠固定在中心 */
+.vinyl img {
+  width: 40%;
+  height: 40%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 /* ===== MARQUEE ===== */
