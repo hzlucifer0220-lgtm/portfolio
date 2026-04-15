@@ -1,3 +1,4 @@
+/* ===== BASE ===== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -22,80 +23,43 @@ body.active .back-btn {
   opacity: 1;
 }
 
-/* ===== CORNER CARDS（33% 視覺區塊） ===== */
+/* ===== CORNER CARDS ===== */
 .corner-card {
   position: absolute;
   width: 33vw;
   height: 33vh;
-
   background: #6B1F2B;
   color: #F3EDE3;
-
   padding: 20px;
-
   overflow: hidden;
 
-  /* ⭐ 邊緣陰影（關鍵） */
   box-shadow:
-    0 40px 80px rgba(0,0,0,0.25),   /* 主陰影 */
-    0 10px 20px rgba(0,0,0,0.15),   /* 次陰影 */
-    inset 0 0 10px rgba(255,255,255,0.05); /* 微內光 */
+    0 40px 80px rgba(0,0,0,0.25),
+    0 10px 20px rgba(0,0,0,0.15),
+    inset 0 0 10px rgba(255,255,255,0.05);
 
   transition: 0.6s ease;
 }
-/* 左上（上寬下窄） */
+
 .top-left {
   top: 0;
   left: 0;
   clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
 }
 
-/* 右下（下寬上窄） */
 .bottom-right {
   bottom: 0;
   right: 0;
   clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
 }
 
-/* START後卡片收走 */
-/* 保留動畫 */
 body.active .corner-card {
   transform: translateX(-120%);
   opacity: 0;
   transition: 0.8s ease;
 }
 
-/* 確保內容一起動 */
-.corner-card * {
-  pointer-events: auto;
-}
-/* ===== HERO ===== */
-.hero {
-  position: absolute;
-  top: 50%;
-  left: 15%;
-  transform: translateY(-50%);
-  max-width: 500px;
-}
-
-.title {
-  font-size: 64px;
-  margin: 0;
-}
-
-.subtitle {
-  letter-spacing: 2px;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.desc {
-  margin-top: 15px;
-  opacity: 0.6;
-  line-height: 1.6;
-}
-
-/* START */
+/* ===== START BUTTON ===== */
 .start-btn {
   position: absolute;
   top: 50%;
@@ -106,7 +70,6 @@ body.active .corner-card {
   border: 1px solid #6B1F2B;
   background: transparent;
   color: #6B1F2B;
-
   letter-spacing: 3px;
   cursor: pointer;
   transition: 0.3s;
@@ -116,6 +79,17 @@ body.active .corner-card {
   background: #6B1F2B;
   color: #F3EDE3;
 }
+
+/* ===== TITLE IMAGE ===== */
+.title-img {
+  position: absolute;
+  top: 36vh;
+  left: 5vw;
+  width: 40vw;
+  z-index: 1;
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
+}
+
 /* ===== TAB SYSTEM ===== */
 .tabs {
   position: absolute;
@@ -132,13 +106,11 @@ body.active .corner-card {
   transition: 0.8s ease;
 }
 
-/* START後 tab 出現 */
 body.active .tabs {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* ===== ARROW TAB（你最新形狀） ===== */
 .tab {
   background: #6B1F2B;
   color: #F3EDE3;
@@ -164,8 +136,9 @@ body.active .tabs {
 
 .tab.active {
   background: #8a2434;
-  transform: scale(1.05);
+  transform: translateX(10px) scale(1.05);
 }
+
 /* ===== PAGE SYSTEM ===== */
 .page {
   position: absolute;
@@ -184,14 +157,12 @@ body.active .tabs {
   transition: transform 0.7s ease, opacity 0.7s ease;
 }
 
-/* 顯示中 */
 .page.active-page {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
 
-/* 進場方向 */
 .page.enter-up {
   transform: translateY(100%);
 }
@@ -200,7 +171,6 @@ body.active .tabs {
   transform: translateY(-100%);
 }
 
-/* 離場 */
 .page.exit-up {
   transform: translateY(-100%);
   opacity: 0;
@@ -210,92 +180,14 @@ body.active .tabs {
   transform: translateY(100%);
   opacity: 0;
 }
-/* ===== TAB ACTIVE 狀態 ===== */
-.tab {
-  background: #6B1F2B;
-  color: #F3EDE3;
-  padding: 12px 20px;
-  width: 170px;
 
-  clip-path: polygon(
-    0 0,
-    85% 0,
-    100% 50%,
-    85% 100%,
-    0 100%
-  );
-
-  transition: 0.3s;
-}
-
-.tab.active {
-  background: #8a2434;
-  transform: translateX(10px) scale(1.05);
-}
-
-/* BACK 顯示控制 */
-.back-btn {
-  opacity: 0;
-}
-
-body.active .back-btn {
-  opacity: 1;
-}
-.title-img {
-  position: absolute;
-
-  /* 靠左 + 在卡片下面 */
-  top: 36vh;       /* 剛好在左上卡片下方 */
-  left: 5vw;
-
-  /* 尺寸 ≈ 畫面 2/5 */
-  width: 40vw;
-  max-width: none;
-
-  z-index: 1; /* 在卡片下面 */
-
-
-  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
-}
-
-/* ===== PAGE SLIDE SYSTEM ===== */
-
-/* 顯示中 */
-.page.active-page {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(-50%) translateY(0);
-}
-
-/* 往上進場（新頁） */
-.page.enter-up {
-  transform: translateY(50px);
-}
-
-/* 往下進場（新頁） */
-.page.enter-down {
-  transform: translateY(-50px);
-}
-
-/* 往上離開（舊頁） */
-.page.exit-up {
-  transform: translateY(-100px);
-  opacity: 0;
-}
-
-/* 往下離開（舊頁） */
-.page.exit-down {
-  transform: translateY(100px);
-  opacity: 0;
-}
-/* 內容進場 */
+/* ===== CONTENT ANIMATION ===== */
 .page.active-page > * {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 0.6s ease forwards;
 }
 
-/* 延遲層次 */
 .page.active-page > *:nth-child(1) { animation-delay: 0.1s; }
 .page.active-page > *:nth-child(2) { animation-delay: 0.2s; }
 .page.active-page > *:nth-child(3) { animation-delay: 0.3s; }
@@ -306,31 +198,53 @@ body.active .back-btn {
     transform: translateY(0);
   }
 }
+
+/* ===== MUSIC PLAYER ===== */
 .music-player {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 18px;
 }
 
-/* 上排 */
 .music-top {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 18px;
 }
 
-/* 黑膠 */
+.track-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ===== VINYL ===== */
 .vinyl {
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: radial-gradient(circle, #111 40%, #333 60%, #000 100%);
-  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  background: radial-gradient(circle, #111 30%, #000 70%);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
-/* 旋轉動畫 */
+.vinyl img {
+  width: 40%;
+  height: 40%;
+  object-fit: cover;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .vinyl.spin {
-  animation: spin 2s linear infinite;
+  animation: spin 2.5s linear infinite;
 }
 
 @keyframes spin {
@@ -338,10 +252,11 @@ body.active .back-btn {
   to { transform: rotate(360deg); }
 }
 
-/* 跑馬燈 */
+/* ===== MARQUEE ===== */
 .marquee {
   overflow: hidden;
   white-space: nowrap;
+  font-size: 20px;
 }
 
 .marquee span {
@@ -355,104 +270,12 @@ body.active .back-btn {
   to { transform: translateX(-100%); }
 }
 
-/* 進度條 */
+/* ===== PROGRESS ===== */
 .progress-area {
-  width: 75%;   /* ⭐ 約 3.5 / 5 */
-  margin: 0 auto;  /* 置中 */
-}
-
-.time {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-}
-
-/* 控制 */
-.controls {
-  width: 40%;   /* ⭐ 約 1.5 / 5 */
+  width: 75%;
   margin: 0 auto;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
-.controls button {
-  background: transparent;
-  border: none;
-  color: #F3EDE3;
-  cursor: pointer;
-  font-size: 30px;
-}
-/* 黑膠容器 */
-.vinyl {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-
-  /* 黑膠外圈 */
-  background: radial-gradient(circle, #111 30%, #000 70%);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-
-/* 中間圖片（你的 dj.jpg） */
-.vinyl img {
-  width: 40%;
-  height: 40%;
-  object-fit: cover;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  border-radius: 50%;
-}
-
-/* 旋轉動畫（套在整個 vinyl） */
-.vinyl.spin {
-  animation: spin 2.5s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.music-player {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* 上排 */
-.music-top {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-/* 曲目區 */
-.track-info {
-  flex: 1;
-  overflow: hidden;
-}
-
-/* 跑馬燈 */
-.marquee {
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 20px;
-}
-
-.marquee span {
-  display: inline-block;
-  padding-left: 100%;
-  animation: marquee 8s linear infinite;
-}
-
-/* 進度 */
 .progress-area input {
   width: 100%;
   appearance: none;
@@ -469,7 +292,6 @@ body.active .back-btn {
   cursor: pointer;
 }
 
-/* 時間 */
 .time {
   display: flex;
   justify-content: space-between;
@@ -477,46 +299,25 @@ body.active .back-btn {
   opacity: 0.8;
 }
 
-/* 控制 */
+/* ===== CONTROLS ===== */
 .controls {
+  width: 40%;
+  margin: 0 auto;
+
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .controls button {
   background: transparent;
   border: none;
   color: #F3EDE3;
-  font-size: 16px;
+  font-size: 30px;
   cursor: pointer;
   transition: 0.2s;
 }
 
 .controls button:hover {
   transform: scale(1.2);
-}
-.music-player {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.music-top {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.vinyl {
-  width: 50px;
-  height: 50px;
-  flex-shrink: 0;
-}
-
-.track-info {
-  flex: 1;
-  overflow: hidden;
 }
