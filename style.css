@@ -372,3 +372,39 @@ body.active .back-btn {
   cursor: pointer;
   font-size: 16px;
 }
+/* 黑膠容器 */
+.vinyl {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+
+  /* 黑膠外圈 */
+  background: radial-gradient(circle, #111 30%, #000 70%);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+/* 中間圖片（你的 dj.jpg） */
+.vinyl img {
+  width: 40%;
+  height: 40%;
+  object-fit: cover;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+}
+
+/* 旋轉動畫（套在整個 vinyl） */
+.vinyl.spin {
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
