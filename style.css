@@ -33,15 +33,16 @@ body.active .back-btn {
 
   padding: 20px;
 
-  /* 層次感 */
+  overflow: hidden;
+
+  /* ⭐ 邊緣陰影（關鍵） */
   box-shadow:
-    0 30px 60px rgba(0,0,0,0.25),
-    0 10px 20px rgba(0,0,0,0.15);
+    0 40px 80px rgba(0,0,0,0.25),   /* 主陰影 */
+    0 10px 20px rgba(0,0,0,0.15),   /* 次陰影 */
+    inset 0 0 10px rgba(255,255,255,0.05); /* 微內光 */
 
-  backdrop-filter: blur(6px);
-  overflow: hidden; /* ⭐ 就是加這行 */
+  transition: 0.6s ease;
 }
-
 /* 左上（上寬下窄） */
 .top-left {
   top: 0;
