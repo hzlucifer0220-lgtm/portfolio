@@ -85,6 +85,10 @@ let currentTrack = 0;
 const audio = new Audio();
 audio.loop = false; // 我們自己控制循環
 
+document.addEventListener("DOMContentLoaded", () => {
+
+/* 所有 JS 都放這裡 */
+
 const trackName = document.getElementById("track-name");
 const progress = document.getElementById("progress");
 const currentTimeEl = document.getElementById("current");
@@ -92,11 +96,15 @@ const durationEl = document.getElementById("duration");
 const playBtn = document.getElementById("playBtn");
 const vinylDisc = document.querySelector(".vinyl-disc");
 
+/* 你的其他 JS 全部保持不動 */
+
+});
 /* 載入歌曲 */
 function loadTrack(index) {
   currentTrack = index;
   audio.src = tracks[currentTrack].src;
   trackName.innerText = tracks[currentTrack].name;
+  audio.load();
 }
 
 /* 自動播放（第一次 START） */
@@ -110,11 +118,14 @@ function startMusic() {
 function togglePlay() {
   if (audio.paused) {
     audio.play();
-    vinylDisc.classList.add("spin");
+
+    vinylDisc.classList.add("spin");  // 開始轉
     playBtn.innerText = "⏸";
+
   } else {
     audio.pause();
-    vinylDisc.classList.remove("spin");
+
+    vinylDisc.classList.remove("spin"); // 停止轉
     playBtn.innerText = "▶";
   }
 }
