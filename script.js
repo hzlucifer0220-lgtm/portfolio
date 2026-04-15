@@ -10,52 +10,46 @@ function startSite() {
 
 function goToPage(page) {
 
-  const oldPageEl = document.querySelector(".page.active-page");
-  const newPageEl = document.getElementById("page" + page);
+  const oldPage = document.querySelector(".page.active-page");
+  const newPage = document.getElementById("page" + page);
 
-  if (!newPageEl || currentPage === page) return;
+  if (!newPage || page === currentPage) return;
 
-  // 判斷方向
   const goingForward = page > currentPage;
 
-  // 清掉所有動畫 class
+  /* 清除動畫 */
   document.querySelectorAll(".page").forEach(p => {
-    p.classList.remove("enter-up", "enter-down", "exit-up", "exit-down");
+    p.classList.remove("enter-up","enter-down","exit-up","exit-down");
   });
 
-  // 設定新頁初始位置
+  /* 初始位置 */
   if (goingForward) {
-    newPageEl.classList.add("enter-up");
+    newPage.classList.add("enter-up");
   } else {
-    newPageEl.classList.add("enter-down");
+    newPage.classList.add("enter-down");
   }
 
-  newPageEl.classList.add("active-page");
+  newPage.classList.add("active-page");
 
-  // 讓瀏覽器套用初始位置（很重要）
   setTimeout(() => {
 
-    if (oldPageEl) {
-      oldPageEl.classList.remove("active-page");
+    if (oldPage) {
+      oldPage.classList.remove("active-page");
 
       if (goingForward) {
-        oldPageEl.classList.add("exit-up");
+        oldPage.classList.add("exit-up");
       } else {
-        oldPageEl.classList.add("exit-down");
+        oldPage.classList.add("exit-down");
       }
     }
 
-    // 讓新頁回到正常位置
-    newPageEl.classList.remove("enter-up", "enter-down");
+    newPage.classList.remove("enter-up","enter-down");
 
   }, 20);
 
-  // 更新 tab active
-  document.querySelectorAll(".tab").forEach((tab, index) => {
-    tab.classList.remove("active");
-    if (index === page - 1) {
-      tab.classList.add("active");
-    }
+  /* tab active */
+  document.querySelectorAll(".tab").forEach((tab, i) => {
+    tab.classList.toggle("active", i === page - 1);
   });
 
   currentPage = page;
