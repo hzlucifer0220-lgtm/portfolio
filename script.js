@@ -76,3 +76,75 @@ function goHome() {
 
   currentPage = 0;
 }
+const tracks = [
+  {
+    name: "Track 1 - Artist",
+    src: "music1.mp3"
+  },
+  {
+    name: "Track 2 - Artist",
+    src: "music2.mp3"
+  }
+];
+
+let currentTrack = 0;
+let audio = new Audio(tracks[currentTrack].src);
+
+const trackName = document.getElementById("track-name");
+const progress = document.getElementById("progress");
+const playBtn = document.getElementById("playBtn");
+const vinyl = document.querySelector(".vinyl");
+
+trackName.innerText = tracks[currentTrack].name;
+
+/* 播放 / 暫停 */
+function togglePlay() {
+  if (audio.paused) {
+    audio.play();
+    playBtn.innerText = "⏸";
+    vinyl.classList.add("spin");
+  } else {
+    audio.pause();
+    playBtn.innerText = "▶";
+    vinyl.classList.remove("spin");
+  }
+}
+
+/* 下一首 */
+function nextTrack() {
+  currentTrack = (currentTrack + 1) % tracks.length;
+  loadTrack();
+}
+
+/* 上一首 */
+function prevTrack() {
+  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+  loadTrack();
+}
+
+function loadTrack() {
+  audio.src = tracks[currentTrack].src;
+  trackName.innerText = tracks[currentTrack].name;
+  audio.play();
+  playBtn.innerText = "⏸";
+  vinyl.classList.add("spin");
+}
+
+/* 進度條 */
+audio.addEventListener("timeupdate", () => {
+  progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+
+  document.getElementById("current").innerText = formatTime(audio.currentTime);
+  document.getElementById("duration").innerText = formatTime(audio.duration);
+});
+
+progress.addEventListener("input", () => {
+  audio.currentTime = (progress.value / 100) * audio.duration;
+});
+
+/* 時間格式 */
+function formatTime(time) {
+  const min = Math.floor(time / 60);
+  const sec = Math.floor(time % 60);
+  return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+}
