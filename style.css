@@ -209,30 +209,30 @@ body.active .tabs {
 .music-player {
   width: 100%;
   height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 18px;
-}
 
+  padding-left: 5px; /* ⭐ 貼左 */
+}
 .music-top {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
 }
 
 .track-info {
   flex: 1;
-  overflow: hidden;
+  margin-left: 5px;
 }
 
 /* ===== VINYL ===== */
 /* 外層：只負責位置 */
 .vinyl {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
 }
 
 /* 旋轉層（動畫放這） */
@@ -253,8 +253,8 @@ body.active .tabs {
 
 /* 圖片永遠固定在中心 */
 .vinyl img {
-  width: 40%;
-  height: 40%;
+  width: 55%;
+  height: 55%;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -279,7 +279,7 @@ body.active .tabs {
 
 /* ===== PROGRESS ===== */
 .progress-area {
-  width: 75%;
+  width: 85%;
   margin: 0 auto;
 }
 
@@ -308,7 +308,7 @@ body.active .tabs {
 
 /* ===== CONTROLS ===== */
 .controls {
-  width: 40%;
+  width: 60%;
   margin: 0 auto;
 
   display: flex;
