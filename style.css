@@ -262,19 +262,6 @@ body.active .back-btn {
 
 /* ===== PAGE SLIDE SYSTEM ===== */
 
-.page {
-  position: absolute;
-  top: 50%;
-  left: 20%;
-  transform: translateY(-50%);
-  width: 60%;
-
-  opacity: 0;
-  pointer-events: none;
-
-  transition: transform 0.6s ease, opacity 0.6s ease;
-}
-
 /* 顯示中 */
 .page.active-page {
   opacity: 1;
