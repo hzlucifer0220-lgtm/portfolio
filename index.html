@@ -9,31 +9,19 @@
 
 <body>
 
-  <!-- BACK BUTTON（2~5頁才會出現） -->
+  <!-- BACK -->
   <div class="back-btn" onclick="goHome()">BACK</div>
 
-  <!-- 左上角卡片 -->
-  <div class="corner-card top-left">
-    MUSIC / CONTROL
-  </div>
+  <!-- Corner Cards -->
+  <div class="corner-card top-left">MUSIC / CONTROL</div>
+  <div class="corner-card bottom-right">ABOUT / TAG</div>
 
-  <!-- 右下角卡片 -->
-  <div class="corner-card bottom-right">
-    ABOUT / TAG
-  </div>
-
-  <!-- HERO -->
-  <section class="hero">
+  <!-- ===== 封面 ===== -->
+  <section class="page hero-page active-page" id="home">
 
     <h1 class="title">YOUR NAME</h1>
-
-    <p class="subtitle">
-      DESIGN / ART / INTERACTION / AI
-    </p>
-
-    <p class="desc">
-      Between modern structure and street expression
-    </p>
+    <p class="subtitle">DESIGN / ART / INTERACTION / AI</p>
+    <p class="desc">Between modern structure and street expression</p>
 
     <button class="start-btn" onclick="startSite()">
       START
@@ -41,16 +29,24 @@
 
   </section>
 
-  <!-- TAB SYSTEM（5 tabs） -->
+  <!-- ===== TAB SYSTEM ===== -->
   <nav class="tabs">
 
-    <div class="tab active">HOME</div>
-    <div class="tab">CREATION</div>
-    <div class="tab">INTERACTION</div>
-    <div class="tab">WORKS</div>
-    <div class="tab">PROCESS</div>
+    <div class="tab" onclick="goToPage(1)">創作起點</div>
+    <div class="tab" onclick="goToPage(2)">互動頁面</div>
+    <div class="tab" onclick="goToPage(3)">作品展示</div>
+    <div class="tab" onclick="goToPage(4)">歷程記錄</div>
+    <div class="tab" onclick="goToPage(5)">未來展望</div>
 
   </nav>
+
+  <!-- ===== 內容頁面 ===== -->
+
+  <section class="page" id="page1">創作起點內容</section>
+  <section class="page" id="page2">互動頁面內容</section>
+  <section class="page" id="page3">作品展示內容</section>
+  <section class="page" id="page4">歷程記錄內容</section>
+  <section class="page" id="page5">未來展望內容</section>
 
   <script src="script.js"></script>
 </body>
