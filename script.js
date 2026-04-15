@@ -168,6 +168,4 @@ progress.addEventListener("input", () => {
 
   audio.currentTime = (progress.value / 100) * audio.duration;
 });
-  const sec = Math.floor(time % 60);
-  return `${min}:${sec < 10 ? "0" : ""}${sec}`;
-}
+  
