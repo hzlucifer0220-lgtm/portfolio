@@ -39,7 +39,9 @@ body.active .back-btn {
     0 10px 20px rgba(0,0,0,0.15);
 
   backdrop-filter: blur(6px);
+  overflow: hidden; /* ⭐ 就是加這行 */
 }
+
 /* 左上（上寬下窄） */
 .top-left {
   top: 0;
@@ -55,11 +57,17 @@ body.active .back-btn {
 }
 
 /* START後卡片收走 */
+/* 保留動畫 */
 body.active .corner-card {
   transform: translateX(-120%);
   opacity: 0;
+  transition: 0.8s ease;
 }
 
+/* 確保內容一起動 */
+.corner-card * {
+  pointer-events: auto;
+}
 /* ===== HERO ===== */
 .hero {
   position: absolute;
@@ -483,4 +491,28 @@ body.active .back-btn {
 
 .controls button:hover {
   transform: scale(1.2);
+}
+.music-player {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.music-top {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.vinyl {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.track-info {
+  flex: 1;
+  overflow: hidden;
 }
