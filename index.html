@@ -52,15 +52,17 @@
   <div class="corner-card bottom-right">ABOUT / TAG</div>
 
   <!-- ===== 封面 ===== -->
-  <section class="page hero-page active-page" id="home">
+  <!-- 封面 UI（獨立層） -->
+<div class="hero-ui">
 
-  <img src="title.jpg" class="title-img" alt="title">
+  <img src="title.jpg" class="title-img">
 
-  <button class="start-btn" onclick="startSite()">
-    START
-  </button>
+  <button class="start-btn" onclick="startSite()">START</button>
 
-</section>
+</div>
+
+<!-- page 保留（但裡面不要放 title） -->
+<section class="page active-page" id="home"></section>
   <!-- ===== TAB SYSTEM ===== -->
   <nav class="tabs">
 
