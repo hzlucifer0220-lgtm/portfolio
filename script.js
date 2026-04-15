@@ -107,7 +107,10 @@ function startMusic() {
 function togglePlay() {
   if (audio.paused) {
     audio.play();
-    vinyl.classList.add("spin");
+    const vinylDisc = document.querySelector(".vinyl-disc");
+
+vinylDisc.classList.add("spin");
+vinylDisc.classList.remove("spin");
     playBtn.innerText = "⏸";
   } else {
     audio.pause();
@@ -141,6 +144,34 @@ audio.addEventListener("timeupdate", () => {
 loadTrack(0);
 
 /* 時間格式 */
+function formatTime(time) {
+  const min = Math.floor(time / 60);
+  const sec = Math.floor(time % 60);
+  return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+}
+const progress = document.getElementById("progress");
+const currentTimeEl = document.getElementById("current");
+const durationEl = document.getElementById("duration");
+
+/* 更新進度 */
+audio.addEventListener("timeupdate", () => {
+
+  if (!audio.duration) return;
+
+  progress.value = (audio.currentTime / audio.duration) * 100;
+
+  currentTimeEl.innerText = formatTime(audio.currentTime);
+  durationEl.innerText = formatTime(audio.duration);
+});
+
+/* 拖動進度條 */
+progress.addEventListener("input", () => {
+  if (!audio.duration) return;
+
+  audio.currentTime = (progress.value / 100) * audio.duration;
+});
+
+/* 格式化時間 */
 function formatTime(time) {
   const min = Math.floor(time / 60);
   const sec = Math.floor(time % 60);
