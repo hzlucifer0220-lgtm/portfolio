@@ -328,3 +328,7 @@ body.active .tabs {
 .controls button:hover {
   transform: scale(1.2);
 }
+.progress-area input {
+  width: 100%;
+  cursor: pointer;
+}
