@@ -88,12 +88,11 @@ body.active .hero-ui {
 
 /* ===== TITLE IMAGE ===== */
 .title-img {
-  position: fixed;
-  top: 36vh;
-  left: 5vw;
-  width: 40vw;
-  z-index: 1;
-  
+    position: fixed;
+    top: 26vh;
+    left: -6vw;
+    width: 60vw;
+    z-index: 1;
 }
 
 /* ===== TAB SYSTEM ===== */
