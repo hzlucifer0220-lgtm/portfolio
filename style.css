@@ -146,3 +146,56 @@ body.active .tabs {
   background: #8a2434;
   transform: scale(1.05);
 }
+/* ===== PAGE SYSTEM ===== */
+.page {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translateY(-50%);
+  width: 60%;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.6s;
+}
+
+.active-page {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 封面特殊 */
+.hero-page {
+  left: 15%;
+}
+
+/* ===== TAB ACTIVE 狀態 ===== */
+.tab {
+  background: #6B1F2B;
+  color: #F3EDE3;
+  padding: 12px 20px;
+  width: 170px;
+
+  clip-path: polygon(
+    0 0,
+    85% 0,
+    100% 50%,
+    85% 100%,
+    0 100%
+  );
+
+  transition: 0.3s;
+}
+
+.tab.active {
+  background: #8a2434;
+  transform: translateX(10px) scale(1.05);
+}
+
+/* BACK 顯示控制 */
+.back-btn {
+  opacity: 0;
+}
+
+body.active .back-btn {
+  opacity: 1;
+}
