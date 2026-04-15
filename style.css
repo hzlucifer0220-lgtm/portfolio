@@ -66,19 +66,18 @@ body.active .hero-ui {
 }
 /* ===== START BUTTON ===== */
 .start-btn {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  padding: 14px 34px;
-  border: 1px solid #6B1F2B;
-  background: transparent;
-  color: #6B1F2B;
-  letter-spacing: 3px;
-  cursor: pointer;
-  transition: 0.3s;
-  z-index: 2; /* 在最上面 */
+    position: fixed;
+    top: 57%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    padding: 27px 48px;
+    border: 1px solid #6B1F2B;
+    background: transparent;
+    color: #6B1F2B;
+    letter-spacing: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+    z-index: 2;
 }
 
 .start-btn:hover {
