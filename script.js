@@ -18,7 +18,7 @@ window.togglePlay = function() {
   if (!vinylDisc || !playBtn) return;
 
   if (audio.paused) {
-    audio.play();
+    audio.play().catch(() => {});
     vinylDisc.classList.add("spin");
     playBtn.innerText = "⏸";
   } else {
@@ -69,6 +69,9 @@ window.goHome = function () {
 
 
 window.startSite = function () {
+
+  if (!vinylDisc) return;  // ⭐ 保證 DOM ready
+
   document.body.classList.add("active");
   loadTrack(0);
   startMusic();
@@ -142,8 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* 更新進度 */
 audio.addEventListener("timeupdate", () => {
-
-  if (!audio.duration) return;
+  if (!audio.duration || !progress || !currentTimeEl || !durationEl) return;
 
   progress.value = (audio.currentTime / audio.duration) * 100;
   currentTimeEl.innerText = formatTime(audio.currentTime);
@@ -158,21 +160,23 @@ audio.addEventListener("timeupdate", () => {
 function loadTrack(index) {
   currentTrack = index;
   audio.src = tracks[currentTrack].src;
-  trackName.innerText = tracks[currentTrack].name;
 
-  progress.value = 0;
-  currentTimeEl.innerText = "0:00";
-  durationEl.innerText = "0:00";
+  if (trackName) trackName.innerText = tracks[currentTrack].name;
+
+  if (progress) progress.value = 0;
+  if (currentTimeEl) currentTimeEl.innerText = "0:00";
+  if (durationEl) durationEl.innerText = "0:00";
 
   audio.load();
 }
 
 /* 自動播放（第一次 START） */
 function startMusic() {
-  audio.play().catch(() => {});
-  vinylDisc?.classList.add("spin");
-  playBtn.innerText = "⏸";
   if (!vinylDisc || !playBtn) return;
+
+  audio.play().catch(() => {});
+  vinylDisc.classList.add("spin");
+  playBtn.innerText = "⏸";
 }
 
 /* 時間格式 */
