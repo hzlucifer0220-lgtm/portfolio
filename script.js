@@ -17,11 +17,9 @@ const vinylDisc = document.querySelector(".vinyl-disc");
 
 
 
-function startSite() {
+window.startSite = function() {
   document.body.classList.add("active");
-
-  startMusic(); // ⭐ 加這行
-
+  startMusic();
   goToPage(1);
 }
 
@@ -118,7 +116,7 @@ function startMusic() {
 }
 
 /* 播放控制 */
-function togglePlay() {
+window.togglePlay = function() {
   if (audio.paused) {
     audio.play();
     vinylDisc.classList.add("spin");
@@ -131,16 +129,15 @@ function togglePlay() {
 }
 
 /* 切歌 */
-function nextTrack() {
+window.nextTrack = function() {
   loadTrack((currentTrack + 1) % tracks.length);
   audio.play();
 }
 
-function prevTrack() {
+window.prevTrack = function() {
   loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
   audio.play();
 }
-
 /* 自動下一首（無限循環） */
 audio.addEventListener("ended", () => {
   nextTrack();
