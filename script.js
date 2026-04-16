@@ -1,3 +1,14 @@
+/* ===== 音樂系統 ===== */
+const tracks = [
+  { name: "late night", src: "late night.mp3" },
+  { name: "made it through", src: "made it through.mp3" },
+  { name: "M.I.A", src: "M.I.A.mp3" }
+];
+
+let currentTrack = 0;
+const audio = new Audio();
+audio.loop = false; // 我們自己控制循環
+
 /* 播放控制 */
 window.togglePlay = function() {
   if (audio.paused) {
@@ -99,34 +110,21 @@ window.goToPage = function(page) {
   currentPage = page;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-/* 所有 JS 都放這裡 */
+document.addEventListener(”DOMContentLoaded“, () => {
 
-const trackName = document.getElementById("track-name");
-const progress = document.getElementById("progress");
-const currentTimeEl = document.getElementById("current");
-const durationEl = document.getElementById("duration");
-const playBtn = document.getElementById("playBtn");
-const vinylDisc = document.querySelector(".vinyl-disc");
+const trackName = document.getElementById(”track-name“);
+const progress = document.getElementById(”progress“);
+const currentTimeEl = document.getElementById(”current“);
+const durationEl = document.getElementById(”duration“);
+const playBtn = document.getElementById(”playBtn“);
+const vinylDisc = document.querySelector(”.vinyl-disc“);
 
-/* 你的其他 JS 全部保持不動 */
+loadTrack(0);
 
-  
+});
+
   
   let currentPage = 0; // 0 = 封面
-
-
-
-/* ===== 音樂系統 ===== */
-const tracks = [
-  { name: "late night", src: "late night.mp3" },
-  { name: "made it through", src: "made it through.mp3" },
-  { name: "M.I.A", src: "M.I.A.mp3" }
-];
-
-let currentTrack = 0;
-const audio = new Audio();
-audio.loop = false; // 我們自己控制循環
 
 
 /* 載入歌曲 */
