@@ -245,3 +245,20 @@ function fadeIn(audio, duration = 300) {
     }, 30);
   });
 }
+let audioUnlocked = false;
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+
+  audio.play()
+    .then(() => {
+      audio.pause(); // 立刻停，但已解鎖
+      audio.currentTime = 0;
+      audioUnlocked = true;
+      console.log("audio unlocked");
+    })
+    .catch(() => {});
+}
+
+document.addEventListener("click", unlockAudio, { once: true });
+document.addEventListener("touchstart", unlockAudio, { once: true });
