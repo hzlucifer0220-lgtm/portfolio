@@ -1,5 +1,21 @@
 let currentPage = 0; // 0 = 封面
 
+document.addEventListener("DOMContentLoaded", () => {
+
+/* 所有 JS 都放這裡 */
+
+const trackName = document.getElementById("track-name");
+const progress = document.getElementById("progress");
+const currentTimeEl = document.getElementById("current");
+const durationEl = document.getElementById("duration");
+const playBtn = document.getElementById("playBtn");
+const vinylDisc = document.querySelector(".vinyl-disc");
+
+/* 你的其他 JS 全部保持不動 */
+
+});
+
+
 function startSite() {
   document.body.classList.add("active");
 
@@ -85,20 +101,7 @@ let currentTrack = 0;
 const audio = new Audio();
 audio.loop = false; // 我們自己控制循環
 
-document.addEventListener("DOMContentLoaded", () => {
 
-/* 所有 JS 都放這裡 */
-
-const trackName = document.getElementById("track-name");
-const progress = document.getElementById("progress");
-const currentTimeEl = document.getElementById("current");
-const durationEl = document.getElementById("duration");
-const playBtn = document.getElementById("playBtn");
-const vinylDisc = document.querySelector(".vinyl-disc");
-
-/* 你的其他 JS 全部保持不動 */
-
-});
 /* 載入歌曲 */
 function loadTrack(index) {
   currentTrack = index;
