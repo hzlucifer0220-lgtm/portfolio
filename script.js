@@ -171,6 +171,40 @@ audio.addEventListener("timeupdate", () => {
 });
 
   loadTrack(0);
+
+  window.addEventListener("load", async () => {
+  await preloadImages();
+
+  const loading = document.getElementById("loading-screen");
+
+  setTimeout(() => {
+    loading.style.opacity = "0";
+    loading.style.transition = "0.8s ease";
+
+    setTimeout(() => loading.remove(), 800);
+  }, 300);
+});
+  
+  function preloadImages() {
+  const imgs = document.images;
+  let loaded = 0;
+
+  return new Promise((resolve) => {
+    if (imgs.length === 0) resolve();
+
+    for (let img of imgs) {
+      if (img.complete) {
+        loaded++;
+        if (loaded === imgs.length) resolve();
+      } else {
+        img.onload = img.onerror = () => {
+          loaded++;
+          if (loaded === imgs.length) resolve();
+        };
+      }
+    }
+  });
+}
 });
 
 
