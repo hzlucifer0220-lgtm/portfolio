@@ -125,7 +125,6 @@ window.goToPage = function (page) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  
   trackName = document.getElementById("track-name");
   progress = document.getElementById("progress");
   currentTimeEl = document.getElementById("current");
@@ -134,8 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
   vinylDisc = document.querySelector(".vinyl-disc");
 
   loadTrack(0);
-});
 
+});
 
 
 /* 載入歌曲 */
