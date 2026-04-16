@@ -134,60 +134,32 @@ window.goToPage = function (page) {
   currentPage = page;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", async () => {
 
+  vinylDisc = document.querySelector(".vinyl-disc");
+  playBtn = document.getElementById("playBtn");
   trackName = document.getElementById("track-name");
   progress = document.getElementById("progress");
   currentTimeEl = document.getElementById("current");
   durationEl = document.getElementById("duration");
-  playBtn = document.getElementById("playBtn");
-  vinylDisc = document.querySelector(".vinyl-disc");
-
-  let isSeeking = false;
-
-progress.addEventListener("mousedown", () => isSeeking = true);
-progress.addEventListener("touchstart", () => isSeeking = true);
-
-progress.addEventListener("mouseup", () => isSeeking = false);
-progress.addEventListener("touchend", () => isSeeking = false);
-
-  if (progress) {
-  progress.addEventListener("input", () => {
-  if (!audio.duration) return;
-
-  const seekTime = (progress.value / 100) * audio.duration;
-  audio.currentTime = seekTime;
-});
-  }
-
-  /* 更新進度 */
-audio.addEventListener("timeupdate", () => {
-  if (!audio.duration) return;
-  if (isSeeking) return; // ⭐關鍵
-
-  progress.value = (audio.currentTime / audio.duration) * 100;
-  currentTimeEl.innerText = formatTime(audio.currentTime);
-  durationEl.innerText = formatTime(audio.duration);
-});
 
   loadTrack(0);
 
-  window.addEventListener("load", async () => {
   await preloadImages();
 
   const loading = document.getElementById("loading-screen");
 
   setTimeout(() => {
+     loading.style.transition = "0.8s ease";
     loading.style.opacity = "0";
-    loading.style.transition = "0.8s ease";
-
+   
     setTimeout(() => loading.remove(), 800);
   }, 300);
 });
-  
-  function preloadImages() {
+
+function preloadImages() {
   const imgs = document.images;
-  let loaded = 0;
+   let loaded = 0;
 
   return new Promise((resolve) => {
     if (imgs.length === 0) resolve();
@@ -205,8 +177,6 @@ audio.addEventListener("timeupdate", () => {
     }
   });
 }
-});
-
 
 /* 載入歌曲 */
 function loadTrack(index) {
