@@ -1,3 +1,6 @@
+
+let currentPage = 0;
+let vinylDisc, playBtn, trackName, progress, currentTimeEl, durationEl;
 /* ===== 音樂系統 ===== */
 const tracks = [
   { name: "late night", src: "late night.mp3" },
@@ -6,11 +9,14 @@ const tracks = [
 ];
 
 let currentTrack = 0;
+
 const audio = new Audio();
 audio.loop = false; // 我們自己控制循環
 
 /* 播放控制 */
 window.togglePlay = function() {
+  if (!vinylDisc || !playBtn) return;
+
   if (audio.paused) {
     audio.play();
     vinylDisc.classList.add("spin");
@@ -23,20 +29,25 @@ window.togglePlay = function() {
 }
 
 /* 切歌 */
-window.nextTrack = function() {
+window.nextTrack = function () {
   loadTrack((currentTrack + 1) % tracks.length);
   audio.play();
+  vinylDisc?.classList.add("spin");
+  playBtn.innerText = "⏸";
 }
 
 window.prevTrack = function() {
   loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
   audio.play();
+  vinylDisc?.classList.add("spin");
 }
 /* 自動下一首（無限循環） */
 audio.addEventListener("ended", () => {
-  nextTrack();
+  window.nextTrack();
 });
-window.goHome = function() {
+
+
+window.goHome = function () {
 
   document.body.classList.remove("active");
 
@@ -56,14 +67,16 @@ window.goHome = function() {
 }
 
 
-window.startSite = function() {
+window.startSite = function () {
   document.body.classList.add("active");
+  loadTrack(0);
   startMusic();
   goToPage(1);
 }
 
 
-window.goToPage = function(page) {
+
+window.goToPage = function (page) {
 
   const oldPage = document.querySelector(".page.active-page");
   const newPage = document.getElementById("page" + page);
@@ -110,21 +123,19 @@ window.goToPage = function(page) {
   currentPage = page;
 }
 
-document.addEventListener(”DOMContentLoaded“, () => {
-
-const trackName = document.getElementById(”track-name“);
-const progress = document.getElementById(”progress“);
-const currentTimeEl = document.getElementById(”current“);
-const durationEl = document.getElementById(”duration“);
-const playBtn = document.getElementById(”playBtn“);
-const vinylDisc = document.querySelector(”.vinyl-disc“);
-
-loadTrack(0);
-
-});
+document.addEventListener("DOMContentLoaded", () => {
 
   
-  let currentPage = 0; // 0 = 封面
+  trackName = document.getElementById("track-name");
+  progress = document.getElementById("progress");
+  currentTimeEl = document.getElementById("current");
+  durationEl = document.getElementById("duration");
+  playBtn = document.getElementById("playBtn");
+  vinylDisc = document.querySelector(".vinyl-disc");
+
+  loadTrack(0);
+});
+
 
 
 /* 載入歌曲 */
@@ -132,13 +143,18 @@ function loadTrack(index) {
   currentTrack = index;
   audio.src = tracks[currentTrack].src;
   trackName.innerText = tracks[currentTrack].name;
+
+  progress.value = 0;
+  currentTimeEl.innerText = "0:00";
+  durationEl.innerText = "0:00";
+
   audio.load();
 }
 
 /* 自動播放（第一次 START） */
 function startMusic() {
   audio.play().catch(() => {});
-  vinylDisc.classList.add("spin");
+  vinylDisc?.classList.add("spin");
   playBtn.innerText = "⏸";
 }
 
@@ -167,7 +183,6 @@ progress.addEventListener("input", () => {
 
   audio.currentTime = (progress.value / 100) * audio.duration;
 });
-  /* 初始化 */
-loadTrack(0);
+
 
 });
