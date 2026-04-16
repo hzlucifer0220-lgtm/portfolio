@@ -22,7 +22,7 @@ const vinylDisc = document.querySelector(".vinyl-disc");
   let currentPage = 0; // 0 = 封面
 
 
-function goToPage(page) {
+window.goToPage = function(page) {
 
   const oldPage = document.querySelector(".page.active-page");
   const newPage = document.getElementById("page" + page);
@@ -69,7 +69,7 @@ function goToPage(page) {
   currentPage = page;
 }
 
-function goHome() {
+window.goHome = function() {
 
   document.body.classList.remove("active");
 
