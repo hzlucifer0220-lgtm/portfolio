@@ -1,3 +1,10 @@
+window.startSite = function() {
+  document.body.classList.add("active");
+  startMusic();
+  goToPage(1);
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
 /* 所有 JS 都放這裡 */
 
@@ -14,14 +21,6 @@ const vinylDisc = document.querySelector(".vinyl-disc");
   
   let currentPage = 0; // 0 = 封面
 
-
-
-
-window.startSite = function() {
-  document.body.classList.add("active");
-  startMusic();
-  goToPage(1);
-}
 
 function goToPage(page) {
 
