@@ -124,16 +124,7 @@ window.goToPage = function (page) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-progress = document.getElementById("progress");
-  currentTimeEl = document.getElementById("current");
-  durationEl = document.getElementById("duration");
 
-  if (progress) {
-    progress.addEventListener("input", () => {
-      if (!audio.duration) return;
-      audio.currentTime = (progress.value / 100) * audio.duration;
-    });
-  }
   trackName = document.getElementById("track-name");
   progress = document.getElementById("progress");
   currentTimeEl = document.getElementById("current");
@@ -141,8 +132,24 @@ progress = document.getElementById("progress");
   playBtn = document.getElementById("playBtn");
   vinylDisc = document.querySelector(".vinyl-disc");
 
-  loadTrack(0);
+  if (progress) {
+    progress.addEventListener("input", () => {
+      if (!audio.duration) return;
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    });
+  }
 
+  /* 更新進度 */
+audio.addEventListener("timeupdate", () => {
+
+  if (!audio.duration) return;
+
+  progress.value = (audio.currentTime / audio.duration) * 100;
+  currentTimeEl.innerText = formatTime(audio.currentTime);
+  durationEl.innerText = formatTime(audio.duration);
+});
+
+  loadTrack(0);
 });
 
 
@@ -174,16 +181,6 @@ function formatTime(time) {
 }
 
 
-/* 更新進度 */
-audio.addEventListener("timeupdate", () => {
-
-  if (!audio.duration) return;
-
-  progress.value = (audio.currentTime / audio.duration) * 100;
-
-  currentTimeEl.innerText = formatTime(audio.currentTime);
-  durationEl.innerText = formatTime(audio.duration);
-});
 
 /* 拖動進度條 */
 progress.addEventListener("input", () => {
