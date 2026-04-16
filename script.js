@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", () => {
 let currentPage = 0; // 0 = 封面
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -180,3 +181,4 @@ progress.addEventListener("input", () => {
   audio.currentTime = (progress.value / 100) * audio.duration;
 });
   
+});
