@@ -121,14 +121,11 @@ function startMusic() {
 function togglePlay() {
   if (audio.paused) {
     audio.play();
-
-    vinylDisc.classList.add("spin");  // 開始轉
+    vinylDisc.classList.add("spin");
     playBtn.innerText = "⏸";
-
   } else {
     audio.pause();
-
-    vinylDisc.classList.remove("spin"); // 停止轉
+    vinylDisc.classList.remove("spin");
     playBtn.innerText = "▶";
   }
 }
