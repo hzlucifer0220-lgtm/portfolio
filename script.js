@@ -124,7 +124,16 @@ window.goToPage = function (page) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+progress = document.getElementById("progress");
+  currentTimeEl = document.getElementById("current");
+  durationEl = document.getElementById("duration");
 
+  if (progress) {
+    progress.addEventListener("input", () => {
+      if (!audio.duration) return;
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    });
+  }
   trackName = document.getElementById("track-name");
   progress = document.getElementById("progress");
   currentTimeEl = document.getElementById("current");
