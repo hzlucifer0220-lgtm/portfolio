@@ -73,7 +73,7 @@ window.startSite = function () {
   if (!vinylDisc) return;  // ⭐ 保證 DOM ready
 
   document.body.classList.add("active");
-  loadTrack(0);
+  
   startMusic();
   goToPage(1);
 }
@@ -137,10 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
   vinylDisc = document.querySelector(".vinyl-disc");
 
   if (progress) {
-    progress.addEventListener("input", () => {
-      if (!audio.duration) return;
-      audio.currentTime = (progress.value / 100) * audio.duration;
-    });
+   progress.oninput = () => {
+  if (!audio.duration) return;
+  audio.currentTime = (progress.value / 100) * audio.duration;
+};
   }
 
   /* 更新進度 */
@@ -162,10 +162,6 @@ function loadTrack(index) {
   audio.src = tracks[currentTrack].src;
 
   if (trackName) trackName.innerText = tracks[currentTrack].name;
-
-  if (progress) progress.value = 0;
-  if (currentTimeEl) currentTimeEl.innerText = "0:00";
-  if (durationEl) durationEl.innerText = "0:00";
 
   audio.load();
 }
