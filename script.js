@@ -40,6 +40,7 @@ window.prevTrack = function() {
   loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
   audio.play();
   vinylDisc?.classList.add("spin");
+  playBtn.innerText = "⏸";
 }
 /* 自動下一首（無限循環） */
 audio.addEventListener("ended", () => {
@@ -171,6 +172,7 @@ function startMusic() {
   audio.play().catch(() => {});
   vinylDisc?.classList.add("spin");
   playBtn.innerText = "⏸";
+  if (!vinylDisc || !playBtn) return;
 }
 
 /* 時間格式 */
@@ -179,12 +181,3 @@ function formatTime(time) {
   const sec = Math.floor(time % 60);
   return `${min}:${sec < 10 ? "0" : ""}${sec}`;
 }
-
-
-
-/* 拖動進度條 */
-progress.addEventListener("input", () => {
-  if (!audio.duration) return;
-
-  audio.currentTime = (progress.value / 100) * audio.duration;
-});
