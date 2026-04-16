@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-let currentPage = 0; // 0 = 封面
-
-document.addEventListener("DOMContentLoaded", () => {
-
 /* 所有 JS 都放這裡 */
 
 const trackName = document.getElementById("track-name");
@@ -14,7 +10,11 @@ const vinylDisc = document.querySelector(".vinyl-disc");
 
 /* 你的其他 JS 全部保持不動 */
 
-});
+  
+  
+  let currentPage = 0; // 0 = 封面
+
+
 
 
 function startSite() {
@@ -91,7 +91,6 @@ function goHome() {
   currentPage = 0;
 }
 /* ===== 音樂系統 ===== */
-
 const tracks = [
   { name: "late night", src: "late night.mp3" },
   { name: "made it through", src: "made it through.mp3" },
@@ -147,13 +146,6 @@ audio.addEventListener("ended", () => {
   nextTrack();
 });
 
-/* 進度條 */
-audio.addEventListener("timeupdate", () => {
-  progress.value = (audio.currentTime / audio.duration) * 100 || 0;
-});
-
-/* 初始化 */
-loadTrack(0);
 
 /* 時間格式 */
 function formatTime(time) {
@@ -180,5 +172,7 @@ progress.addEventListener("input", () => {
 
   audio.currentTime = (progress.value / 100) * audio.duration;
 });
-  
+  /* 初始化 */
+loadTrack(0);
+
 });
