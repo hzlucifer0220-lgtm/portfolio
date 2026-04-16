@@ -1,3 +1,57 @@
+/* 播放控制 */
+window.togglePlay = function() {
+  if (audio.paused) {
+    audio.play();
+    vinylDisc.classList.add("spin");
+    playBtn.innerText = "⏸";
+  } else {
+    audio.pause();
+    vinylDisc.classList.remove("spin");
+    playBtn.innerText = "▶";
+  }
+}
+
+/* 切歌 */
+window.nextTrack = function() {
+  loadTrack((currentTrack + 1) % tracks.length);
+  audio.play();
+}
+
+window.prevTrack = function() {
+  loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
+  audio.play();
+}
+/* 自動下一首（無限循環） */
+audio.addEventListener("ended", () => {
+  nextTrack();
+});
+window.goHome = function() {
+
+  document.body.classList.remove("active");
+
+  const oldPageEl = document.querySelector(".page.active-page");
+
+  if (oldPageEl) {
+    oldPageEl.classList.remove("active-page");
+  }
+
+  document.getElementById("home").classList.add("active-page");
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  currentPage = 0;
+}
+
+
+window.startSite = function() {
+  document.body.classList.add("active");
+  startMusic();
+  goToPage(1);
+}
+
+
 window.goToPage = function(page) {
 
   const oldPage = document.querySelector(".page.active-page");
@@ -45,35 +99,6 @@ window.goToPage = function(page) {
   currentPage = page;
 }
 
-window.goHome = function() {
-
-  document.body.classList.remove("active");
-
-  const oldPageEl = document.querySelector(".page.active-page");
-
-  if (oldPageEl) {
-    oldPageEl.classList.remove("active-page");
-  }
-
-  document.getElementById("home").classList.add("active-page");
-
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.classList.remove("active");
-  });
-
-  currentPage = 0;
-}
-
-
-
-
-window.startSite = function() {
-  document.body.classList.add("active");
-  startMusic();
-  goToPage(1);
-}
-
-
 document.addEventListener("DOMContentLoaded", () => {
 /* 所有 JS 都放這裡 */
 
@@ -118,35 +143,6 @@ function startMusic() {
   vinylDisc.classList.add("spin");
   playBtn.innerText = "⏸";
 }
-
-/* 播放控制 */
-window.togglePlay = function() {
-  if (audio.paused) {
-    audio.play();
-    vinylDisc.classList.add("spin");
-    playBtn.innerText = "⏸";
-  } else {
-    audio.pause();
-    vinylDisc.classList.remove("spin");
-    playBtn.innerText = "▶";
-  }
-}
-
-/* 切歌 */
-window.nextTrack = function() {
-  loadTrack((currentTrack + 1) % tracks.length);
-  audio.play();
-}
-
-window.prevTrack = function() {
-  loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
-  audio.play();
-}
-/* 自動下一首（無限循環） */
-audio.addEventListener("ended", () => {
-  nextTrack();
-});
-
 
 /* 時間格式 */
 function formatTime(time) {
