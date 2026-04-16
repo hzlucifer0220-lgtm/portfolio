@@ -1,4 +1,4 @@
-
+let isPlaying = false;
 let currentPage = 0;
 let vinylDisc, playBtn, trackName, progress, currentTimeEl, durationEl;
 /* ===== 音樂系統 ===== */
@@ -17,35 +17,44 @@ audio.loop = false; // 我們自己控制循環
 window.togglePlay = function() {
   if (!vinylDisc || !playBtn) return;
 
-  if (audio.paused) {
-    audio.play().catch(() => {});
-    vinylDisc.classList.add("spin");
-    playBtn.innerText = "⏸";
-  } else {
+  if (isPlaying || !audio.paused) {
     audio.pause();
+    isPlaying = false;
     vinylDisc.classList.remove("spin");
     playBtn.innerText = "▶";
+  } else {
+    audio.play().then(() => {
+      isPlaying = true;
+      vinylDisc.classList.add("spin");
+      playBtn.innerText = "⏸";
+    }).catch(() => {});
   }
 }
 
 /* 切歌 */
 window.nextTrack = function () {
   loadTrack((currentTrack + 1) % tracks.length);
-  audio.play();
+
+  if (isPlaying) {
+    audio.play().catch(() => {});
+  }
+
   vinylDisc?.classList.add("spin");
   playBtn.innerText = "⏸";
 }
 
+
 window.prevTrack = function() {
   loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
-  audio.play();
+
+  if (isPlaying) {
+    audio.play().catch(() => {});
+  }
+
   vinylDisc?.classList.add("spin");
   playBtn.innerText = "⏸";
 }
-/* 自動下一首（無限循環） */
-audio.addEventListener("ended", () => {
-  window.nextTrack();
-});
+
 
 
 window.goHome = function () {
@@ -170,9 +179,11 @@ function loadTrack(index) {
 function startMusic() {
   if (!vinylDisc || !playBtn) return;
 
-  audio.play().catch(() => {});
-  vinylDisc.classList.add("spin");
-  playBtn.innerText = "⏸";
+  audio.play().then(() => {
+    isPlaying = true;
+    vinylDisc.classList.add("spin");
+    playBtn.innerText = "⏸";
+  }).catch(() => {});
 }
 
 /* 時間格式 */
