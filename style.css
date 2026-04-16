@@ -88,9 +88,9 @@ body.active .hero-ui {
 /* ===== TITLE IMAGE ===== */
 .title-img {
     position: fixed;
-    top: 26vh;
+    top: 20vh;
     left: -6vw;
-    width: 60vw;
+    width: 50vw;
     z-index: 1;
 }
 
