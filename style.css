@@ -382,3 +382,17 @@ body.active .tabs {
   letter-spacing: 2px;
   z-index: 1;
 }
+button {
+  transition: transform 0.15s ease, filter 0.15s ease;
+  cursor: pointer;
+}
+
+/* hover 放大 */
+button:hover {
+  transform: scale(1.15);
+}
+
+/* 點擊縮小 */
+button:active {
+  transform: scale(0.9);
+}
