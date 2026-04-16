@@ -43,7 +43,6 @@ window.nextTrack = function () {
   playBtn.innerText = "⏸";
 }
 
-
 window.prevTrack = function() {
   loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
 
@@ -54,7 +53,6 @@ window.prevTrack = function() {
   vinylDisc?.classList.add("spin");
   playBtn.innerText = "⏸";
 }
-
 
 
 window.goHome = function () {
@@ -145,16 +143,27 @@ document.addEventListener("DOMContentLoaded", () => {
   playBtn = document.getElementById("playBtn");
   vinylDisc = document.querySelector(".vinyl-disc");
 
+  let isSeeking = false;
+
+progress.addEventListener("mousedown", () => isSeeking = true);
+progress.addEventListener("touchstart", () => isSeeking = true);
+
+progress.addEventListener("mouseup", () => isSeeking = false);
+progress.addEventListener("touchend", () => isSeeking = false);
+
   if (progress) {
-   progress.oninput = () => {
+  progress.addEventListener("input", () => {
   if (!audio.duration) return;
-  audio.currentTime = (progress.value / 100) * audio.duration;
-};
+
+  const seekTime = (progress.value / 100) * audio.duration;
+  audio.currentTime = seekTime;
+});
   }
 
   /* 更新進度 */
 audio.addEventListener("timeupdate", () => {
-  if (!audio.duration || !progress || !currentTimeEl || !durationEl) return;
+  if (!audio.duration) return;
+  if (isSeeking) return; // ⭐關鍵
 
   progress.value = (audio.currentTime / audio.duration) * 100;
   currentTimeEl.innerText = formatTime(audio.currentTime);
@@ -170,11 +179,12 @@ function loadTrack(index) {
   currentTrack = index;
   audio.src = tracks[currentTrack].src;
 
-  if (trackName) trackName.innerText = tracks[currentTrack].name;
+  if (trackName) {
+    trackName.innerText = tracks[currentTrack].name;
+  }
 
   audio.load();
 }
-
 /* 自動播放（第一次 START） */
 function startMusic() {
   if (!vinylDisc || !playBtn) return;
@@ -191,4 +201,43 @@ function formatTime(time) {
   const min = Math.floor(time / 60);
   const sec = Math.floor(time % 60);
   return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+}
+function fadeOut(audio, duration = 300) {
+  return new Promise(resolve => {
+    let vol = audio.volume;
+    const step = vol / (duration / 30);
+
+    const fade = setInterval(() => {
+      vol -= step;
+      if (vol <= 0) {
+        vol = 0;
+        audio.volume = 0;
+        clearInterval(fade);
+        resolve();
+      } else {
+        audio.volume = vol;
+      }
+    }, 30);
+  });
+}
+
+function fadeIn(audio, duration = 300) {
+  return new Promise(resolve => {
+    let vol = 0;
+    audio.volume = 0;
+
+    const step = 1 / (duration / 30);
+
+    const fade = setInterval(() => {
+      vol += step;
+      if (vol >= 1) {
+        vol = 1;
+        audio.volume = 1;
+        clearInterval(fade);
+        resolve();
+      } else {
+        audio.volume = vol;
+      }
+    }, 30);
+  });
 }
