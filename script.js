@@ -15,7 +15,7 @@ audio.loop = false; // 我們自己控制循環
 
 /* 播放控制 */
 window.togglePlay = function() {
-  if (!vinylDisc || !playBtn) return;
+  if (!audio || !playBtn || !vinylDisc) return;
 
   if (isPlaying || !audio.paused) {
     audio.pause();
