@@ -433,10 +433,6 @@ body.active .tabs {
   z-index: 5;
   pointer-events: none;
 
-  /* ⭐ 關鍵 */
+  /* ⭐ 去黑背景 */
   mix-blend-mode: screen;
 }
-body {
-  background: #6B1F2B;
-}
-
