@@ -400,14 +400,14 @@ body.active .tabs {
   letter-spacing: 3px;
   margin-bottom: 10px;
   opacity: 0.9;
-  margin-left: 40px;
+  margin-left: 45px;
 }
 
 .about-text {
-  font-size: 11px;
-  line-height: 1.6;
-  opacity: 0.85;
-   margin-left: 40px;
+  font-size: 15px;
+    line-height: 1.6;
+  
+    margin-left: 50px;
 }
 /* ===== GIF 容器 ===== */
 .hud-gif-box {
