@@ -1,6 +1,7 @@
 let isPlaying = false;
 let currentPage = 0;
 let vinylDisc, playBtn, trackName, progress, currentTimeEl, durationEl;
+
 /* ===== 音樂系統 ===== */
 const tracks = [
   { name: "late night", src: "late night.mp3" },
@@ -15,7 +16,10 @@ audio.loop = false; // 我們自己控制循環
 
 /* 播放控制 */
 window.togglePlay = function() {
-  if (!audio || !playBtn || !vinylDisc) return;
+ if (!playBtn || !vinylDisc) {
+  console.log("DOM not ready");
+  return;
+}
 
   if (isPlaying || !audio.paused) {
     audio.pause();
@@ -48,12 +52,13 @@ window.prevTrack = function() {
 
   if (isPlaying) {
     audio.play().catch(() => {});
+    vinylDisc?.classList.add("spin");
+    playBtn.innerText = "⏸";
+  } else {
+    vinylDisc?.classList.remove("spin");
+    playBtn.innerText = "▶";
   }
-
-  vinylDisc?.classList.add("spin");
-  playBtn.innerText = "⏸";
 }
-
 
 window.goHome = function () {
 
@@ -252,10 +257,17 @@ function unlockAudio() {
 
   audio.play()
     .then(() => {
-      audio.pause(); // 立刻停，但已解鎖
+      audio.pause();
       audio.currentTime = 0;
       audioUnlocked = true;
+
       console.log("audio unlocked");
+
+      // ⭐ 解鎖後第一次點擊直接播放
+      document.addEventListener("click", () => {
+        if (!isPlaying) startMusic();
+      }, { once: true });
+
     })
     .catch(() => {});
 }
