@@ -24,9 +24,12 @@ body.active .back-btn {
 }
 
 /* ===== CORNER CARDS ===== */
-.hero-ui {
-  position: relative;
-  z-index: 2;
+body.active .hero-ui {
+  opacity: 0;
+ transform: scale(0.95) translateY(-30px);
+  filter: blur(4px);
+  pointer-events: none;
+  transition: 0.9s ease;
 }
 
 .corner-card {
@@ -65,10 +68,7 @@ body.active .corner-card {
   transition: 0.8s ease;
 }
 
-body.active .spin-gif {
-  opacity: 0;
-  transform: translateX(-120%) translateY(-50%);
-}
+
 /* ===== START BUTTON ===== */
 .start-btn {
     position: fixed;
