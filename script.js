@@ -149,6 +149,12 @@ window.addEventListener("load", async () => {
   durationEl = document.getElementById("duration");
 
   loadTrack(0);
+  progress.addEventListener("input", () => {
+  if (!audio.duration) return;
+
+  const newTime = (progress.value / 100) * audio.duration;
+  audio.currentTime = newTime;
+});
 
   await preloadImages();
 
