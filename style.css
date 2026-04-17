@@ -400,11 +400,12 @@ body.active .tabs {
   letter-spacing: 3px;
   margin-bottom: 10px;
   opacity: 0.9;
+  margin-left: 40px;
 }
 
 .about-text {
   font-size: 11px;
   line-height: 1.6;
   opacity: 0.85;
-   margin-left: 10px;
+   margin-left: 40px;
 }
