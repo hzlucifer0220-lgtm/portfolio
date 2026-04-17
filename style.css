@@ -429,8 +429,7 @@ body.active .tabs {
 
   width: 12vw; /* ⭐ 自適應大小 */
 
-  z-index: 10000;
+ z-index: 10000;
   mix-blend-mode: screen;
-
   pointer-events: none;
 }
