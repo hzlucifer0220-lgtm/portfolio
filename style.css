@@ -409,3 +409,60 @@ body.active .tabs {
   opacity: 0.85;
    margin-left: 40px;
 }
+/* ===== HUD GIF 容器 ===== */
+.hud-gif-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+/* ===== GIF 核心效果 ===== */
+.hud-gif {
+  width: 70px;
+
+  /* ⭐ 關鍵：黑色消失 + 融合背景 */
+  mix-blend-mode: screen;
+
+  /* ⭐ 科技感發光 */
+  filter: brightness(1.2) contrast(1.1);
+
+  /* ⭐ 動態浮動 */
+  animation: hudFloat 3s ease-in-out infinite;
+}
+
+/* ===== 浮動動畫 ===== */
+@keyframes hudFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ===== hover 強化效果（可選但很加分） ===== */
+.hud-gif:hover {
+  transform: scale(1.1);
+  filter: brightness(1.5) contrast(1.2);
+}
+/* 卡片微光 */
+.corner-card.bottom-right {
+  position: relative;
+  overflow: hidden;
+}
+
+.corner-card.bottom-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top,
+    rgba(255,255,255,0.08),
+    transparent 60%
+  );
+  pointer-events: none;
+}
