@@ -428,11 +428,9 @@ body.active .tabs {
   transform: translateY(-50%);
 
   width: 180px;
-  height: auto;
 
-  z-index: 5;
-  pointer-events: none;
+  z-index: 10000;
 
-  /* ⭐ 去黑背景 */
   mix-blend-mode: screen;
+  pointer-events: none;
 }
