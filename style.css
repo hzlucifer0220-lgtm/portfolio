@@ -67,8 +67,9 @@ body.active .corner-card {
 
 body.active .hero-ui {
   opacity: 0;
+  transform: translateX(-120%);
   pointer-events: none;
-  transition: 0.6s;
+  transition: 0.8s ease;
 }
 /* ===== START BUTTON ===== */
 .start-btn {
@@ -422,16 +423,18 @@ body.active .tabs {
 
 /* ===== GIF 本體（核心效果） ===== */
 .spin-gif {
-  position: fixed;
-  right: 3vw;
+  position: absolute;
+
+  right: 5%;
   top: 50%;
   transform: translateY(-50%);
 
-  width: 180px;
+  width: 200px;
 
-  z-index: 5;
   pointer-events: none;
 
-  opacity: 0.25;              /* ⭐ 降低存在感 */
-  mix-blend-mode: lighten;   /* 比 screen 更適合彩色 */
+  mix-blend-mode: lighten;
+  opacity: 0.3;
+
+  transition: 0.8s ease;
 }
