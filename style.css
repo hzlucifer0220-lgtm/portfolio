@@ -411,6 +411,7 @@ body.active .tabs {
 /* ===== GIF 容器 ===== */
 .hud-gif-box {
   position: absolute;
+  width: 100%;
   right: 3%;
   top: 50%;
   transform: translateY(-50%);
