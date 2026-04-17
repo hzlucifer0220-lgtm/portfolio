@@ -406,4 +406,5 @@ body.active .tabs {
   font-size: 11px;
   line-height: 1.6;
   opacity: 0.85;
+   margin-left: 10px;
 }
