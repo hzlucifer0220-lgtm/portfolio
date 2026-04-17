@@ -160,6 +160,25 @@ window.addEventListener("load", async () => {
    
     setTimeout(() => loading.remove(), 800);
   }, 300);
+  // ⭐ 音樂時間更新
+audio.addEventListener("timeupdate", () => {
+  if (!progress) return;
+
+  progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+
+  currentTimeEl.innerText = formatTime(audio.currentTime);
+  durationEl.innerText = formatTime(audio.duration);
+});
+
+// ⭐ 載入完成
+audio.addEventListener("loadedmetadata", () => {
+  durationEl.innerText = formatTime(audio.duration);
+});
+
+// ⭐ 自動下一首（無限循環）
+audio.addEventListener("ended", () => {
+  nextTrack();
+});
 });
 
 function preloadImages() {
