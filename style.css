@@ -427,7 +427,7 @@ body.active .tabs {
   top: 50%;
   transform: translateY(-50%);
 
-  width: 180px;
+  width: 100px;
 
   z-index: 10000;
 
