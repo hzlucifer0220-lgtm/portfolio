@@ -65,11 +65,9 @@ body.active .corner-card {
   transition: 0.8s ease;
 }
 
-body.active .hero-ui {
+body.active .spin-gif {
   opacity: 0;
-  transform: translateX(-120%);
-  pointer-events: none;
-  transition: 0.8s ease;
+  transform: translateX(-120%) translateY(-50%);
 }
 /* ===== START BUTTON ===== */
 .start-btn {
@@ -425,16 +423,16 @@ body.active .tabs {
 .spin-gif {
   position: absolute;
 
-  right: 5%;
+  right: 3%;
   top: 50%;
   transform: translateY(-50%);
 
-  width: 200px;
+  width: 100px;
 
   pointer-events: none;
 
   mix-blend-mode: lighten;
-  opacity: 0.3;
+  opacity: 0.6;
 
   transition: 0.8s ease;
 }
