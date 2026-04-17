@@ -423,10 +423,7 @@ body.active .tabs {
 /* ===== GIF 本體（核心效果） ===== */
 .hud-gif {
   width: 140px;
-
-  /* ⭐ 黑色變消失（重點） */
-  mix-blend-mode: screen;
-
+  
   /* 提升亮度讓它更像UI */
   filter:
     brightness(0.8)
@@ -434,6 +431,8 @@ body.active .tabs {
     saturate(6)
     hue-rotate(-20deg);
   
+   /* ⭐ 黑色變消失（重點） */
+  mix-blend-mode: screen;
 }
 
 /* 浮動效果 */
