@@ -261,13 +261,8 @@ function unlockAudio() {
       audio.currentTime = 0;
       audioUnlocked = true;
 
-      console.log("audio unlocked");
-
-      // ⭐ 解鎖後第一次點擊直接播放
-      document.addEventListener("click", () => {
-        if (!isPlaying) startMusic();
-      }, { once: true });
-
+      // ⭐ 同一次點擊直接播放
+      startMusic();
     })
     .catch(() => {});
 }
