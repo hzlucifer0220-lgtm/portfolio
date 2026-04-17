@@ -256,7 +256,7 @@ body.active .tabs {
 
 /* 圖片永遠固定在中心 */
 .vinyl img {
-  width: 55%;
+  width: 65%;
   height: 55%;
   object-fit: cover;
   border-radius: 50%;
