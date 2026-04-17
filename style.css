@@ -423,13 +423,15 @@ body.active .tabs {
 /* ===== GIF 本體（核心效果） ===== */
 .spin-gif {
   position: fixed;
-  right: 2vw;
+  right: 3vw;
   top: 50%;
   transform: translateY(-50%);
 
-  width: 12vw; /* ⭐ 自適應大小 */
+  width: 180px;
 
- z-index: 10000;
-  mix-blend-mode: screen;
+  z-index: 5;
   pointer-events: none;
+
+  opacity: 0.25;              /* ⭐ 降低存在感 */
+  mix-blend-mode: lighten;   /* 比 screen 更適合彩色 */
 }
