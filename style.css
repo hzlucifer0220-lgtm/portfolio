@@ -135,7 +135,7 @@ body.active .tabs {
 }
 
 .tab:hover {
-  transform: translateX(8px);
+  transform: translateX(8px) scale(1.05);
 }
 
 .tab.active {
@@ -320,11 +320,16 @@ body.active .tabs {
   color: #F3EDE3;
   font-size: 30px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.15s;
 }
 
 .controls button:hover {
   transform: scale(1.2);
+}
+.controls button:active {
+
+  transform: scale(0.85);
+
 }
 .progress-area input {
   width: 100%;
@@ -381,18 +386,4 @@ body.active .tabs {
   font-size: 14px;
   letter-spacing: 2px;
   z-index: 1;
-}
-button {
-  transition: transform 0.15s ease, filter 0.15s ease;
-  cursor: pointer;
-}
-
-/* hover 放大 */
-button:hover {
-  transform: scale(1.15);
-}
-
-/* 點擊縮小 */
-button:active {
-  transform: scale(0.9);
 }
