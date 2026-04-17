@@ -411,9 +411,11 @@ body.active .tabs {
 /* ===== GIF 容器 ===== */
 .hud-gif-box {
   position: absolute;
-  right: 20px;
+  right: 3%;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 5;
+  pointer-events: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -428,7 +430,7 @@ body.active .tabs {
   transform: translateY(10%);
 
   width: 100px;
-
+  height: auto;
   pointer-events: none;
 
   mix-blend-mode: lighten;
