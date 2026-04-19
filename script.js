@@ -256,3 +256,7 @@ document.querySelectorAll('.top-nav a').forEach(anchor => {
     });
   });
 });
+window.addEventListener("scroll", () => {
+  const nav = document.querySelector(".top-nav");
+  nav.style.opacity = 1 - window.scrollY / 600;
+});
