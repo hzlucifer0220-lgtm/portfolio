@@ -260,3 +260,16 @@ window.addEventListener("scroll", () => {
   const nav = document.querySelector(".top-nav");
   nav.style.opacity = 1 - window.scrollY / 600;
 });
+const originBlocks = document.querySelectorAll(".origin-block");
+
+const originObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
+    }
+  });
+}, {
+  threshold: 0.3
+});
+
+originBlocks.forEach(block => originObserver.observe(block));
