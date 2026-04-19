@@ -60,84 +60,13 @@ window.prevTrack = function() {
   }
 }
 
-window.goHome = function () {
-
-  document.body.classList.remove("active");
-
-  const oldPageEl = document.querySelector(".page.active-page");
-
-  if (oldPageEl) {
-    oldPageEl.classList.remove("active-page");
-  }
-
-  document.getElementById("home").classList.add("active-page");
-
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.classList.remove("active");
-  });
-
-  currentPage = 0;
-}
-
-
-window.startSite = function () {
-
-  if (!vinylDisc) return;  // ⭐ 保證 DOM ready
-
-  document.body.classList.add("active");
-  
-  startMusic();
-  goToPage(1);
-}
 
 
 
-window.goToPage = function (page) {
 
-  const oldPage = document.querySelector(".page.active-page");
-  const newPage = document.getElementById("page" + page);
 
-  if (!newPage || page === currentPage) return;
 
-  const goingForward = page > currentPage;
 
-  /* 清除動畫 */
-  document.querySelectorAll(".page").forEach(p => {
-    p.classList.remove("enter-up","enter-down","exit-up","exit-down");
-  });
-
-  /* 初始位置 */
-  if (goingForward) {
-    newPage.classList.add("enter-up");
-  } else {
-    newPage.classList.add("enter-down");
-  }
-
-  newPage.classList.add("active-page");
-
-  setTimeout(() => {
-
-    if (oldPage) {
-      oldPage.classList.remove("active-page");
-
-      if (goingForward) {
-        oldPage.classList.add("exit-up");
-      } else {
-        oldPage.classList.add("exit-down");
-      }
-    }
-
-    newPage.classList.remove("enter-up","enter-down");
-
-  }, 20);
-
-  /* tab active */
-  document.querySelectorAll(".tab").forEach((tab, i) => {
-    tab.classList.toggle("active", i === page - 1);
-  });
-
-  currentPage = page;
-}
 
 window.addEventListener("load", async () => {
 
@@ -294,3 +223,12 @@ function unlockAudio() {
 
 document.addEventListener("click", unlockAudio, { once: true });
 document.addEventListener("touchstart", unlockAudio, { once: true });
+
+
+window.addEventListener("scroll", () => {
+  const hero = document.querySelector(".hero-ui");
+  const scrollY = window.scrollY;
+
+  hero.style.transform = `translateY(${scrollY * 0.25}px)`;
+  hero.style.opacity = 1 - scrollY / 500;
+});
