@@ -91,30 +91,52 @@
 
   </div>
   
-  <button class="start-btn" onclick="startSite()">START</button>
+ 
 
 </div>
 
 <!-- page 保留（但裡面不要放 title） -->
 <section class="page active-page" id="home"></section>
   <!-- ===== TAB SYSTEM ===== -->
-  <nav class="tabs">
-
-    <div class="tab" onclick="goToPage(1)">創作起點</div>
-    <div class="tab" onclick="goToPage(2)">互動頁面</div>
-    <div class="tab" onclick="goToPage(3)">作品展示</div>
-    <div class="tab" onclick="goToPage(4)">歷程記錄</div>
-    <div class="tab" onclick="goToPage(5)">未來展望</div>
-
-  </nav>
+<nav class="top-nav">
+  <a href="#hero">HOME</a>
+  <a href="#page1">創作起點</a>
+  <a href="#page2">互動頁面</a>
+  <a href="#page3">作品展示</a>
+  <a href="#page4">歷程記錄</a>
+  <a href="#page5">未來展望</a>
+</nav>
 
   <!-- ===== 內容頁面 ===== -->
+<section class="hero-section" id="hero">
+  <div class="hero-ui">
+    <img src="title.jpg" class="title-img">
 
-  <section class="page" id="page1">創作起點內容</section>
-  <section class="page" id="page2">互動頁面內容</section>
-  <section class="page" id="page3">作品展示內容</section>
-  <section class="page" id="page4">歷程記錄內容</section>
-  <section class="page" id="page5">未來展望內容</section>
+    <div class="hud-gif-box">
+      <img src="spin.gif" class="spin-gif">
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="page1">
+  創作起點內容
+</section>
+
+<section class="content-section" id="page2">
+  互動頁面內容
+</section>
+
+<section class="content-section" id="page3">
+  作品展示內容
+</section>
+
+<section class="content-section" id="page4">
+  歷程記錄內容
+</section>
+
+<section class="content-section" id="page5">
+  未來展望內容
+</section>
 
   <script src="script.js"></script>
 </body>
