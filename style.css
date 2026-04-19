@@ -487,3 +487,14 @@ body::after {
   align-self: flex-end;
   text-align: right;
 }
+.origin-section::before {
+  content: "ORIGIN";
+  position: absolute;
+  top: 20%;
+  left: 10%;
+
+  font-size: 120px;
+  color: rgba(107,31,43,0.05);
+
+  letter-spacing: 10px;
+}
