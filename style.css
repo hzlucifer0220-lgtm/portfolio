@@ -321,7 +321,7 @@ scroll-behavior: smooth;
   position: absolute;
 
   right: 3%;
-  transform: translateY(10%);
+  transform: translateY(90%);
 
   width: 400px;
   height: auto;
