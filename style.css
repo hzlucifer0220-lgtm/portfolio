@@ -3,7 +3,9 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #F3EDE3;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
   color: #111;
 }
 
@@ -346,10 +348,24 @@ scroll-behavior: smooth;
 }
 
 .top-nav a {
-  text-decoration: none;
-  color: #6B1F2B;
-  font-size: 14px;
-  letter-spacing: 2px;
+  position: relative;
+  padding: 10px 12px;
+  transition: 0.3s;
+}
+
+.top-nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: #6B1F2B;
+  transition: 0.3s;
+}
+
+.top-nav a:hover::after {
+  width: 100%;
 }
 .hero-section {
   height: 100vh;
@@ -367,7 +383,7 @@ scroll-behavior: smooth;
 }
 .fade-section {
   opacity: 0;
-  transform: translateY(80px);
+  transform: translateY(60px);
   transition: 0.8s ease;
 }
 
