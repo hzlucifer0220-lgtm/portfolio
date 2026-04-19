@@ -447,3 +447,43 @@ body::after {
   pointer-events: none;
   z-index: 9999;
 }
+.origin-section {
+  position: relative;
+  background: #F3EDE3;
+}
+
+.origin-wrapper {
+  width: 60%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+}
+
+.origin-block {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: 0.8s ease;
+}
+
+.origin-block.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.origin-block h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #6B1F2B;
+}
+
+.origin-block p {
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 500px;
+}
+.origin-block:nth-child(even) {
+  align-self: flex-end;
+  text-align: right;
+}
