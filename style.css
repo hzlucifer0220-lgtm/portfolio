@@ -412,7 +412,6 @@ body.active .tabs {
 .hud-gif-box {
   position: absolute;
   width: 100%;
-  right: 3%;
   top: 40%;
   transform: translateY(-50%);
   pointer-events: none;
