@@ -224,24 +224,16 @@ function unlockAudio() {
 document.addEventListener("click", unlockAudio, { once: true });
 document.addEventListener("touchstart", unlockAudio, { once: true });
 
-
-window.addEventListener("scroll", () => {
-  const hero = document.querySelector(".hero-ui");
-  const scrollY = window.scrollY;
-
-  hero.style.transform = `translateY(${scrollY * 0.25}px)`;
-  hero.style.opacity = 1 - scrollY / 500;
-});
-
-
 const sections = document.querySelectorAll(".fade-section");
 
-window.addEventListener("scroll", () => {
-  sections.forEach(section => {
-    const top = section.getBoundingClientRect().top;
-
-    if (top < window.innerHeight * 0.8) {
-      section.classList.add("show");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
     }
   });
+}, {
+  threshold: 0.2
 });
+
+sections.forEach(sec => observer.observe(sec));
