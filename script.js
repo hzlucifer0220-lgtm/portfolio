@@ -232,3 +232,16 @@ window.addEventListener("scroll", () => {
   hero.style.transform = `translateY(${scrollY * 0.25}px)`;
   hero.style.opacity = 1 - scrollY / 500;
 });
+
+
+const sections = document.querySelectorAll(".fade-section");
+
+window.addEventListener("scroll", () => {
+  sections.forEach(section => {
+    const top = section.getBoundingClientRect().top;
+
+    if (top < window.innerHeight * 0.8) {
+      section.classList.add("show");
+    }
+  });
+});
