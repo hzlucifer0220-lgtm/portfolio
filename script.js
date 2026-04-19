@@ -230,10 +230,29 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add("show");
+    } else {
+      entry.target.classList.remove("show");
     }
   });
 }, {
-  threshold: 0.2
+  threshold: 0.25
 });
 
 sections.forEach(sec => observer.observe(sec));
+window.addEventListener("scroll", () => {
+  const hero = document.querySelector(".hero-ui");
+  const scrollY = window.scrollY;
+
+  hero.style.transform = `translateY(${scrollY * 0.25}px) scale(${1 - scrollY * 0.0005})`;
+  hero.style.opacity = 1 - scrollY / 600;
+});
+document.querySelectorAll('.top-nav a').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+
+    target.scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
