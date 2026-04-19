@@ -72,33 +72,6 @@ body.active .corner-card {
 }
 
 /* ===== TAB SYSTEM ===== */
-.tabs {
-  position: fixed;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  padding-left: 20px;
-
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: 0.8s ease;
-}
-
-.tab {
-  
-  color: #F3EDE3;
-  padding: 12px 20px;
-  width: 170px;
-
-
-
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  cursor: pointer;
-  transition: 0.3s;
-}
 
 .tab:hover {
   transform: translateX(8px) scale(1.05);
