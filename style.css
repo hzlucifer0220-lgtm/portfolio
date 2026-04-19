@@ -93,8 +93,8 @@ body.active .corner-card {
 /* ===== TITLE IMAGE ===== */
 .title-img {
     position: fixed;
-    top: 23vh;
-    left: -6vw;
+    top: 26vh;
+    left: -3vw;
     width: 50vw;
     z-index: 1;
 }
