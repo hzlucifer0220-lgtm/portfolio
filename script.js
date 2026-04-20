@@ -61,13 +61,6 @@ window.prevTrack = function() {
 }
 
 
-
-
-
-
-
-
-
 window.addEventListener("load", async () => {
 
   vinylDisc = document.querySelector(".vinyl-disc");
@@ -85,7 +78,7 @@ window.addEventListener("load", async () => {
   audio.currentTime = newTime;
 });
 
-window.addEventListener("load", () => {
+
   const loading = document.getElementById("loading-screen");
   const bar = document.querySelector(".loading-progress");
 
@@ -114,7 +107,7 @@ window.addEventListener("load", () => {
 
     bar.style.width = progress + "%";
   }, intervalTime);
-});
+
   
   // ⭐ 音樂時間更新
 audio.addEventListener("timeupdate", () => {
