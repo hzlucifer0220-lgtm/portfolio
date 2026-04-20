@@ -85,19 +85,37 @@ window.addEventListener("load", async () => {
   audio.currentTime = newTime;
 });
 
-await Promise.race([
-  preloadImages(),
-  new Promise(res => setTimeout(res, 3000)) // ⭐ 最多等3秒
-]);
-
+window.addEventListener("load", () => {
   const loading = document.getElementById("loading-screen");
+  const bar = document.querySelector(".loading-progress");
 
-  setTimeout(() => {
-     loading.style.transition = "0.8s ease";
-    loading.style.opacity = "0";
-   
-    setTimeout(() => loading.remove(), 800);
-  }, 300);
+  let progress = 0;
+
+  // ⭐ 5秒固定跑完
+  const duration = 5000;
+  const intervalTime = 50;
+  const step = 100 / (duration / intervalTime);
+
+  const timer = setInterval(() => {
+    progress += step;
+
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(timer);
+
+      // ⭐ 進度滿 → 淡出 + 進主頁
+      loading.style.transition = "0.8s ease";
+      loading.style.opacity = "0";
+
+      setTimeout(() => {
+        loading.remove();
+      }, 800);
+    }
+
+    bar.style.width = progress + "%";
+  }, intervalTime);
+});
+  
   // ⭐ 音樂時間更新
 audio.addEventListener("timeupdate", () => {
   if (!progress) return;
