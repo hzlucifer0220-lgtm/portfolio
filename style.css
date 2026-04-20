@@ -403,8 +403,9 @@ scroll-behavior: smooth;
   width: 100%;
 }
 .hero-section {
-  height: 80vh;
+  height: 100vh;
   position: relative;
+  margin-bottom: 100px;
 }
 .content-section {
   min-height: 100vh;
@@ -437,6 +438,7 @@ body {
 
 section {
   scroll-snap-align: start;
+  scroll-margin-top: 120px;
 }
 body::after {
   content: "";
@@ -521,5 +523,5 @@ body::after {
   opacity: 0.7;
 }
 #origin {
-  padding-top: 220px;
+  padding-top: 20vh;
 }
