@@ -175,7 +175,61 @@ scroll-behavior: smooth;
   from { transform: translateX(0); }
   to { transform: translateX(-100%); }
 }
+.marquee-section {
+  width: 100%;
+  overflow: hidden;
+  background: #6B1F2B;
+  color: #F3EDE3;
 
+  padding: 20px 0;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+
+  animation: marqueeMove 20s linear infinite;
+}
+
+.marquee-track span {
+  font-size: 28px;
+  letter-spacing: 6px;
+  white-space: nowrap;
+  padding-right: 80px;
+}
+
+@keyframes marqueeMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-section::before,
+.marquee-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+}
+
+.marquee-section::before {
+  left: 0;
+  background: linear-gradient(to right, #6B1F2B, transparent);
+}
+
+.marquee-section::after {
+  right: 0;
+  background: linear-gradient(to left, #6B1F2B, transparent);
+}
+.marquee-track {
+  animation: marqueeMove 20s linear infinite;
+  animation-play-state: paused;
+}
 /* ===== PROGRESS ===== */
 .progress-area {
   width: 85%;
