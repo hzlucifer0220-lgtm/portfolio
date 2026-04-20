@@ -1,6 +1,8 @@
 let isPlaying = false;
 let currentPage = 0;
-let vinylDisc, playBtn, trackName, progress, currentTimeEl, durationEl;
+
+let vinylDisc, playBtn, trackName, progressSlider, currentTimeEl, durationEl;
+let loadingProgress = 0;
 
 /* ===== 音樂系統 ===== */
 const tracks = [
@@ -66,15 +68,34 @@ window.addEventListener("load", async () => {
   vinylDisc = document.querySelector(".vinyl-disc");
   playBtn = document.getElementById("playBtn");
   trackName = document.getElementById("track-name");
-  progress = document.getElementById("progress");
+  progressSlider = document.getElementById("progress");
   currentTimeEl = document.getElementById("current");
   durationEl = document.getElementById("duration");
 
   loadTrack(0);
+   // ⭐ 音樂時間更新
+audio.addEventListener("timeupdate", () => {
+  if (!progress) return;
+
+  progressSlider.value = (audio.currentTime / audio.duration) * 100 || 0;
+
+  currentTimeEl.innerText = formatTime(audio.currentTime);
+  durationEl.innerText = formatTime(audio.duration);
+});
+
+// ⭐ 載入完成
+audio.addEventListener("loadedmetadata", () => {
+  durationEl.innerText = formatTime(audio.duration);
+});
+
+// ⭐ 自動下一首（無限循環）
+audio.addEventListener("ended", () => {
+  nextTrack();
+});
   progress.addEventListener("input", () => {
   if (!audio.duration) return;
 
-  const newTime = (progress.value / 100) * audio.duration;
+  const newTime = (progressSlider.value / 100) * audio.duration;
   audio.currentTime = newTime;
 });
 
@@ -109,25 +130,7 @@ window.addEventListener("load", async () => {
   }, intervalTime);
 
   
-  // ⭐ 音樂時間更新
-audio.addEventListener("timeupdate", () => {
-  if (!progress) return;
-
-  progress.value = (audio.currentTime / audio.duration) * 100 || 0;
-
-  currentTimeEl.innerText = formatTime(audio.currentTime);
-  durationEl.innerText = formatTime(audio.duration);
-});
-
-// ⭐ 載入完成
-audio.addEventListener("loadedmetadata", () => {
-  durationEl.innerText = formatTime(audio.duration);
-});
-
-// ⭐ 自動下一首（無限循環）
-audio.addEventListener("ended", () => {
-  nextTrack();
-});
+ 
 });
 
 function preloadImages() {
