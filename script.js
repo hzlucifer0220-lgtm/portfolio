@@ -226,17 +226,6 @@ document.addEventListener("touchstart", unlockAudio, { once: true });
 
 const sections = document.querySelectorAll(".fade-section");
 
-const originObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    } else {
-      entry.target.classList.remove("show");
-    }
-  });
-}, {
-  threshold: 0.15
-});
 
 
 sections.forEach(sec => observer.observe(sec));
@@ -265,14 +254,21 @@ const originBlocks = document.querySelectorAll(".origin-block");
 
 const originObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
+
     if (entry.isIntersecting) {
       entry.target.classList.add("show");
+    } else {
+      entry.target.classList.remove("show");
     }
+
   });
 }, {
-  threshold: 0.3
+  threshold: 0.2
 });
 
+document.querySelectorAll(".origin-block").forEach(block => {
+  originObserver.observe(block);
+});
 
 
 marqueeObserver.observe(document.querySelector(".marquee-section"));
