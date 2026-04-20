@@ -201,11 +201,6 @@ scroll-behavior: smooth;
 
 .marquee-track {
   display: flex;
-  width: max-content;
-}
-
-.marquee-track {
-  display: flex;
   overflow: hidden;
   background: #6B1F2B;
   padding: 20px 0;
@@ -213,6 +208,7 @@ scroll-behavior: smooth;
 
 .marquee-content {
   display: flex;
+  width: fit-content; /* ⭐ 關鍵 */
   flex-shrink: 0;
   white-space: nowrap;
   animation: marquee 20s linear infinite;
@@ -232,8 +228,12 @@ scroll-behavior: smooth;
 }
 
 @keyframes marqueeMove {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes marqueeMoveReverse {
@@ -244,6 +244,7 @@ scroll-behavior: smooth;
 .marquee-content span {
   font-size: 28px;
   letter-spacing: 8px;
+  white-space: nowrap;
   white-space: nowrap;
   padding-right: 80px;
 
@@ -285,7 +286,7 @@ scroll-behavior: smooth;
 }
 
 .track2 .marquee-content {
-  animation: marqueeMoveReverse 22s linear infinite;
+  animation: marqueeMove 22s linear infinite reverse;
 }
 /* ===== PROGRESS ===== */
 .progress-area {
