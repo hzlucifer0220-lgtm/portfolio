@@ -188,18 +188,15 @@ scroll-behavior: smooth;
 .marquee-track {
   display: flex;
   width: max-content;
-  .track1 {
+}
+
+.track1 {
   animation: marqueeMove 20s linear infinite;
 }
 
 .track2 {
   animation: marqueeMoveReverse 25s linear infinite;
 }
-
-@keyframes marqueeMoveReverse {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
-}}
 
 .marquee-track span {
   font-size: 28px;
