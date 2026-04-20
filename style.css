@@ -467,14 +467,12 @@ scroll-behavior: smooth;
 
 .top-nav a {
   position: relative;
-  color: #6B1F2B;
-  text-decoration: none;
-  font-size: 12px;
-  letter-spacing: 2px;
-
-  padding: 6px 8px;
-
-  transition: 0.3s;
+    color: #f2ece2;
+    text-decoration: none;
+    font-size: 15px;
+    letter-spacing: 2px;
+    padding: 6px 8px;
+    transition: 0.3s;
 }
 .top-nav a::before {
   content: attr(data-label);
@@ -483,9 +481,9 @@ scroll-behavior: smooth;
   left: 50%;
   transform: translateX(-50%);
 
-  background: #6B1F2B;
-  color: #F3EDE3;
-
+  background: #521f25;
+    color: #521f25;
+  
   padding: 6px 10px;
   font-size: 10px;
   letter-spacing: 1px;
@@ -508,7 +506,7 @@ scroll-behavior: smooth;
   left: 0;
   width: 0%;
   height: 1px;
-  background: #6B1F2B;
+  background: #f3ece2;
   transition: 0.3s;
 }
 
