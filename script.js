@@ -250,25 +250,36 @@ window.addEventListener("scroll", () => {
   const nav = document.querySelector(".top-nav");
   nav.style.opacity = 1 - window.scrollY / 600;
 });
+
+const fadeSections = document.querySelectorAll(".fade-section");
+
+const fadeObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
+    } else {
+      entry.target.classList.remove("show");
+    }
+  });
+}, {
+  threshold: 0.2
+});
+
+fadeSections.forEach(sec => fadeObserver.observe(sec));
 const originBlocks = document.querySelectorAll(".origin-block");
 
 const originObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
 
     if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    } else {
       entry.target.classList.remove("show");
+      void entry.target.offsetWidth; // 🔥 重置動畫關鍵
+      entry.target.classList.add("show");
     }
 
   });
 }, {
-  threshold: 0.1,
-rootMargin: "0px 0px -50px 0px"
+  threshold: 0.3
 });
 
-document.querySelectorAll(".origin-block").forEach(block => {
-  originObserver.observe(block);
-});
-
-marqueeObserver.observe(document.querySelector(".marquee-section"));
+originBlocks.forEach(block => originObserver.observe(block));
