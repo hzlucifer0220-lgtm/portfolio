@@ -226,7 +226,7 @@ document.addEventListener("touchstart", unlockAudio, { once: true });
 
 const sections = document.querySelectorAll(".fade-section");
 
-const observer = new IntersectionObserver(entries => {
+const originObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add("show");
@@ -235,8 +235,9 @@ const observer = new IntersectionObserver(entries => {
     }
   });
 }, {
-  threshold: 0.25
+  threshold: 0.15
 });
+
 
 sections.forEach(sec => observer.observe(sec));
 window.addEventListener("scroll", () => {
