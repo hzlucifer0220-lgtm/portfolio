@@ -188,9 +188,18 @@ scroll-behavior: smooth;
 .marquee-track {
   display: flex;
   width: max-content;
-
+  .track1 {
   animation: marqueeMove 20s linear infinite;
 }
+
+.track2 {
+  animation: marqueeMoveReverse 25s linear infinite;
+}
+
+@keyframes marqueeMoveReverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}}
 
 .marquee-track span {
   font-size: 28px;
@@ -226,10 +235,7 @@ scroll-behavior: smooth;
   right: 0;
   background: linear-gradient(to left, #6B1F2B, transparent);
 }
-.marquee-track {
-  animation: marqueeMove 20s linear infinite;
-  animation-play-state: paused;
-}
+
 /* ===== PROGRESS ===== */
 .progress-area {
   width: 85%;
