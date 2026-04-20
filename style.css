@@ -188,30 +188,35 @@ scroll-behavior: smooth;
 .marquee-track {
   display: flex;
   width: max-content;
+  gap: 80px;
 }
 
 .track1 {
-  animation: marqueeMove 20s linear infinite;
+  animation: marqueeMove 18s linear infinite;
 }
 
 .track2 {
-  animation: marqueeMoveReverse 25s linear infinite;
-}
-
-.marquee-track span {
-  font-size: 28px;
-  letter-spacing: 6px;
-  white-space: nowrap;
-  padding-right: 80px;
+  animation: marqueeMoveReverse 22s linear infinite;
 }
 
 @keyframes marqueeMove {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marqueeMoveReverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.marquee-content span {
+  font-size: 28px;
+  letter-spacing: 8px;
+  white-space: nowrap;
+  padding-right: 80px;
+
+  font-weight: 600;
+  opacity: 0.9;
 }
 .marquee-section::before,
 .marquee-section::after {
