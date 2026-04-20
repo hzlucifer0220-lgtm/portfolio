@@ -1,7 +1,11 @@
 let isPlaying = false;
 let currentTrack = 0;
 let loadingProgress = 0;
+if ('scrollRestoration' in history) {
 
+  history.scrollRestoration = 'manual';
+
+}
 // ===== DOM =====
 let vinylDisc, playBtn, trackName;
 let progressSlider, currentTimeEl, durationEl;
@@ -26,6 +30,7 @@ window.addEventListener("load", () => {
   initLoading();
   initScrollEffects();
   initObservers();
+  window.scrollTo(0, 0);
 });
 
 /* =========================
