@@ -6,7 +6,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   scroll-behavior: smooth;
-  color: #111;
+  color: #f2ece1;
 }
 
 .loading-bar {
