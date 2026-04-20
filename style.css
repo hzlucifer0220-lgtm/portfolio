@@ -188,15 +188,33 @@ scroll-behavior: smooth;
 .marquee-track {
   display: flex;
   width: max-content;
-  gap: 80px;
 }
 
-.track1 {
-  animation: marqueeMove 18s linear infinite;
+.marquee-track {
+  display: flex;
+  overflow: hidden;
+  background: #6B1F2B;
+  padding: 20px 0;
 }
 
-.track2 {
-  animation: marqueeMoveReverse 22s linear infinite;
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+
+.track2 .marquee-content {
+  animation-direction: reverse;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes marqueeMove {
@@ -425,8 +443,10 @@ scroll-behavior: smooth;
 
   padding: 20px 40px;
 
-  background: transparent; /* ⭐ 拿掉整條背景 */
-  backdrop-filter: blur(6px);
+
+  background: rgba(107,31,43,0.95);
+  border-bottom: 1px solid rgba(243,237,227,0.2);
+
 
   z-index: 999;
 }
