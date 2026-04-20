@@ -527,8 +527,8 @@ body::after {
 
 .origin-block {
   opacity: 0;
-  transform: translateY(60px);
-  transition: 0.8s ease;
+  transform: translateY(80px);
+  transition: 0.6s ease;
 }
 
 .origin-block.show {
@@ -584,6 +584,6 @@ body::after {
    background: url('art.jpg') center/cover no-repeat;
   opacity: 0.7;
 }
-#origin {
-  padding-top: 20vh;
+.origin-section {
+  padding-top: 25vh;
 }
