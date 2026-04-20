@@ -237,7 +237,24 @@ scroll-behavior: smooth;
   right: 0;
   background: linear-gradient(to left, #6B1F2B, transparent);
 }
+.marquee-track {
+  overflow: hidden;
+}
 
+.marquee-content {
+  display: flex;
+  width: max-content;
+  gap: 80px;
+}
+
+/* 動畫套在 content，不是 track */
+.track1 .marquee-content {
+  animation: marqueeMove 18s linear infinite;
+}
+
+.track2 .marquee-content {
+  animation: marqueeMoveReverse 22s linear infinite;
+}
 /* ===== PROGRESS ===== */
 .progress-area {
   width: 85%;
