@@ -408,7 +408,7 @@ scroll-behavior: smooth;
 }
 .content-section {
   min-height: 100vh;
-  padding: 120px 10%;
+  padding: 180px 10% 120px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -497,4 +497,29 @@ body::after {
   color: rgba(107,31,43,0.05);
 
   letter-spacing: 10px;
+}
+.origin-line {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 2px;
+  height: 300px;
+  background: #6B1F2B;
+
+  transform-origin: top;
+}
+
+.origin-image {
+  position: absolute;
+  right: 10%;
+  top: 40%;
+
+  width: 200px;
+  height: 200px;
+
+  background: url('你的圖片.jpg') center/cover;
+  opacity: 0.7;
+}
+#origin {
+  padding-top: 220px;
 }
