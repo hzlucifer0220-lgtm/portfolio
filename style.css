@@ -576,7 +576,7 @@ body::after {
   width: 200px;
   height: 200px;
 
-  background: url('你的圖片.jpg') center/cover;
+   background: url('art.jpg') center/cover no-repeat;
   opacity: 0.7;
 }
 #origin {
