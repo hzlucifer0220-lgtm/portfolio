@@ -142,6 +142,8 @@ function initLoading() {
 
   if (!loading || !bar) return;
 
+  let loadingProgress = 0;
+
   const duration = 5000;
   const intervalTime = 50;
   const step = 100 / (duration / intervalTime);
@@ -161,7 +163,11 @@ function initLoading() {
       }, 800);
     }
 
-    bar.style.width = loadingProgress + "%";
+    // ⭐ 防炸點（關鍵）
+    if (bar) {
+      bar.style.width = loadingProgress + "%";
+    }
+
   }, intervalTime);
 }
 
