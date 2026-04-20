@@ -85,7 +85,10 @@ window.addEventListener("load", async () => {
   audio.currentTime = newTime;
 });
 
-  await preloadImages();
+await Promise.race([
+  preloadImages(),
+  new Promise(res => setTimeout(res, 3000)) // ⭐ 最多等3秒
+]);
 
   const loading = document.getElementById("loading-screen");
 
