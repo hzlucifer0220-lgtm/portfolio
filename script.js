@@ -224,18 +224,17 @@ function unlockAudio() {
 document.addEventListener("click", unlockAudio, { once: true });
 document.addEventListener("touchstart", unlockAudio, { once: true });
 
-const sections = document.querySelectorAll(".fade-section");
-
-
-
-fadeSections.forEach(sec => fadeObserver.observe(sec));
 window.addEventListener("scroll", () => {
   const hero = document.querySelector(".hero-ui");
+  if (!hero) return;
+
   const scrollY = window.scrollY;
 
   hero.style.transform = `translateY(${scrollY * 0.25}px) scale(${1 - scrollY * 0.0005})`;
   hero.style.opacity = 1 - scrollY / 600;
 });
+
+
 document.querySelectorAll('.top-nav a').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
@@ -251,34 +250,44 @@ window.addEventListener("scroll", () => {
   nav.style.opacity = 1 - window.scrollY / 600;
 });
 
-const fadeSections = document.querySelectorAll(".fade-section");
 
-const fadeObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    } else {
-      entry.target.classList.remove("show");
-    }
+
+window.addEventListener("load", () => {
+
+  // ===== fade section =====
+  const fadeSections = document.querySelectorAll(".fade-section");
+
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+  entry.target.classList.remove("show");
+  void entry.target.offsetWidth; // 重啟動畫
+  entry.target.classList.add("show");
+}
+    });
+  }, {
+    threshold: 0.2
   });
-}, {
-  threshold: 0.2
-});
 
-fadeSections.forEach(sec => fadeObserver.observe(sec));
-const originBlocks = document.querySelectorAll(".origin-block");
+  fadeSections.forEach(sec => fadeObserver.observe(sec));
 
-const originObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    } else {
-      entry.target.classList.remove("show");
-    }
+
+  // ===== origin block =====
+  const originBlocks = document.querySelectorAll(".origin-block");
+
+  const originObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+     if (entry.isIntersecting) {
+  entry.target.classList.remove("show");
+  void entry.target.offsetWidth; // 重啟動畫
+  entry.target.classList.add("show");
+}
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: "0px 0px -20% 0px"
   });
-}, {
-  threshold: 0.2,
-  rootMargin: "0px 0px -20% 0px"
-});
 
-originBlocks.forEach(block => originObserver.observe(block));
+  originBlocks.forEach(block => originObserver.observe(block));
+
+});
