@@ -6,7 +6,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   scroll-behavior: smooth;
-  color: #f2ece1;
+  color: #111111;
 }
 
 .loading-bar {
@@ -250,6 +250,7 @@ scroll-behavior: smooth;
 
   font-weight: 600;
   opacity: 0.9;
+  color: #f2ece1;
 }
 .marquee-section::before,
 .marquee-section::after {
