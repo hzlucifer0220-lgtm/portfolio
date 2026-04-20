@@ -273,3 +273,16 @@ const originObserver = new IntersectionObserver(entries => {
 });
 
 originBlocks.forEach(block => originObserver.observe(block));
+const marquee = document.querySelector(".marquee-track");
+
+const marqueeObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      marquee.style.animationPlayState = "running";
+    } else {
+      marquee.style.animationPlayState = "paused";
+    }
+  });
+});
+
+marqueeObserver.observe(document.querySelector(".marquee-section"));
