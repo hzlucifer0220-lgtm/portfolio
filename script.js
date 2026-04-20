@@ -228,7 +228,7 @@ const sections = document.querySelectorAll(".fade-section");
 
 
 
-sections.forEach(sec => observer.observe(sec));
+fadeSections.forEach(sec => fadeObserver.observe(sec));
 window.addEventListener("scroll", () => {
   const hero = document.querySelector(".hero-ui");
   const scrollY = window.scrollY;
@@ -270,16 +270,15 @@ const originBlocks = document.querySelectorAll(".origin-block");
 
 const originObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-
     if (entry.isIntersecting) {
-      entry.target.classList.remove("show");
-      void entry.target.offsetWidth; // 🔥 重置動畫關鍵
       entry.target.classList.add("show");
+    } else {
+      entry.target.classList.remove("show");
     }
-
   });
 }, {
-  threshold: 0.3
+  threshold: 0.2,
+  rootMargin: "0px 0px -20% 0px"
 });
 
 originBlocks.forEach(block => originObserver.observe(block));
