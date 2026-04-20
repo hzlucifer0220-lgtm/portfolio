@@ -118,19 +118,30 @@ audio.addEventListener("ended", () => {
 
 function preloadImages() {
   const imgs = document.images;
-   let loaded = 0;
+  let loaded = 0;
+  let failed = 0;
 
   return new Promise((resolve) => {
     if (imgs.length === 0) resolve();
 
+    const done = () => {
+      if (loaded + failed >= imgs.length) resolve();
+    };
+
     for (let img of imgs) {
       if (img.complete) {
         loaded++;
-        if (loaded === imgs.length) resolve();
+        done();
       } else {
-        img.onload = img.onerror = () => {
+        img.onload = () => {
           loaded++;
-          if (loaded === imgs.length) resolve();
+          done();
+        };
+
+        img.onerror = () => {
+          failed++;
+          console.log("圖片載入失敗：", img.src);
+          done(); // ⭐ 失敗也要放行
         };
       }
     }
