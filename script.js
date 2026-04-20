@@ -270,5 +270,4 @@ document.querySelectorAll(".origin-block").forEach(block => {
   originObserver.observe(block);
 });
 
-
 marqueeObserver.observe(document.querySelector(".marquee-section"));
