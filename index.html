@@ -1,176 +1,1124 @@
 <!DOCTYPE html>
-<html lang="zh">
+
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>2.7Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>課程學習成果實作作品 · PORTFOLIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Serif+TC:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   ROOT & RESET
+============================================= */
+:root {
+  --black: #080604;
+  --deep-black: #040302;
+  --wine: #6b1a1a;
+  --wine-light: #8b2323;
+  --wine-dark: #4a1010;
+  --cream: #f0e8d8;
+  --cream-dark: #d4c9b0;
+  --font-display: 'Playfair Display','Noto Serif TC',serif;
+  --font-body: 'Cormorant Garamond','Noto Serif TC',serif;
+  --font-mono: 'Space Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{
+  background:var(--deep-black); /* FIX #4: confirmed pure dark background */
+  color:var(--cream);
+  font-family:var(--font-body);
+  cursor:none;
+  overflow-x:hidden;
+  /* FIX #1: NO scroll-snap — pure continuous scroll */
+}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--deep-black);}
+::-webkit-scrollbar-thumb{background:var(--wine-dark);border-radius:2px;}
+
+/* noise overlay */
+body::after{
+content:’’;position:fixed;inset:0;pointer-events:none;z-index:8000;
+background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 200 200’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.85’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.05’/%3E%3C/svg%3E”);
+opacity:.28;
+}
+
+/* =============================================
+CURSOR
+============================================= */
+#cur{position:fixed;width:10px;height:10px;background:var(–wine-light);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+#ring{position:fixed;width:34px;height:34px;border:1px solid rgba(240,232,216,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+body.hov #cur{width:18px;height:18px;}
+body.hov #ring{width:50px;height:50px;}
+
+/* =============================================
+NAVBAR
+============================================= */
+#navbar{
+position:fixed;top:22px;left:50%;transform:translateX(-50%);
+z-index:1000;display:flex;align-items:center;
+background:rgba(8,6,4,.72);border:1px solid rgba(240,232,216,.12);
+backdrop-filter:blur(16px);border-radius:60px;padding:6px 16px;
+transition:all .4s;white-space:nowrap;
+}
+#navbar.sc{background:rgba(4,3,2,.94);border-color:rgba(107,26,26,.4);box-shadow:0 4px 30px rgba(0,0,0,.5);}
+.ni{position:relative;padding:5px 11px;font-family:var(–font-mono);font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(–cream-dark);cursor:none;transition:color .3s;}
+.ni::after{content:’’;position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:0;height:1px;background:var(–wine-light);transition:width .3s;}
+.ni:hover{color:var(–cream);}
+.ni:hover::after{width:55%;}
+.ntt{position:absolute;bottom:calc(100% + 11px);left:50%;transform:translateX(-50%) translateY(5px);background:var(–wine-dark);border:1px solid var(–wine);color:var(–cream);font-family:var(–font-body);font-style:italic;font-size:.7rem;padding:6px 12px;border-radius:5px;white-space:nowrap;opacity:0;pointer-events:none;transition:all .27s;}
+.ntt::after{content:’’;position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(–wine);}
+.ni:hover .ntt{opacity:1;transform:translateX(-50%) translateY(0);}
+.ndiv{width:1px;height:11px;background:rgba(240,232,216,.14);}
+
+/* music toggle */
+#mtog{display:flex;align-items:center;gap:7px;padding:5px 11px;border-radius:40px;cursor:none;transition:background .3s;}
+#mtog:hover{background:rgba(107,26,26,.3);}
+.mbars{display:flex;gap:2px;align-items:flex-end;height:13px;}
+.mb{width:3px;background:var(–wine-light);border-radius:2px;animation:mb .75s ease-in-out infinite alternate;}
+.mb:nth-child(1){height:5px;animation-delay:0s;}
+.mb:nth-child(2){height:9px;animation-delay:.12s;}
+.mb:nth-child(3){height:6px;animation-delay:.24s;}
+.mb:nth-child(4){height:11px;animation-delay:.08s;}
+.mb.still{animation-play-state:paused!important;height:4px!important;}
+@keyframes mb{from{transform:scaleY(.3);}to{transform:scaleY(1);}}
+.mlbl{font-family:var(–font-mono);font-size:.56rem;letter-spacing:.1em;color:var(–cream-dark);text-transform:uppercase;}
+
+/* =============================================
+MUSIC PANEL
+============================================= */
+#mpanel{
+position:fixed;top:72px;right:22px;width:305px;
+background:rgba(6,4,2,.97);border:1px solid rgba(107,26,26,.55);
+backdrop-filter:blur(22px);border-radius:16px;padding:18px;
+z-index:999;transform:translateY(-8px) scale(.96);opacity:0;pointer-events:none;
+transition:all .32s cubic-bezier(.34,1.56,.64,1);
+box-shadow:0 20px 60px rgba(0,0,0,.7);
+}
+#mpanel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+.phdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;}
+.pbrand{font-family:var(–font-mono);font-size:.56rem;letter-spacing:.2em;color:var(–wine-light);text-transform:uppercase;}
+.pdots{display:flex;gap:5px;}
+.pd{width:8px;height:8px;border-radius:50%;}
+.pd:nth-child(1){background:#ff5f57;}.pd:nth-child(2){background:#febc2e;}.pd:nth-child(3){background:#28c840;}
+.vwrap{width:100%;height:120px;background:linear-gradient(135deg,var(–wine-dark),var(–deep-black));border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;overflow:hidden;position:relative;}
+.vwrap::before{content:’’;position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(107,26,26,.08) 8px,rgba(107,26,26,.08) 16px);}
+#vinyl{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at center,#000 14%,var(–wine-dark) 18%,#000 23%,var(–wine-dark) 48%,#000 52%);border:2px solid var(–wine);animation:vspin 3.6s linear infinite;animation-play-state:paused;box-shadow:0 0 26px rgba(107,26,26,.55);}
+#vinyl.sp{animation-play-state:running;}
+@keyframes vspin{to{transform:rotate(360deg);}}
+.tname{font-family:var(–font-display);font-size:1rem;color:var(–cream);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tsub{font-family:var(–font-mono);font-size:.56rem;color:var(–cream-dark);letter-spacing:.1em;margin-bottom:11px;}
+
+/* FIX #6: progress bar — clean rebuild */
+.parea{margin-bottom:12px;}
+.pbg{width:100%;height:5px;background:rgba(240,232,216,.13);border-radius:3px;position:relative;cursor:none;margin-bottom:5px;user-select:none;}
+.pfill{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,var(–wine),var(–wine-light));border-radius:3px;width:0%;pointer-events:none;}
+.pthumb{position:absolute;top:50%;left:0%;transform:translate(-50%,-50%);width:12px;height:12px;background:var(–cream);border-radius:50%;pointer-events:none;opacity:0;transition:opacity .2s;box-shadow:0 0 6px rgba(0,0,0,.5);}
+.pbg:hover .pthumb{opacity:1;}
+.ptimes{display:flex;justify-content:space-between;font-family:var(–font-mono);font-size:.5rem;color:var(–cream-dark);}
+.ctrls{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:13px;}
+.cb{background:none;border:none;color:var(–cream-dark);cursor:none;font-size:.88rem;transition:color .2s,transform .2s;display:flex;align-items:center;}
+.cb:hover{color:var(–cream);transform:scale(1.18);}
+.cb.main{width:38px;height:38px;background:var(–wine);border-radius:50%;color:var(–cream);font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;}
+.cb.main:hover{background:var(–wine-light);transform:scale(1.1);}
+.tlist{border-top:1px solid rgba(240,232,216,.08);padding-top:9px;}
+.ti{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:7px;cursor:none;transition:background .2s;margin-bottom:1px;}
+.ti:hover{background:rgba(107,26,26,.2);}
+.ti.active{background:rgba(107,26,26,.38);}
+.tnum{font-family:var(–font-mono);font-size:.56rem;color:var(–wine-light);width:14px;text-align:center;}
+.tnm{font-family:var(–font-body);font-size:.8rem;color:var(–cream);flex:1;}
+.tdur{font-family:var(–font-mono);font-size:.53rem;color:var(–cream-dark);}
+
+/* =============================================
+SECTION SHARED
+============================================= */
+/* FIX #1: seamless gradient bridges between sections */
+.bridge{height:110px;}
+.bridge.ab{background:linear-gradient(to bottom,var(–deep-black),var(–black));}
+.bridge.ba{background:linear-gradient(to bottom,var(–black),var(–deep-black));}
+
+.slbl{font-family:var(–font-mono);font-size:.57rem;letter-spacing:.3em;color:var(–wine-light);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.slbl::before{content:’’;display:block;width:24px;height:1px;background:var(–wine);}
+.snum{color:rgba(107,26,26,.45);font-size:.5rem;}
+.stitle{font-family:var(–font-display);font-size:clamp(2rem,4.2vw,3.8rem);font-weight:700;line-height:1.1;color:var(–cream);margin-bottom:50px;}
+.stitle em{font-style:italic;color:var(–wine-light);}
+
+/* reveal on scroll — FIX #1: pure fade/slide, no snap */
+.rev{opacity:0;transform:translateY(45px);transition:opacity .85s ease,transform .85s ease;}
+.rev.vis{opacity:1;transform:translateY(0);}
+.revL{opacity:0;transform:translateX(-35px);transition:opacity .85s ease,transform .85s ease;}
+.revL.vis{opacity:1;transform:translateX(0);}
+.revR{opacity:0;transform:translateX(35px);transition:opacity .85s ease,transform .85s ease;}
+.revR.vis{opacity:1;transform:translateX(0);}
+
+/* =============================================
+SECTION 1 — COVER
+============================================= */
+#cover{position:relative;height:100vh;min-height:560px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(–deep-black);}
+.cgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(107,26,26,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(107,26,26,.1) 1px,transparent 1px);background-size:56px 56px;animation:gd 20s linear infinite;}
+@keyframes gd{to{background-position:56px 56px;}}
+.cglow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:540px;height:540px;background:radial-gradient(ellipse at center,rgba(107,26,26,.22) 0%,transparent 70%);animation:gp 5s ease-in-out infinite alternate;}
+@keyframes gp{from{opacity:.5;transform:translate(-50%,-50%) scale(1);}to{opacity:1;transform:translate(-50%,-50%) scale(1.18);}}
+.particle{position:absolute;border-radius:50%;background:var(–wine-light);animation:pf linear infinite;opacity:0;}
+@keyframes pf{0%{opacity:0;transform:translateY(0) translateX(0);}10%{opacity:.7;}90%{opacity:.3;}100%{opacity:0;transform:translateY(-98vh) translateX(var(–d));}}
+.cdeco{position:absolute;width:68px;height:68px;opacity:.28;}
+.cdeco.tl{top:62px;left:26px;border-top:1px solid var(–wine);border-left:1px solid var(–wine);}
+.cdeco.tr{top:62px;right:26px;border-top:1px solid var(–wine);border-right:1px solid var(–wine);}
+.cdeco.bl{bottom:62px;left:26px;border-bottom:1px solid var(–wine);border-left:1px solid var(–wine);}
+.cdeco.br{bottom:62px;right:26px;border-bottom:1px solid var(–wine);border-right:1px solid var(–wine);}
+.ccont{position:relative;z-index:10;text-align:center;padding:0 20px;}
+.cey{font-family:var(–font-mono);font-size:.6rem;letter-spacing:.34em;color:var(–wine-light);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fu 1s .3s forwards;}
+.ctit{font-family:var(–font-display);font-size:clamp(2.3rem,6.5vw,5.6rem);font-weight:900;line-height:1.06;color:var(–cream);margin-bottom:9px;opacity:0;animation:fu 1s .5s forwards;}
+.ctw{color:var(–wine-light);}.cti{font-style:italic;font-weight:400;}
+.csub{font-family:var(–font-mono);font-size:clamp(.9rem,2vw,1.45rem);letter-spacing:.5em;color:var(–cream-dark);margin-bottom:32px;opacity:0;animation:fu 1s .7s forwards;}
+.csl{font-family:var(–font-body);font-style:italic;font-size:clamp(.82rem,1.3vw,1rem);color:rgba(240,232,216,.42);opacity:0;animation:fu 1s .9s forwards;}
+.shint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;opacity:0;animation:fu 1s 1.4s forwards;}
+.sline{width:1px;height:44px;background:linear-gradient(to bottom,var(–wine-light),transparent);animation:sp 2s ease-in-out infinite;}
+@keyframes sp{0%,100%{opacity:.35;transform:scaleY(1);}50%{opacity:1;transform:scaleY(1.2);}}
+.stxt{font-family:var(–font-mono);font-size:.5rem;letter-spacing:.2em;color:var(–wine-light);text-transform:uppercase;}
+.mqwrap{position:absolute;bottom:86px;left:0;right:0;overflow:hidden;border-top:1px solid rgba(107,26,26,.22);border-bottom:1px solid rgba(107,26,26,.22);padding:8px 0;opacity:.36;}
+.mqt{display:flex;gap:34px;animation:mq 22s linear infinite;white-space:nowrap;}
+.mqt span{font-family:var(–font-mono);font-size:.56rem;letter-spacing:.26em;color:var(–wine-light);text-transform:uppercase;}
+@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@keyframes fu{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+
+/* =============================================
+SECTION 2 — 創作起點  (bg: –black)
+============================================= */
+#origin{position:relative;background:var(–black);padding:110px 40px 130px;overflow:hidden;}
+.obgtxt{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(–font-display);font-size:clamp(5rem,16vw,15rem);font-weight:900;color:rgba(107,26,26,.04);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-.05em;}
+.oinner{max-width:1080px;margin:0 auto;position:relative;z-index:2;}
+.ocols{display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:start;}
+.otxt p{font-size:clamp(.92rem,1.35vw,1.1rem);line-height:1.9;color:rgba(240,232,216,.77);margin-bottom:16px;}
+.otxt p strong{color:var(–cream);font-weight:600;}
+.hilist{display:flex;flex-direction:column;gap:18px;}
+.hi{display:flex;gap:17px;align-items:flex-start;padding:17px 17px 17px 20px;border:1px solid rgba(107,26,26,.2);border-radius:4px;background:rgba(107,26,26,.04);position:relative;overflow:hidden;}
+.hi::before{content:’’;position:absolute;left:0;top:0;bottom:0;width:3px;background:var(–wine);}
+.hinum{font-family:var(–font-display);font-size:1.8rem;font-weight:900;color:rgba(107,26,26,.26);line-height:1;flex-shrink:0;}
+.hibod h4{font-family:var(–font-display);font-size:.92rem;color:var(–cream);margin-bottom:4px;}
+.hibod p{font-size:.8rem;color:rgba(240,232,216,.56);line-height:1.6;}
+
+/* =============================================
+SECTION 3 — 作品展示  (bg: –deep-black) FIX #2 order
+============================================= */
+#works{background:var(–deep-black);padding:110px 0 100px;overflow:hidden;}
+.whdr{padding:0 40px;max-width:1080px;margin:0 auto 46px;}
+/* FIX #3: dual-row gallery */
+.wdual{display:flex;flex-direction:column;gap:14px;}
+.wrow{overflow:hidden;}
+.wtrack{display:flex;gap:14px;width:max-content;will-change:transform;cursor:grab;}
+.wtrack:active{cursor:grabbing;}
+/* card sizing */
+.wcard{flex-shrink:0;position:relative;border-radius:6px;overflow:hidden;cursor:none;border:1px solid rgba(240,232,216,.07);width:230px;height:290px;}
+.wcard:nth-child(3n+2){height:330px;}
+.wcard:nth-child(3n){width:195px;height:265px;}
+.wcard img{width:100%;height:100%;object-fit:cover;display:block;background:linear-gradient(135deg,#1a0808,#080404);transition:transform .5s cubic-bezier(.25,.46,.45,.94);}
+.wcard:hover img{transform:scale(1.06);}
+.wov{position:absolute;inset:0;background:linear-gradient(to top,rgba(4,3,2,.92) 0%,transparent 55%);opacity:0;transition:opacity .35s;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;}
+.wcard:hover .wov{opacity:1;}
+.wctit{font-family:var(–font-display);font-size:.9rem;color:var(–cream);margin-bottom:2px;}
+.wctag{font-family:var(–font-mono);font-size:.53rem;color:var(–wine-light);letter-spacing:.09em;}
+.wplus{position:absolute;top:9px;right:9px;width:26px;height:26px;background:var(–wine);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(–cream);opacity:0;transition:opacity .3s;}
+.wcard:hover .wplus{opacity:1;}
+.wscrh{text-align:center;margin-top:24px;font-family:var(–font-mono);font-size:.55rem;letter-spacing:.18em;color:rgba(240,232,216,.26);text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:9px;}
+.arr{animation:ab 1.5s ease-in-out infinite;}
+@keyframes ab{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
+
+/* =============================================
+WORK MODAL
+============================================= */
+#wmodal{position:fixed;inset:0;background:rgba(4,3,2,.93);backdrop-filter:blur(14px);z-index:5000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px;}
+#wmodal.open{opacity:1;pointer-events:all;}
+.mini{background:var(–black);border:1px solid rgba(107,26,26,.45);border-radius:12px;max-width:660px;width:100%;max-height:88vh;overflow-y:auto;padding:34px;position:relative;transform:scale(.9) translateY(18px);transition:transform .32s cubic-bezier(.34,1.56,.64,1);}
+#wmodal.open .mini{transform:scale(1) translateY(0);}
+.mcls{position:absolute;top:13px;right:13px;width:29px;height:29px;background:rgba(107,26,26,.3);border:none;border-radius:50%;color:var(–cream);font-size:.72rem;cursor:none;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.mcls:hover{background:var(–wine);}
+.mimg{width:100%;height:240px;object-fit:cover;border-radius:7px;margin-bottom:20px;background:linear-gradient(135deg,var(–wine-dark),var(–deep-black));display:block;}
+.mtag{font-family:var(–font-mono);font-size:.56rem;letter-spacing:.2em;color:var(–wine-light);text-transform:uppercase;margin-bottom:9px;}
+.mtit{font-family:var(–font-display);font-size:1.65rem;color:var(–cream);margin-bottom:13px;font-weight:700;}
+.mbod{font-size:.9rem;line-height:1.82;color:rgba(240,232,216,.72);}
+.mbod b{color:var(–cream);}
+
+/* =============================================
+SECTION 4 — 互動塗鴉  (bg: –black) FIX #2 after works
+============================================= */
+#interactive{background:var(–black);padding:110px 40px 130px;position:relative;overflow:hidden;}
+.iinner{max-width:1180px;margin:0 auto;}
+.gstage{display:grid;grid-template-columns:195px 1fr 178px;gap:18px;align-items:start;margin-top:46px;}
+.pcard{background:rgba(240,232,216,.03);border:1px solid rgba(240,232,216,.09);border-radius:10px;padding:17px;}
+.ptit{font-family:var(–font-mono);font-size:.55rem;letter-spacing:.16em;color:var(–wine-light);text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(240,232,216,.08);}
+.slg{margin-bottom:16px;}
+.sll{display:block;font-family:var(–font-mono);font-size:.53rem;color:rgba(240,232,216,.44);letter-spacing:.09em;margin-bottom:7px;text-transform:uppercase;}
+input[type=range]{-webkit-appearance:none;width:100%;height:10px;border-radius:5px;cursor:none;outline:none;border:1px solid rgba(240,232,216,.1);}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid rgba(0,0,0,.28);cursor:none;box-shadow:0 2px 6px rgba(0,0,0,.4);}
+#hueSlider{background:linear-gradient(to right,hsl(0,100%,50%),hsl(30,100%,50%),hsl(60,100%,50%),hsl(90,100%,50%),hsl(120,100%,50%),hsl(150,100%,50%),hsl(180,100%,50%),hsl(210,100%,50%),hsl(240,100%,50%),hsl(270,100%,50%),hsl(300,100%,50%),hsl(330,100%,50%),hsl(360,100%,50%));}
+#lightnessSlider{background:linear-gradient(to right,#000,hsl(0,100%,50%),#fff);}
+#brushSlider{background:rgba(240,232,216,.13);}
+.cprev{width:100%;height:30px;border-radius:5px;margin-top:7px;border:1px solid rgba(240,232,216,.1);transition:background .1s;}
+.bprev{display:flex;align-items:center;justify-content:center;height:40px;margin-top:7px;}
+.bdot{border-radius:50%;background:var(–cream);opacity:.62;transition:all .1s;}
+/* FIX #7: eraser only, no colour preset */
+.erow{display:flex;align-items:center;gap:9px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(240,232,216,.08);}
+.erow .sll{margin:0;}
+#graffitiCanvas{display:block;width:100%;border-radius:9px;border:1px solid rgba(240,232,216,.08);box-shadow:0 16px 50px rgba(0,0,0,.55);cursor:crosshair;}
+.cbtns{display:flex;gap:8px;margin-top:9px;justify-content:center;}
+.cbtn{font-family:var(–font-mono);font-size:.55rem;letter-spacing:.09em;text-transform:uppercase;padding:6px 13px;border:1px solid rgba(240,232,216,.17);background:transparent;color:var(–cream-dark);border-radius:4px;cursor:none;transition:all .2s;}
+.cbtn:hover{background:var(–wine-dark);border-color:var(–wine);color:var(–cream);}
+.cbtn.d:hover{background:rgba(200,50,50,.2);border-color:rgba(200,50,50,.4);}
+.bggrid{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
+.bgo{width:100%;height:58px;border-radius:7px;cursor:none;border:2px solid transparent;transition:all .22s;position:relative;overflow:hidden;background:rgba(240,232,216,.05);display:flex;align-items:center;justify-content:center;font-family:var(–font-mono);font-size:.55rem;color:var(–cream-dark);letter-spacing:.07em;}
+.bgo:hover{border-color:var(–cream-dark);transform:scale(1.02);}
+.bgo.active{border-color:var(–wine-light);}
+.bgo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:5px;}
+
+/* =============================================
+SECTION 5 — 歷程記錄  (bg: –deep-black)
+============================================= */
+#journey{background:var(–deep-black);padding:110px 40px 130px;position:relative;overflow:hidden;}
+.jinner{max-width:960px;margin:0 auto;}
+.timeline{position:relative;margin-top:60px;padding-left:36px;}
+.tlline{position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(–wine) 15%,var(–wine-dark) 85%,transparent);}
+.ph{position:relative;margin-bottom:60px;opacity:0;transform:translateX(-26px);transition:opacity .8s ease,transform .8s ease;}
+.ph.vis{opacity:1;transform:translateX(0);}
+.phd{position:absolute;left:-42px;top:9px;width:13px;height:13px;border-radius:50%;background:var(–wine);border:2px solid var(–wine-light);box-shadow:0 0 16px rgba(107,26,26,.6);}
+.phd::before{content:’’;position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(107,26,26,.3);animation:dp 2.2s ease-in-out infinite;}
+@keyframes dp{0%,100%{transform:scale(1);opacity:.5;}50%{transform:scale(1.45);opacity:0;}}
+.phhdr{display:flex;align-items:baseline;gap:13px;margin-bottom:12px;}
+.phnum{font-family:var(–font-mono);font-size:.55rem;color:var(–wine-light);letter-spacing:.2em;}
+.phtit{font-family:var(–font-display);font-size:1.5rem;font-weight:700;color:var(–cream);}
+.phbod{font-size:.9rem;line-height:1.82;color:rgba(240,232,216,.67);margin-bottom:16px;}
+
+/* FIX #5: mind-map tag row + ability emphasis */
+.mmrow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;padding:12px 14px;background:rgba(107,26,26,.06);border:1px solid rgba(107,26,26,.17);border-radius:6px;}
+.mmt{font-family:var(–font-mono);font-size:.56rem;letter-spacing:.07em;padding:4px 10px;border-radius:30px;background:rgba(107,26,26,.22);border:1px solid rgba(107,26,26,.44);color:var(–wine-light);text-transform:uppercase;}
+.mms{font-family:var(–font-body);font-size:.78rem;padding:4px 10px;border-radius:4px;background:transparent;border:1px solid rgba(240,232,216,.13);color:rgba(240,232,216,.57);transition:all .27s;}
+.mms:hover{background:rgba(107,26,26,.18);color:var(–cream);border-color:var(–wine);}
+/* ability — FIX #5: prominent headline */
+.ablsec{margin-top:14px;padding:14px 16px;background:rgba(107,26,26,.05);border:1px solid rgba(107,26,26,.14);border-radius:6px;}
+.ablhdr{font-family:var(–font-mono);font-size:.56rem;letter-spacing:.18em;color:var(–wine-light);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.ablhdr::before{content:’’;display:block;width:16px;height:1px;background:var(–wine);}
+.ablgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px 22px;}
+.abi .albl{display:flex;justify-content:space-between;font-family:var(–font-mono);font-size:.54rem;color:rgba(240,232,216,.5);letter-spacing:.07em;text-transform:uppercase;margin-bottom:3px;}
+.abi .albl span:last-child{color:var(–wine-light);}
+.atrack{height:3px;background:rgba(240,232,216,.08);border-radius:2px;overflow:hidden;}
+.afill{height:100%;background:linear-gradient(90deg,var(–wine-dark),var(–wine-light));border-radius:2px;width:0%;transition:width 1.3s cubic-bezier(.25,.46,.45,.94);}
+.ph.vis .afill{width:var(–p);}
+
+/* =============================================
+SECTION 6 — 未來展望  (bg: –black)
+============================================= */
+#future{background:var(–black);padding:110px 40px 130px;position:relative;overflow:hidden;}
+.starbg{position:absolute;inset:0;pointer-events:none;}
+.star{position:absolute;border-radius:50%;background:var(–cream);animation:tw ease-in-out infinite alternate;}
+@keyframes tw{from{opacity:.07;}to{opacity:.42;}}
+.finner{max-width:1080px;margin:0 auto;position:relative;z-index:2;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:60px;}
+.yg{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease;}
+.yg.vis{opacity:1;transform:translateY(0);}
+.yhdr{display:flex;align-items:center;gap:11px;margin-bottom:16px;padding-bottom:11px;border-bottom:1px solid rgba(107,26,26,.26);}
+.ybadge{font-family:var(–font-mono);font-size:.6rem;letter-spacing:.16em;padding:4px 10px;background:var(–wine-dark);border:1px solid var(–wine);border-radius:30px;color:var(–wine-light);text-transform:uppercase;}
+.yname{font-family:var(–font-display);font-size:1.15rem;color:var(–cream);font-weight:700;}
+.qlist{display:flex;flex-direction:column;gap:11px;}
+.qi{padding:13px 13px 13px 15px;border:1px solid rgba(240,232,216,.07);border-radius:7px;background:rgba(240,232,216,.02);cursor:none;transition:all .27s;position:relative;overflow:hidden;}
+.qi::before{content:’’;position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(107,26,26,.12);transition:width .28s;}
+.qi:hover::before{width:100%;}
+.qi:hover{border-color:rgba(107,26,26,.44);}
+.qicon{font-size:1.05rem;margin-bottom:4px;display:block;}
+.qnm{font-family:var(–font-display);font-size:.88rem;color:var(–cream);margin-bottom:2px;position:relative;}
+.qdsc{font-size:.76rem;color:rgba(240,232,216,.46);line-height:1.58;position:relative;}
+.qbadge{position:absolute;top:9px;right:9px;font-family:var(–font-mono);font-size:.46rem;letter-spacing:.07em;padding:2px 7px;border-radius:20px;background:rgba(107,26,26,.28);color:var(–wine-light);border:1px solid rgba(107,26,26,.36);text-transform:uppercase;}
+
+/* quest modal */
+#qmodal{position:fixed;inset:0;background:rgba(4,3,2,.93);backdrop-filter:blur(14px);z-index:5000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px;}
+#qmodal.open{opacity:1;pointer-events:all;}
+#qmodal .mini{max-width:560px;}
+.clist{display:flex;flex-direction:column;gap:11px;margin-top:16px;}
+.citem{padding:12px 15px;border-left:2px solid var(–wine);background:rgba(107,26,26,.07);border-radius:0 6px 6px 0;}
+.cnm{font-family:var(–font-display);font-size:.86rem;color:var(–cream);margin-bottom:2px;}
+.cdsc{font-size:.76rem;color:rgba(240,232,216,.56);line-height:1.56;}
+
+/* =============================================
+FOOTER
+============================================= */
+footer{background:var(–deep-black);border-top:1px solid rgba(107,26,26,.18);padding:42px 40px 24px;text-align:center;}
+.fbrand{font-family:var(–font-display);font-size:1.35rem;font-style:italic;color:var(–wine-light);margin-bottom:7px;}
+.fsub{font-family:var(–font-mono);font-size:.54rem;letter-spacing:.18em;color:rgba(240,232,216,.26);text-transform:uppercase;}
+
+/* =============================================
+RESPONSIVE
+============================================= */
+@media(max-width:900px){
+.ocols,.fgrid{grid-template-columns:1fr;}
+.gstage{grid-template-columns:1fr;}
+#graffitiCanvas{height:280px!important;}
+.ablgrid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+#origin,#works,#interactive,#journey,#future{padding:80px 20px 100px;}
+.whdr{padding:0 20px;}
+.ni{padding:4px 7px;font-size:.52rem;}
+}
+</style>
+
 </head>
-  
-
-  
 <body>
-  
-<div id="loading-screen">
-  <div class="stars"></div>
-  <div class="loading-text">Loading...</div>
 
-  <!-- ⭐ 新增進度條 -->
-  <div class="loading-bar">
-    <div class="loading-progress"></div>
-  </div>
-</div>
+<div id="cur"></div>
+<div id="ring"></div>
 
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
 
-  
-  <!-- BACK -->
-  <div class="back-btn" onclick="goHome()">BACK</div>
-
-  <!-- Corner Cards -->
- <div class="corner-card top-left">
-
-  <div class="music-player">
-
-    <!-- 上排 -->
-<div class="music-top">
-
-  <div class="vinyl">
-    <div class="vinyl-disc">
-      <img src="dj.jpg">
+<nav id="navbar">
+  <div class="ni" onclick="goTo('cover')">封面<div class="ntt">作品集首頁入口</div></div>
+  <div class="ndiv"></div>
+  <div class="ni" onclick="goTo('origin')">創作起點<div class="ntt">為什麼做這個網站？</div></div>
+  <div class="ndiv"></div>
+  <div class="ni" onclick="goTo('works')">作品展示<div class="ntt">14 件學習成果作品</div></div>
+  <div class="ndiv"></div>
+  <div class="ni" onclick="goTo('interactive')">互動頁面<div class="ntt">街頭塗鴉體驗區</div></div>
+  <div class="ndiv"></div>
+  <div class="ni" onclick="goTo('journey')">歷程記錄<div class="ntt">學習時間線 × 能力特質</div></div>
+  <div class="ndiv"></div>
+  <div class="ni" onclick="goTo('future')">未來展望<div class="ntt">設計系四年規劃藍圖</div></div>
+  <div class="ndiv"></div>
+  <div id="mtog" onclick="togglePanel()">
+    <div class="mbars">
+      <div class="mb still" id="mb1"></div><div class="mb still" id="mb2"></div>
+      <div class="mb still" id="mb3"></div><div class="mb still" id="mb4"></div>
     </div>
+    <span class="mlbl">Music</span>
   </div>
-
-  <div class="track-info">
-    <div class="marquee">
-      <span id="track-name">Track Name</span>
-    </div>
-  </div>
-
-</div>
-
-    <!-- 中間：進度 -->
-    <div class="progress-area">
-      <input type="range" id="progress" value="0">
-      <div class="time">
-        <span id="current">0:00</span>
-        <span id="duration">0:00</span>
-      </div>
-    </div>
-
-    <!-- 控制 -->
-    <div class="controls">
-      <button onclick="prevTrack()">⏮</button>
-      <button onclick="togglePlay()" id="playBtn">▶</button>
-      <button onclick="nextTrack()">⏭</button>
-    </div>
-
-  </div>
-
-</div>
-  <!-- ⭐ GIF 區域 -->
-
- <div class="corner-card bottom-right">
-    
-   
-  <div class="about-title">//PROJECT OVERVIEW//</div>
-
-  <div class="about-text">
-    <br><br>本作品以個人作品集網站為核心，結合視覺設計與前端開發，打造具有沉浸感的互動介面。<br><br>
-
-    透過版面配置、動畫轉場與音樂播放器的整合，提升整體觀看體驗，使使用者在瀏覽過程中能直觀感受創作脈絡與風格呈現。<br><br>
-
-    此實作不僅展現設計能力，也體現將概念轉化為數位互動作品的整合實力。
-  </div>
-</div>
- 
-
-  <!-- ===== 封面 ===== -->
-  <!-- 封面 UI（獨立層） -->
-
-
-
-  <!-- ===== TAB SYSTEM ===== -->
-<nav class="top-nav">
-  <a href="#hero">HOME</a>
-  <a href="#origin">創作起點</a>
-  <a href="#interactive">互動頁面</a>
-  <a href="#work">作品展示</a>
-  <a href="#timeline">歷程記錄</a>
-  <a href="#future">未來展望</a>
 </nav>
 
-  <!-- ===== 內容頁面 ===== -->
-<section class="hero-section" id="hero">
-  <div class="hero-ui">
-    <img src="title.jpg" class="title-img">
+<!-- ============================================================
+     MUSIC PANEL
+============================================================ -->
 
-    <div class="hud-gif-box">
-      <img src="spin.gif" class="spin-gif">
+<div id="mpanel">
+  <div class="phdr">
+    <span class="pbrand">Now Playing</span>
+    <div class="pdots"><div class="pd"></div><div class="pd"></div><div class="pd"></div></div>
+  </div>
+  <div class="vwrap"><div id="vinyl"></div></div>
+  <div class="tname" id="tname">late night</div>
+  <div class="tsub">Portfolio Soundtrack</div>
+  <div class="parea">
+    <div class="pbg" id="pbg">
+      <div class="pfill" id="pfill"></div>
+      <div class="pthumb" id="pthumb"></div>
+    </div>
+    <div class="ptimes"><span id="tcur">0:00</span><span id="ttot">0:00</span></div>
+  </div>
+  <div class="ctrls">
+    <button class="cb" onclick="prevT()">&#9664;&#9664;</button>
+    <button class="cb main" id="ppbtn" onclick="togglePlay()">&#9654;</button>
+    <button class="cb" onclick="nextT()">&#9654;&#9654;</button>
+  </div>
+  <div class="tlist">
+    <div class="ti active" id="ti0" onclick="selT(0)"><span class="tnum">01</span><span class="tnm">late night</span><span class="tdur" id="d0">--:--</span></div>
+    <div class="ti" id="ti1" onclick="selT(1)"><span class="tnum">02</span><span class="tnm">M.I.A.</span><span class="tdur" id="d1">--:--</span></div>
+    <div class="ti" id="ti2" onclick="selT(2)"><span class="tnum">03</span><span class="tnm">made it through</span><span class="tdur" id="d2">--:--</span></div>
+  </div>
+</div>
+<audio id="aud"></audio>
+
+<!-- ============================================================
+     SECTION 1 · COVER
+============================================================ -->
+
+<section id="cover">
+  <div class="cgrid" id="cgrid"></div>
+  <div class="cglow" id="cglow"></div>
+  <div id="pcont"></div>
+  <div class="cdeco tl"></div><div class="cdeco tr"></div>
+  <div class="cdeco bl"></div><div class="cdeco br"></div>
+  <div class="ccont" id="ccont">
+    <div class="cey">Design × Technology × Creativity</div>
+    <h1 class="ctit"><span class="cti">課程學習</span><br><span class="ctw">成果實作</span><br>作品</h1>
+    <div class="csub">PORTFOLIO</div>
+    <div class="csl">&ldquo; Every pixel has a purpose, every interaction tells a story &rdquo;</div>
+  </div>
+  <div class="mqwrap">
+    <div class="mqt">
+      <span>DESIGN</span><span>·</span><span>INTERACTIVE</span><span>·</span><span>PORTFOLIO</span><span>·</span>
+      <span>CREATIVE</span><span>·</span><span>NOSTALGIA</span><span>·</span><span>TECHNOLOGY</span><span>·</span>
+      <span>ART</span><span>·</span><span>DESIGN</span><span>·</span><span>INTERACTIVE</span><span>·</span>
+      <span>PORTFOLIO</span><span>·</span><span>CREATIVE</span><span>·</span><span>NOSTALGIA</span><span>·</span>
+      <span>TECHNOLOGY</span><span>·</span><span>ART</span><span>·</span>
+    </div>
+  </div>
+  <div class="shint"><div class="sline"></div><span class="stxt">Scroll</span></div>
+</section>
+
+<!-- FIX #1: seamless gradient bridge — no gap, no snap -->
+
+<div class="bridge ab"></div>
+
+<!-- ============================================================
+     SECTION 2 · 創作起點
+============================================================ -->
+
+<section id="origin">
+  <div class="obgtxt">ORIGIN</div>
+  <div class="oinner">
+    <div class="slbl"><span class="snum">01 /</span>創作起點</div>
+    <h2 class="stitle rev">為什麼<br><em>做這個網站？</em></h2>
+    <div class="ocols">
+      <div class="otxt revL">
+        <p>在<strong>設計系</strong>的第一年，我接觸到許多過去從未想像過的創作方式。從視覺設計到互動媒體，每一門課都在打開我看世界的視角。</p>
+        <p>這個作品集不只是作業的集合，而是我對<strong>「學習是什麼」</strong>這個問題的回答。每一件作品背後都有一段掙扎、一次頓悟、一個「啊，原來如此」的瞬間。</p>
+        <p>我決定用網頁來呈現這些成果，因為我相信<strong>設計必須被體驗，而不只是被觀看</strong>。從排版到動畫，從互動到敘事，這個網站本身就是一件作品。</p>
+      </div>
+      <div class="hilist">
+        <div class="hi revR" style="transition-delay:.1s">
+          <div class="hinum">01</div>
+          <div class="hibod"><h4>課程啟發</h4><p>透過設計課程，發現自己對視覺敘事有強烈熱情，開始思考如何將概念轉化為有溫度的設計。</p></div>
+        </div>
+        <div class="hi revR" style="transition-delay:.22s">
+          <div class="hinum">02</div>
+          <div class="hibod"><h4>工具探索</h4><p>從 Figma 到 Webflow，從 GitHub 到 AI 協作，每一個工具的學習都是一次思維的擴張。</p></div>
+        </div>
+        <div class="hi revR" style="transition-delay:.34s">
+          <div class="hinum">03</div>
+          <div class="hibod"><h4>作品集的意義</h4><p>這不只是成果展示，更是一段自我探索的旅程——關於我是誰，以及我想成為什麼樣的設計師。</p></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
-  
-<div class="marquee-track track1">
-  <div class="marquee-content">
-    <span>DESIGN × INTERACTION × PORTFOLIO × </span>
-    <span>DESIGN × INTERACTION × PORTFOLIO × </span>
 
-    <span>DESIGN × INTERACTION × PORTFOLIO × </span>
-    <span>DESIGN × INTERACTION × PORTFOLIO × </span>
+<div class="bridge ba"></div>
+
+<!-- ============================================================
+     SECTION 3 · 作品展示  ← FIX #2: BEFORE 塗鴉
+============================================================ -->
+
+<section id="works">
+  <div class="whdr">
+    <div class="slbl rev"><span class="snum">02 /</span>作品展示</div>
+    <h2 class="stitle rev">學習成果<br><em>Gallery</em></h2>
+  </div>
+  <div class="wdual">
+    <div class="wrow"><div class="wtrack" id="tr1"></div></div>
+    <div class="wrow"><div class="wtrack" id="tr2"></div></div>
+  </div>
+  <div class="wscrh"><span class="arr">←</span>拖曳或滾輪控制<span class="arr">→</span></div>
+</section>
+
+<!-- Work modal -->
+
+<div id="wmodal">
+  <div class="mini">
+    <button class="mcls" onclick="closeM('wmodal')">✕</button>
+    <img src="" alt="" class="mimg" id="mimg">
+    <div class="mtag" id="mtag"></div>
+    <div class="mtit" id="mtit"></div>
+    <div class="mbod" id="mbod"></div>
   </div>
 </div>
 
-<div class="marquee-track track2">
-  <div class="marquee-content">
-    <span>CREATIVE × VISUAL × EXPERIENCE × </span>
-    <span>CREATIVE × VISUAL × EXPERIENCE × </span>
+<div class="bridge ab"></div>
 
-     <span>CREATIVE × VISUAL × EXPERIENCE × </span>
-    <span>CREATIVE × VISUAL × EXPERIENCE × </span>
+<!-- ============================================================
+     SECTION 4 · 互動塗鴉  ← FIX #2: AFTER works
+============================================================ -->
+
+<section id="interactive">
+  <div class="iinner">
+    <div class="slbl"><span class="snum">03 /</span>互動頁面</div>
+    <h2 class="stitle rev">街頭塗鴉<br><em>體驗區</em></h2>
+    <div class="gstage">
+      <!-- Left controls -->
+      <div class="pcard">
+        <div class="ptit">筆刷 &amp; 顏色</div>
+        <div class="slg">
+          <span class="sll">色相 Hue</span>
+          <input type="range" id="hueSlider" min="0" max="360" value="0" oninput="updC()">
+        </div>
+        <div class="slg">
+          <span class="sll">明暗 Lightness</span>
+          <input type="range" id="lightnessSlider" min="0" max="100" value="50" oninput="updC()">
+          <div class="cprev" id="cprev"></div>
+        </div>
+        <div class="slg">
+          <span class="sll">筆刷大小 Size</span>
+          <input type="range" id="brushSlider" min="5" max="60" value="20" oninput="updB()">
+          <div class="bprev"><div class="bdot" id="bdot"></div></div>
+        </div>
+        <!-- FIX #7: eraser only, colour preset removed -->
+        <div class="erow">
+          <span class="sll">橡皮擦</span>
+          <input type="checkbox" id="etgl" onchange="toggleE()">
+        </div>
+      </div>
+      <!-- Canvas -->
+      <div>
+        <canvas id="graffitiCanvas" width="700" height="500"></canvas>
+        <div class="cbtns">
+          <button class="cbtn" onclick="undoC()">↩ 復原</button>
+          <button class="cbtn d" onclick="clearC()">✕ 清除</button>
+          <button class="cbtn" onclick="saveC()">↓ 儲存</button>
+        </div>
+      </div>
+      <!-- Right: backgrounds -->
+      <div class="pcard">
+        <div class="ptit">背景選擇</div>
+        <div class="bggrid">
+          <div class="bgo active" onclick="setBg(null,this)">無背景</div>
+          <div class="bgo" onclick="setBg('wall.jpg',this)"><img src="wall.jpg" alt="" onerror="this.style.display='none'">牆面</div>
+          <div class="bgo" onclick="setBg('truck.jpg',this)"><img src="truck.jpg" alt="" onerror="this.style.display='none'">卡車</div>
+          <div class="bgo" onclick="setBg('shutter.jpg',this)"><img src="shutter.jpg" alt="" onerror="this.style.display='none'">鐵捲門</div>
+          <div class="bgo" onclick="setBg('sticker.jpg',this)"><img src="sticker.jpg" alt="" onerror="this.style.display='none'">貼紙牆</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge ba"></div>
+
+<!-- ============================================================
+     SECTION 5 · 歷程記錄
+============================================================ -->
+
+<section id="journey">
+  <div class="jinner">
+    <div class="slbl"><span class="snum">04 /</span>歷程記錄</div>
+    <h2 class="stitle rev">學習軌跡<br><em>Timeline</em></h2>
+    <div class="timeline">
+      <div class="tlline"></div>
+
+```
+  <!-- Phase 1 -->
+  <div class="ph" id="ph0">
+    <div class="phd"></div>
+    <div class="phhdr"><span class="phnum">PHASE 01</span><h3 class="phtit">構思</h3></div>
+    <p class="phbod">一切從一張白紙開始。我學習如何將腦中模糊的概念轉化為具體的設計方向。透過大量草圖、心智圖與初步研究，開始理解設計不只是讓東西「好看」，而是解決問題、創造溝通。</p>
+    <div class="mmrow">
+      <span class="mmt">Figma</span>
+      <span class="mms">設計思維</span><span class="mms">使用者研究</span>
+      <span class="mms">視覺語言</span><span class="mms">概念發展</span><span class="mms">草圖規劃</span>
+    </div>
+    <div class="ablsec">
+      <div class="ablhdr">核心能力特質</div>
+      <div class="ablgrid">
+        <div class="abi"><div class="albl"><span>創意發想</span><span>75%</span></div><div class="atrack"><div class="afill" style="--p:75%"></div></div></div>
+        <div class="abi"><div class="albl"><span>問題定義</span><span>68%</span></div><div class="atrack"><div class="afill" style="--p:68%"></div></div></div>
+        <div class="abi"><div class="albl"><span>研究分析</span><span>60%</span></div><div class="atrack"><div class="afill" style="--p:60%"></div></div></div>
+        <div class="abi"><div class="albl"><span>概念溝通</span><span>70%</span></div><div class="atrack"><div class="afill" style="--p:70%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="ph" id="ph1">
+    <div class="phd"></div>
+    <div class="phhdr"><span class="phnum">PHASE 02</span><h3 class="phtit">找資料</h3></div>
+    <p class="phbod">好的設計來自廣泛的視覺養分。我大量研究國內外設計案例、排版理論與互動設計原則。Behance、Dribbble、Awwwards 成為日常精神食糧，AI 工具讓我能更快速整合靈感。</p>
+    <div class="mmrow">
+      <span class="mmt">ChatGPT</span><span class="mmt">Claude</span>
+      <span class="mms">視覺研究</span><span class="mms">AI 協作</span>
+      <span class="mms">審美培養</span><span class="mms">資料整理</span><span class="mms">批判思維</span>
+    </div>
+    <div class="ablsec">
+      <div class="ablhdr">核心能力特質</div>
+      <div class="ablgrid">
+        <div class="abi"><div class="albl"><span>視覺敏感度</span><span>80%</span></div><div class="atrack"><div class="afill" style="--p:80%"></div></div></div>
+        <div class="abi"><div class="albl"><span>AI 工具運用</span><span>85%</span></div><div class="atrack"><div class="afill" style="--p:85%"></div></div></div>
+        <div class="abi"><div class="albl"><span>資訊篩選</span><span>72%</span></div><div class="atrack"><div class="afill" style="--p:72%"></div></div></div>
+        <div class="abi"><div class="albl"><span>設計鑑賞</span><span>78%</span></div><div class="atrack"><div class="afill" style="--p:78%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="ph" id="ph2">
+    <div class="phd"></div>
+    <div class="phhdr"><span class="phnum">PHASE 03</span><h3 class="phtit">實作</h3></div>
+    <p class="phbod">從 Figma 原型到 Webflow 上線，從 GitHub 版本控制到程式碼的第一行——實作是最痛苦也最令人興奮的時刻。每一個 bug 都是一堂課，uiverse 與 Lovable 更讓我體驗了 AI 輔助建構介面的可能性。</p>
+    <div class="mmrow">
+      <span class="mmt">Webflow</span><span class="mmt">GitHub</span>
+      <span class="mmt">uiverse</span><span class="mmt">Lovable</span>
+      <span class="mms">網頁製作</span><span class="mms">版本控制</span>
+      <span class="mms">原型測試</span><span class="mms">問題解決</span>
+    </div>
+    <div class="ablsec">
+      <div class="ablhdr">核心能力特質</div>
+      <div class="ablgrid">
+        <div class="abi"><div class="albl"><span>技術執行力</span><span>70%</span></div><div class="atrack"><div class="afill" style="--p:70%"></div></div></div>
+        <div class="abi"><div class="albl"><span>工具整合</span><span>78%</span></div><div class="atrack"><div class="afill" style="--p:78%"></div></div></div>
+        <div class="abi"><div class="albl"><span>邏輯思維</span><span>66%</span></div><div class="atrack"><div class="afill" style="--p:66%"></div></div></div>
+        <div class="abi"><div class="albl"><span>快速學習</span><span>82%</span></div><div class="atrack"><div class="afill" style="--p:82%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="ph" id="ph3">
+    <div class="phd"></div>
+    <div class="phhdr"><span class="phnum">PHASE 04</span><h3 class="phtit">調整</h3></div>
+    <p class="phbod">設計永遠沒有「完成」，只有「更好的版本」。在反覆的測試與自我審視中，學會接受批評、轉化回饋並持續迭代。這個階段磨練了細節敏感度與執行韌性，每一次微調都讓作品更接近心中的理想。</p>
+    <div class="mmrow">
+      <span class="mmt">Figma</span>
+      <span class="mms">迭代思維</span><span class="mms">批判反思</span>
+      <span class="mms">細節把控</span><span class="mms">持續優化</span><span class="mms">接受回饋</span>
+    </div>
+    <div class="ablsec">
+      <div class="ablhdr">核心能力特質</div>
+      <div class="ablgrid">
+        <div class="abi"><div class="albl"><span>品質意識</span><span>82%</span></div><div class="atrack"><div class="afill" style="--p:82%"></div></div></div>
+        <div class="abi"><div class="albl"><span>接受回饋</span><span>88%</span></div><div class="atrack"><div class="afill" style="--p:88%"></div></div></div>
+        <div class="abi"><div class="albl"><span>細節敏感度</span><span>80%</span></div><div class="atrack"><div class="afill" style="--p:80%"></div></div></div>
+        <div class="abi"><div class="albl"><span>執行韌性</span><span>85%</span></div><div class="atrack"><div class="afill" style="--p:85%"></div></div></div>
+      </div>
+    </div>
   </div>
 </div>
-  
-<section class="content-section origin-section fade-section" id="origin">
-<div class="origin-line"></div>
-<div class="origin-image"></div>
-  <div class="origin-wrapper">
-
-    <div class="origin-block">
-      <h2>起點</h2>
-      <p>這個作品的誕生，來自我對於設計與表達方式的思考。</p>
-    </div>
-
-    <div class="origin-block">
-      <h2>動機</h2>
-      <p>我不希望作品集只是靜態展示，而是能讓觀看者「體驗」我的創作。</p>
-    </div>
-
-    <div class="origin-block">
-      <h2>轉化</h2>
-      <p>因此我選擇結合前端與設計，將概念轉化為互動式網站。</p>
-    </div>
+```
 
   </div>
-
 </section>
 
-  
-<section class="content-section" id="interactive">
-  互動頁面內容
+<div class="bridge ab"></div>
+
+<!-- ============================================================
+     SECTION 6 · 未來展望
+============================================================ -->
+
+<section id="future">
+  <div class="starbg" id="starbg"></div>
+  <div class="finner">
+    <div class="slbl"><span class="snum">05 /</span>未來展望</div>
+    <h2 class="stitle rev">設計系<br><em>四年藍圖</em></h2>
+    <div class="fgrid">
+      <div class="yg rev" style="transition-delay:.05s">
+        <div class="yhdr"><span class="ybadge">大一</span><span class="yname">基礎建構期</span></div>
+        <div class="qlist">
+          <div class="qi" onclick="openQ(0,0)"><span class="qicon">🎨</span><div class="qnm">視覺設計基礎</div><div class="qdsc">掌握色彩、排版、構圖的核心原則，建立設計語言的基礎框架。</div><span class="qbadge">進行中</span></div>
+          <div class="qi" onclick="openQ(0,1)"><span class="qicon">💻</span><div class="qnm">數位工具精通</div><div class="qdsc">深度運用 Figma、Webflow，並探索 AI 協作設計的可能性。</div><span class="qbadge">進行中</span></div>
+          <div class="qi" onclick="openQ(0,2)"><span class="qicon">🌐</span><div class="qnm">前端入門探索</div><div class="qdsc">學習 HTML/CSS/JS，讓設計不再只停留在靜態呈現。</div><span class="qbadge">進行中</span></div>
+        </div>
+      </div>
+      <div class="yg rev" style="transition-delay:.15s">
+        <div class="yhdr"><span class="ybadge">大二</span><span class="yname">深化探索期</span></div>
+        <div class="qlist">
+          <div class="qi" onclick="openQ(1,0)"><span class="qicon">📱</span><div class="qnm">UI/UX 設計深化</div><div class="qdsc">系統性學習使用者體驗設計，完成完整的 App 或網站設計專案。</div><span class="qbadge">計畫中</span></div>
+          <div class="qi" onclick="openQ(1,1)"><span class="qicon">🤝</span><div class="qnm">跨域合作實驗</div><div class="qdsc">與資工、商管等系所合作，體驗設計在不同領域中的角色。</div><span class="qbadge">計畫中</span></div>
+          <div class="qi" onclick="openQ(1,2)"><span class="qicon">🏆</span><div class="qnm">參與設計競賽</div><div class="qdsc">以作品參加國內外設計競賽，獲得評審回饋與曝光機會。</div><span class="qbadge">計畫中</span></div>
+        </div>
+      </div>
+      <div class="yg rev" style="transition-delay:.25s">
+        <div class="yhdr"><span class="ybadge">大三</span><span class="yname">實戰應用期</span></div>
+        <div class="qlist">
+          <div class="qi" onclick="openQ(2,0)"><span class="qicon">🏢</span><div class="qnm">設計實習</div><div class="qdsc">進入設計公司或科技公司實習，將學術知識轉化為業界實戰能力。</div><span class="qbadge">目標</span></div>
+          <div class="qi" onclick="openQ(2,1)"><span class="qicon">🎯</span><div class="qnm">品牌設計專案</div><div class="qdsc">主導完整的品牌識別設計專案，從策略到執行一手包辦。</div><span class="qbadge">目標</span></div>
+          <div class="qi" onclick="openQ(2,2)"><span class="qicon">🌍</span><div class="qnm">國際視野拓展</div><div class="qdsc">申請交換學生或參與國際設計工作坊，擴展全球化視角。</div><span class="qbadge">目標</span></div>
+        </div>
+      </div>
+      <div class="yg rev" style="transition-delay:.35s">
+        <div class="yhdr"><span class="ybadge">大四</span><span class="yname">整合輸出期</span></div>
+        <div class="qlist">
+          <div class="qi" onclick="openQ(3,0)"><span class="qicon">📘</span><div class="qnm">畢業設計展</div><div class="qdsc">以四年學習為底蘊，創作代表個人設計哲學的畢業設計作品。</div><span class="qbadge">夢想</span></div>
+          <div class="qi" onclick="openQ(3,1)"><span class="qicon">🚀</span><div class="qnm">個人品牌建立</div><div class="qdsc">建立完整個人設計師品牌，涵蓋作品集網站、社群與個人識別。</div><span class="qbadge">夢想</span></div>
+          <div class="qi" onclick="openQ(3,2)"><span class="qicon">✨</span><div class="qnm">設計師職涯啟程</div><div class="qdsc">帶著豐富作品集與實戰經驗，以設計師身分正式踏入業界。</div><span class="qbadge">夢想</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="content-section" id="work">
-  作品展示內容
-</section>
+<!-- Quest modal -->
 
-<section class="content-section" id="timeline">
-  歷程記錄內容
-</section>
+<div id="qmodal">
+  <div class="mini">
+    <button class="mcls" onclick="closeM('qmodal')">✕</button>
+    <div class="mtag" id="qtag"></div>
+    <div class="mtit" id="qtit"></div>
+    <div class="mbod" id="qintro"></div>
+    <div class="clist" id="qclist"></div>
+  </div>
+</div>
 
-<section class="content-section" id="future">
-  未來展望內容
-</section>
+<footer>
+  <div class="fbrand">Portfolio</div>
+  <div class="fsub">課程學習成果實作作品 · 設計系 · 2024–2025</div>
+</footer>
 
-  <script src="script.js"></script>
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+
+<script>
+/* ---- CURSOR ---- */
+const curEl=document.getElementById('cur'),ringEl=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curEl.style.left=mx+'px';curEl.style.top=my+'px';});
+(function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(ar);})();
+document.querySelectorAll('button,[onclick],.ni,.wcard,.qi,.bgo,.cbtn,.cb,.ti,#mtog,.hi').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+
+/* ---- NAVBAR ---- */
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('sc',scrollY>60));
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+/* ---- PARTICLES ---- */
+const pc=document.getElementById('pcont');
+for(let i=0;i<26;i++){
+  const p=document.createElement('div');p.className='particle';
+  const sz=Math.random()*2.4+1;
+  p.style.cssText=`left:${Math.random()*100}%;bottom:${Math.random()*25}%;width:${sz}px;height:${sz}px;animation-duration:${Math.random()*8+4}s;animation-delay:${Math.random()*6}s;--d:${(Math.random()-.5)*150}px;`;
+  pc.appendChild(p);
+}
+
+/* ---- COVER PARALLAX (mouse) ---- */
+document.addEventListener('mousemove',e=>{
+  const cx=innerWidth/2,cy=innerHeight/2;
+  const dx=(e.clientX-cx)/cx,dy=(e.clientY-cy)/cy;
+  document.getElementById('cgrid').style.transform=`translate(${dx*20}px,${dy*20}px)`;
+  document.getElementById('cglow').style.transform=`translate(calc(-50% + ${dx*13}px),calc(-50% + ${dy*13}px))`;
+  const cc=document.getElementById('ccont');if(cc)cc.style.transform=`translate(${-dx*6}px,${-dy*6}px)`;
+});
+
+/* ---- FIX #1: SCROLL REVEAL — simple IntersectionObserver, no snap ---- */
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:.1});
+document.querySelectorAll('.rev,.revL,.revR,.ph,.yg').forEach(el=>ro.observe(el));
+
+/* ========================================================
+   FIX #6: MUSIC PLAYER — clean rewrite
+======================================================== */
+const tracks=[
+  {file:'late night.mp3',name:'late night'},
+  {file:'M.I.A.mp3',name:'M.I.A.'},
+  {file:'made it through.mp3',name:'made it through'}
+];
+let curTrk=0,playing=false,seeking=false;
+const aud=document.getElementById('aud');
+
+function loadTrack(idx,autoPlay){
+  curTrk=idx;
+  aud.src=tracks[idx].file;
+  document.getElementById('tname').textContent=tracks[idx].name;
+  document.querySelectorAll('.ti').forEach((el,i)=>el.classList.toggle('active',i===idx));
+  aud.load();
+  aud.addEventListener('loadedmetadata',()=>{
+    const d=aud.duration;
+    document.getElementById('ttot').textContent=fmt(d);
+    document.getElementById('d'+idx).textContent=fmt(d);
+  },{once:true});
+  if(autoPlay){aud.play().catch(()=>{});setPlay(true);}
+}
+
+function setPlay(v){
+  playing=v;
+  document.getElementById('ppbtn').innerHTML=v?'&#9646;&#9646;':'&#9654;';
+  document.getElementById('vinyl').classList.toggle('sp',v);
+  document.querySelectorAll('.mb').forEach(b=>b.classList.toggle('still',!v));
+}
+
+function togglePlay(){
+  if(playing){aud.pause();setPlay(false);}
+  else{aud.play().catch(()=>{});setPlay(true);}
+}
+function nextT(){loadTrack((curTrk+1)%tracks.length,playing);}
+function prevT(){if(aud.currentTime>3){aud.currentTime=0;return;}loadTrack((curTrk-1+tracks.length)%tracks.length,playing);}
+function selT(i){loadTrack(i,true);}  // always play on manual select
+
+/* FIX #6: timeupdate — guard against seeking state */
+aud.addEventListener('timeupdate',()=>{
+  if(!aud.duration||seeking)return;
+  const pct=(aud.currentTime/aud.duration)*100;
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('pthumb').style.left=pct+'%';
+  document.getElementById('tcur').textContent=fmt(aud.currentTime);
+});
+
+/* FIX #6: progress bar seek — mousedown/mousemove/mouseup */
+const pbg=document.getElementById('pbg');
+function applySeek(e){
+  const r=pbg.getBoundingClientRect();
+  const pct=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));
+  if(aud.duration){
+    aud.currentTime=pct*aud.duration;
+    document.getElementById('pfill').style.width=(pct*100)+'%';
+    document.getElementById('pthumb').style.left=(pct*100)+'%';
+  }
+}
+pbg.addEventListener('mousedown',e=>{seeking=true;applySeek(e);});
+document.addEventListener('mousemove',e=>{if(seeking)applySeek(e);});
+document.addEventListener('mouseup',()=>{seeking=false;});
+
+/* FIX #6: auto-advance to next track (no html loop attr) */
+aud.addEventListener('ended',()=>loadTrack((curTrk+1)%tracks.length,true));
+
+function fmt(s){
+  if(!isFinite(s))return'0:00';
+  return Math.floor(s/60)+':'+(Math.floor(s%60)+'').padStart(2,'0');
+}
+
+/* FIX #6: Auto-play on first user interaction */
+loadTrack(0,false);
+function firstPlay(){
+  if(!playing){aud.play().then(()=>setPlay(true)).catch(()=>{});}
+  ['click','keydown','touchstart'].forEach(ev=>document.removeEventListener(ev,firstPlay));
+}
+['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,firstPlay,{once:true}));
+
+/* music panel toggle */
+let panelOpen=false;
+function togglePanel(){panelOpen=!panelOpen;document.getElementById('mpanel').classList.toggle('open',panelOpen);}
+document.addEventListener('click',e=>{
+  if(panelOpen&&!document.getElementById('mpanel').contains(e.target)&&!document.getElementById('mtog').contains(e.target)){
+    panelOpen=false;document.getElementById('mpanel').classList.remove('open');
+  }
+});
+
+/* ========================================================
+   FIX #3: WORKS GALLERY — dual row, faster, modal works
+======================================================== */
+const works=[
+  {id:1,title:'作品一',tag:'Visual Design',
+   desc:'<b>創作動機</b><br>在色彩理論課程學習後，嘗試透過實際作品驗證色彩心理學原則，探索顏色如何傳遞情緒與張力。<br><br><b>作品說明</b><br>以「對比與調和」為主題，運用互補色系建構視覺張力，並以留白引導觀者視線流動。整體構圖採三分法，讓視覺重心自然落定。<br><br><b>學習收穫</b><br>色彩不只是裝飾，而是設計師傳達概念最直接的語言。'},
+  {id:2,title:'作品二',tag:'Typography',
+   desc:'<b>創作動機</b><br>對文字排版的視覺美感產生強烈興趣，嘗試突破傳統排版框架，讓文字本身成為視覺的主角。<br><br><b>作品說明</b><br>選用兩款個性截然不同的字型進行搭配實驗，透過字級大小的極端對比製造戲劇張力，以行距節奏創造呼吸感。<br><br><b>學習收穫</b><br>每個字型選擇都在無聲地說一個故事，排版即是態度。'},
+  {id:3,title:'作品三',tag:'UI/UX Design',
+   desc:'<b>創作動機</b><br>希望以設計解決日常生活中真實存在的使用痛點，選擇行動應用程式作為設計載體。<br><br><b>作品說明</b><br>完整執行使用者研究→資訊架構→線框稿→視覺設計的完整 UX 流程，介面以低認知負荷為核心原則。<br><br><b>學習收穫</b><br>好的 UI 設計，是讓使用者感覺不到設計存在的設計。'},
+  {id:4,title:'作品四',tag:'Branding',
+   desc:'<b>創作動機</b><br>思考品牌的靈魂與個性，嘗試透過完整視覺系統傳達一個品牌的核心價值觀。<br><br><b>作品說明</b><br>從品牌策略定位出發，設計包含 LOGO、色彩系統、字型系統的完整品牌識別，並延伸至名片、包裝等應用。<br><br><b>學習收穫</b><br>品牌設計是視覺一致性與策略思維的結合，每個元素都為品牌故事服務。'},
+  {id:5,title:'作品五',tag:'Illustration',
+   desc:'<b>創作動機</b><br>探索個人插畫風格的可能性，試圖在獨特的視覺語言中建立可辨識的個人識別度。<br><br><b>作品說明</b><br>以系列插畫詮釋「城市日常」主題，使用有限色盤強化風格統一感，刻意選取被忽略的微小角落作為構圖切入點。<br><br><b>學習收穫</b><br>插畫是最直接的自我表達媒介，風格的建立需要大量嘗試與不斷修正。'},
+  {id:6,title:'作品六',tag:'Motion Design',
+   desc:'<b>創作動機</b><br>對動態媒體的魅力深感著迷，嘗試賦予靜態設計生命力，讓設計在時間軸上說故事。<br><br><b>作品說明</b><br>製作一段 30 秒的品牌動態識別，研究緩動函數與動態節奏，讓每一個元素的出現都具有目的與意義。<br><br><b>學習收穫</b><br>動態設計的核心是節奏感——該快時快，該慢時慢，張弛有度才能讓觀者呼吸。'},
+  {id:7,title:'作品七',tag:'Photography',
+   desc:'<b>創作動機</b><br>用相機重新觀察日常事物，發現那些被快速生活節奏所忽略的細節之美。<br><br><b>作品說明</b><br>以「光與影」為主題進行街拍創作，刻意尋找光線穿透的瞬間，後期以低飽和度強化沉靜氛圍。<br><br><b>學習收穫</b><br>攝影讓我學會慢下來，用設計師的眼光重新觀察世界的每一個角落。'},
+  {id:8,title:'作品八',tag:'Print Design',
+   desc:'<b>創作動機</b><br>希望設計能被觸摸、被感受，體驗從螢幕到實體印刷品的材質轉換過程。<br><br><b>作品說明</b><br>設計一系列活動文宣，規格涵蓋 A3 海報、DM、書籤。過程中學習出血設定、色彩模式轉換與紙張材質的選擇邏輯。<br><br><b>學習收穫</b><br>印刷設計讓我理解設計離開螢幕後的真實樣貌，每一個細節都必須更加嚴格把控。'},
+  {id:9,title:'作品九',tag:'Web Design',
+   desc:'<b>創作動機</b><br>嘗試將平面設計的美感延伸至數位互動介面，挑戰「設計即體驗」的核心概念。<br><br><b>作品說明</b><br>設計並開發一個響應式網頁，以滾動動畫引導使用者完成敘事旅程，整合視覺美學與互動流暢度。<br><br><b>學習收穫</b><br>網頁設計是平面設計的延伸，加入了時間與互動的全新維度。'},
+  {id:10,title:'作品十',tag:'Packaging',
+   desc:'<b>創作動機</b><br>包裝是品牌與消費者的第一次實體接觸，設計必須同時兼顧美觀、功能與開箱體驗三者。<br><br><b>作品說明</b><br>為一個虛構的手工食品品牌設計完整包裝系統，從結構展開圖到視覺設計，最終以實際樣品呈現完整成果。<br><br><b>學習收穫</b><br>包裝設計讓我思考三維空間中的設計邏輯，以及材質選擇對品牌感知的深遠影響。'},
+  {id:11,title:'作品十一',tag:'Poster Design',
+   desc:'<b>創作動機</b><br>海報是最直接的視覺溝通媒介，挑戰在最短時間內抓住觀者目光，高效傳遞核心訊息。<br><br><b>作品說明</b><br>設計一系列活動海報，以「衝突」為設計關鍵字，運用視覺元素的強烈反差製造記憶點，確保在資訊爆炸的環境中仍能被看見。<br><br><b>學習收穫</b><br>好的海報只有一個焦點，其他所有元素都在為這個焦點服務。'},
+  {id:12,title:'作品十二',tag:'Data Visualization',
+   desc:'<b>創作動機</b><br>數據本身就有故事，設計師的任務是讓這個故事以美麗且直觀的方式被大眾看見。<br><br><b>作品說明</b><br>將一份複雜的統計數據轉化為互動式資料視覺化圖表，設計顏色編碼系統，讓不同使用者都能直覺理解數據的意涵。<br><br><b>學習收穫</b><br>資料視覺化是設計、統計與敘事的交集，讓我重新思考「清晰」這個設計價值的深刻意義。'},
+  {id:13,title:'作品十三',tag:'Exhibition Design',
+   desc:'<b>創作動機</b><br>設計不只存在於平面，空間本身也是一種設計媒介，嘗試思考展覽中的視覺敘事與觀者旅程。<br><br><b>作品說明</b><br>規劃一個小型概念展覽的空間設計，包含展板設計、動線規劃、環境圖像學應用，以及燈光氛圍的模擬提案。<br><br><b>學習收穫</b><br>展覽設計讓我思考設計如何在時間與空間的雙重維度中創造真正的沉浸式體驗。'},
+  {id:14,title:'作品十四',tag:'Portfolio',
+   desc:'<b>創作動機</b><br>這個作品集網站本身就是一件作品，記錄了一段完整的學習旅程，也是對「設計是什麼」這個問題的個人詮釋與回答。<br><br><b>作品說明</b><br>整合所有課程學習成果，以網頁互動媒體為載體，設計六大主題區域，運用 HTML/CSS/JS 實現動態視覺敘事體驗。<br><br><b>學習收穫</b><br>作品集設計讓我重新審視自己的成長軌跡，每一件作品都是當時的我留下的珍貴印記。'}
+];
+
+function buildRow(trackId,slice){
+  const t=document.getElementById(trackId);
+  // duplicate for infinite loop
+  [...slice,...slice].forEach((w,i)=>{
+    const c=document.createElement('div');c.className='wcard';
+    c.innerHTML=`<img src="i${w.id}.jpg" alt="${w.title}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1a0808,#080404)';this.onerror=null;">
+      <div class="wov"><div class="wctit">${w.title}</div><div class="wctag">${w.tag}</div></div>
+      <div class="wplus">+</div>`;
+    c.addEventListener('click',()=>openWork(slice[i%slice.length].id-1));
+    t.appendChild(c);
+  });
+}
+buildRow('tr1',works.slice(0,7));   // i1–i7
+buildRow('tr2',works.slice(7,14));  // i8–i14
+
+/* FIX #3: scroll state — faster speed */
+const rs=[
+  {el:document.getElementById('tr1'),x:0,dir:1,speed:1.6},
+  {el:document.getElementById('tr2'),x:300,dir:-1,speed:1.4}
+];
+let uScroll=false,uTimer;
+function hw(el){return el.scrollWidth/2;}
+
+(function asr(){
+  if(!uScroll){
+    rs.forEach(r=>{
+      r.x+=r.speed*r.dir;
+      const h=hw(r.el);
+      if(r.x>=h)r.x=0;
+      if(r.x<0)r.x=h-1;
+      r.el.style.transform=`translateX(-${r.x}px)`;
+    });
+  }
+  requestAnimationFrame(asr);
+})();
+
+document.getElementById('works').addEventListener('wheel',e=>{
+  e.preventDefault();
+  uScroll=true;
+  const d=e.deltaY*1.3;
+  rs.forEach(r=>{
+    const h=hw(r.el);
+    r.x+=d*r.dir;
+    r.x=((r.x%h)+h)%h;
+    r.el.style.transform=`translateX(-${r.x}px)`;
+  });
+  clearTimeout(uTimer);uTimer=setTimeout(()=>uScroll=false,1800);
+},{passive:false});
+
+let drag=false,dsx=0,dsb=[];
+[document.getElementById('tr1'),document.getElementById('tr2')].forEach(tr=>{
+  tr.addEventListener('mousedown',e=>{drag=true;dsx=e.clientX;dsb=rs.map(r=>r.x);uScroll=true;});
+});
+document.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  const dx=dsx-e.clientX;
+  rs.forEach((r,i)=>{const h=hw(r.el);r.x=((dsb[i]+dx*r.dir)%h+h)%h;r.el.style.transform=`translateX(-${r.x}px)`;});
+});
+document.addEventListener('mouseup',()=>{
+  if(drag){drag=false;clearTimeout(uTimer);uTimer=setTimeout(()=>uScroll=false,2000);}
+});
+
+/* FIX #3: work modal — always opens correctly */
+function openWork(idx){
+  const w=works[idx];
+  const img=document.getElementById('mimg');
+  img.src=`i${w.id}.jpg`;
+  img.style.display='block';
+  img.onerror=function(){this.style.display='none';this.onerror=null;};
+  document.getElementById('mtag').textContent=w.tag;
+  document.getElementById('mtit').textContent=w.title;
+  document.getElementById('mbod').innerHTML=w.desc;
+  document.getElementById('wmodal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+/* ---- GRAFFITI ---- */
+const cv=document.getElementById('graffitiCanvas');
+const cx=cv.getContext('2d');
+let paint=false,cH=0,cL=50,cSz=20,eraser=false,undo=[],cbg=null;
+
+function updC(){
+  cH=parseInt(document.getElementById('hueSlider').value);
+  cL=parseInt(document.getElementById('lightnessSlider').value);
+  document.getElementById('cprev').style.background=`hsl(${cH},100%,${cL}%)`;
+  document.getElementById('lightnessSlider').style.background=`linear-gradient(to right,#000,hsl(${cH},100%,50%),#fff)`;
+}
+function updB(){
+  cSz=parseInt(document.getElementById('brushSlider').value);
+  const d=document.getElementById('bdot');d.style.width=cSz+'px';d.style.height=cSz+'px';
+}
+function toggleE(){eraser=document.getElementById('etgl').checked;}
+function saveState(){if(undo.length>20)undo.shift();undo.push(cx.getImageData(0,0,cv.width,cv.height));}
+function spray(x,y){
+  if(eraser){cx.globalCompositeOperation='destination-out';cx.beginPath();cx.arc(x,y,cSz,0,Math.PI*2);cx.fillStyle='rgba(0,0,0,1)';cx.fill();cx.globalCompositeOperation='source-over';return;}
+  const dn=Math.max(18,cSz*3);
+  for(let i=0;i<dn;i++){
+    const a=Math.random()*Math.PI*2,r=Math.random()*cSz;
+    cx.beginPath();cx.arc(x+r*Math.cos(a),y+r*Math.sin(a),Math.random()*1.8,0,Math.PI*2);
+    cx.fillStyle=`hsla(${cH},100%,${cL}%,${Math.random()*.38+.04})`;cx.fill();
+  }
+}
+function gp2(e){const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height];}
+cv.addEventListener('mousedown',e=>{paint=true;saveState();spray(...gp2(e));});
+cv.addEventListener('mousemove',e=>{if(paint)spray(...gp2(e));});
+cv.addEventListener('mouseup',()=>paint=false);cv.addEventListener('mouseleave',()=>paint=false);
+cv.addEventListener('touchstart',e=>{e.preventDefault();paint=true;saveState();spray(...gp2(e.touches[0]));},{passive:false});
+cv.addEventListener('touchmove',e=>{e.preventDefault();if(paint)spray(...gp2(e.touches[0]));},{passive:false});
+cv.addEventListener('touchend',()=>paint=false);
+function undoC(){if(undo.length)cx.putImageData(undo.pop(),0,0);}
+function clearC(){saveState();cx.clearRect(0,0,cv.width,cv.height);if(cbg)drawBg(cbg);}
+function saveC(){const a=document.createElement('a');a.download='graffiti.png';a.href=cv.toDataURL();a.click();}
+function drawBg(s){const i=new Image();i.onload=()=>cx.drawImage(i,0,0,cv.width,cv.height);i.src=s;}
+function setBg(s,el){document.querySelectorAll('.bgo').forEach(o=>o.classList.remove('active'));el.classList.add('active');cbg=s;cx.clearRect(0,0,cv.width,cv.height);undo=[];if(s)drawBg(s);}
+updC();updB();
+
+/* ---- MODALS ---- */
+function closeM(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+document.getElementById('wmodal').addEventListener('click',e=>{if(e.target===document.getElementById('wmodal'))closeM('wmodal');});
+document.getElementById('qmodal').addEventListener('click',e=>{if(e.target===document.getElementById('qmodal'))closeM('qmodal');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM('wmodal');closeM('qmodal');}});
+
+/* ---- QUEST DATA ---- */
+const qdata=[
+  [{title:'視覺設計基礎',tag:'大一 · 基礎建構期',intro:'掌握視覺設計的核心要素，建立屬於自己的設計語言體系，為四年設計旅程打下紮實基礎。',
+    c:[{n:'色彩理論應用',d:'從色環到色彩心理學，學習用顏色傳達情緒，並應用於實際設計專案。計畫完成至少三件色彩實驗作品，整理成個人色彩使用手冊。'},
+       {n:'構圖與版面設計',d:'研究黃金比例、三分法等構圖原則，理解視覺重量如何引導觀者視線。分析 20 件經典設計作品的構圖邏輯，並應用於自己的實作中。'},
+       {n:'字型學與排版',d:'探索字型的個性與搭配邏輯，學習建立清晰的資訊層級。完成一套個人字型使用規範，並累積 50 組以上的字型配對嘗試。'},
+       {n:'視覺一致性建立',d:'理解設計系統的概念，讓不同元素在統一視覺語言下和諧共存。以課程作業為素材，嘗試建立第一個個人迷你設計系統。'}]},
+   {title:'數位工具精通',tag:'大一 · 工具探索',intro:'精熟業界主流設計工具，並探索 AI 工具如何成為設計師的創作夥伴，提升工作效率與創作品質。',
+    c:[{n:'Figma 深度應用',d:'從基礎操作到自動布局、元件系統、互動原型，全面掌握 Figma 工作流。目標：完成 3 個以上互動原型，熟悉元件變體的運用。'},
+       {n:'Webflow 無碼建站',d:'利用 Webflow 實現設計稿到網站的完整轉換，理解響應式設計的實作邏輯。目標：獨立完成一個功能完整的 Webflow 網站。'},
+       {n:'AI 協作設計',d:'將 Claude、ChatGPT 等 AI 工具融入設計流程，從靈感發想到文案生成，提升創作效率。探索 Lovable 等 AI 生成介面工具的設計應用。'},
+       {n:'GitHub 版本管理',d:'學習基礎版本控制概念，建立良好的設計文件管理習慣。目標：所有設計開發專案都以 GitHub 進行版本管理。'}]},
+   {title:'前端入門探索',tag:'大一 · 技術拓展',intro:'跨越設計與技術的邊界，讓設計師的視野延伸至程式碼的世界，理解設計的技術實現可能性。',
+    c:[{n:'HTML/CSS 實作',d:'將設計稿轉化為 HTML/CSS，體驗設計到實現的全過程。目標：能夠獨立將 Figma 設計稿轉換為靜態網頁，像素完美呈現設計意圖。'},
+       {n:'JavaScript 互動',d:'加入基礎互動功能，讓設計作品從靜態展示進化為動態體驗。目標：能夠實現基本的滾動動畫、Hover 效果與使用者互動。'},
+       {n:'設計與開發對話',d:'理解設計師與工程師的協作模式，建立跨領域溝通的共同語言，讓設計決策更具技術意識。'},
+       {n:'個人網站建立',d:'以前端技術建立個人作品集網站，作為大一最終成果的整合性展示平台，持續更新至畢業。'}]}],
+  [{title:'UI/UX 設計深化',tag:'大二 · 使用者導向',intro:'以使用者為中心，系統性地學習體驗設計的完整方法論，完成至少一件完整的 UX 設計專案。',
+    c:[{n:'使用者研究方法',d:'學習訪談、觀察、問卷等研究方法，讓設計決策建立在真實使用者洞察上。計畫執行至少兩次正式使用者訪談，並整理成完整研究報告。'},
+       {n:'資訊架構規劃',d:'思考內容的組織邏輯與導覽結構，讓使用者能直覺找到所需資訊。練習使用卡片分類法與樹狀測試進行 IA 驗證。'},
+       {n:'互動設計模式',d:'研究常見互動設計模式，理解何時、為何、如何使用特定互動元素。建立個人的互動設計靈感資料庫，定期持續更新。'},
+       {n:'可用性測試執行',d:'設計並執行使用者測試，從真實回饋中找出設計盲點並持續優化。目標：每件重要專案都完成至少 5 人次的可用性測試。'}]},
+   {title:'跨域合作實驗',tag:'大二 · 跨域整合',intro:'走出設計系的舒適圈，在跨領域合作中發現設計更廣闊的可能性，建立跨域協作的核心能力。',
+    c:[{n:'設計思維主導',d:'在跨系所合作中以設計師角色引導團隊，將設計思維方法論應用於非設計問題的解決過程。'},
+       {n:'科技與設計融合',d:'與資工系同學合作開發互動作品，體驗設計在技術實作中的限制與可能性，培養技術意識。'},
+       {n:'商業策略思維',d:'學習從商業角度思考設計決策，理解設計如何為品牌與使用者創造雙贏價值。嘗試參與一個有商業目標的設計專案。'},
+       {n:'跨域溝通能力',d:'在多元背景的團隊中練習清晰表達設計概念，讓設計師的想法能被不同專業背景的人理解與接受。'}]},
+   {title:'參與設計競賽',tag:'大二 · 實力驗證',intro:'以競賽為目標，在真實壓力下淬煉設計思維與執行力，同時獲得作品曝光與評審回饋的寶貴機會。',
+    c:[{n:'競賽目標選定',d:'研究國內外適合設計系學生參與的競賽，選定 2-3 個目標競賽，制定完整的準備時程。'},
+       {n:'主題深度挖掘',d:'對競賽主題進行深度研究，找到有意義且具設計潛力的問題切入點，避免表面化的概念發想。'},
+       {n:'提案簡報能力',d:'學習用有說服力的方式呈現設計概念，讓評審在短時間內理解並認同作品的核心價值。'},
+       {n:'壓力下的執行',d:'在截止日期壓力下維持設計品質，練習高效率的專案管理與時間分配能力。'}]}],
+  [{title:'設計實習',tag:'大三 · 業界實戰',intro:'踏入真實的設計工作環境，將學術知識轉化為業界可用的專業能力，建立職場人際網絡。',
+    c:[{n:'目標公司研究',d:'整理心儀公司名單，研究其設計文化、作品風格與實習申請流程，提前一學期開始準備申請材料。'},
+       {n:'職場設計流程',d:'理解業界的設計流程與工作節奏，學習在時間與資源限制下持續產出高品質設計。'},
+       {n:'設計師角色定位',d:'釐清設計師在跨功能團隊中的職責邊界，學習與 PM、工程師、行銷等角色有效協作。'},
+       {n:'作品集更新策略',d:'將實習期間的專案成果整理為作品集案例，以適合求職的方式呈現完整的設計思考過程。'}]},
+   {title:'品牌設計專案',tag:'大三 · 整合實踐',intro:'主導完整的品牌識別設計專案，從策略思維到視覺落地的全方位實踐，累積可展示的核心作品。',
+    c:[{n:'品牌策略定位',d:'深入研究目標品牌的市場定位與競爭環境，為視覺設計奠定策略基礎。學習運用品牌稜鏡等策略工具。'},
+       {n:'視覺識別系統',d:'設計完整品牌視覺識別系統，包含 LOGO、色彩、字型、圖像風格等核心元素，並建立完整品牌手冊。'},
+       {n:'品牌應用延伸',d:'將品牌識別延伸至各種應用情境，確保視覺一致性能夠跨越不同媒介與各接觸點。'},
+       {n:'品牌故事敘述',d:'用設計語言講述品牌的故事與價值觀，讓品牌在目標受眾心中留下深刻且差異化的印象。'}]},
+   {title:'國際視野拓展',tag:'大三 · 全球視角',intro:'走出台灣，在國際環境中開拓設計視野與人際網絡，培養超越本土視角的跨文化設計敏感度。',
+    c:[{n:'交換學生申請',d:'研究海外設計學校的交換學生計畫，整理申請材料，目標：申請至少一所心儀海外學校的交換計畫。'},
+       {n:'國際競賽參與',d:'以英語提案參與國際設計競賽或工作坊，建立在國際環境中展示設計作品的能力。'},
+       {n:'全球設計趨勢研究',d:'定期研究不同地區的設計趨勢與文化美學，培養超越台灣本土視角的全球化設計思維。'},
+       {n:'英語提案能力',d:'以英語進行設計提案與評審，建立在國際環境中自信表達設計概念的溝通與表達能力。'}]}],
+  [{title:'畢業設計展',tag:'大四 · 集大成之作',intro:'以四年的學習積累為底蘊，創作代表個人設計哲學的畢業設計作品，向世界宣告設計師身分的成立。',
+    c:[{n:'個人設計哲學',d:'梳理四年學習歷程，找到貫穿所有作品的核心價值觀，以清晰的文字表述個人的設計哲學與立場。'},
+       {n:'跨媒介整合創作',d:'跨越平面、數位、空間等媒介的邊界，創作具有多層次體驗的整合性作品，展現設計師的全方位能力。'},
+       {n:'展覽策展思維',d:'不只設計作品本身，更思考如何透過展場規劃與展示策略，最大化作品與觀者的連結與共鳴。'},
+       {n:'設計論述撰寫',d:'撰寫完整的設計論述，清晰表達作品的概念出發點、設計決策過程與對社會的意義與貢獻。'}]},
+   {title:'個人品牌建立',tag:'大四 · 身分認同',intro:'建立完整的個人設計師品牌，讓世界認識你是誰、你能做什麼，為職涯啟程做好最後準備。',
+    c:[{n:'個人定位策略',d:'找到自己在設計市場中的獨特定位，確立目標受眾與核心服務範疇，讓個人品牌聚焦而非分散。'},
+       {n:'作品集網站精修',d:'以四年最佳作品更新作品集網站，優化使用者體驗與視覺呈現，確保第一印象足夠強烈且令人難忘。'},
+       {n:'社群媒體經營',d:'建立有策略的社群媒體內容計畫，透過持續的設計內容輸出建立個人在設計領域的影響力。'},
+       {n:'人際網絡活化',d:'主動接觸設計社群，參與活動、演講或工作坊，讓更多業界人士認識自己的名字與設計觀點。'}]},
+   {title:'設計師職涯啟程',tag:'大四 · 未來第一步',intro:'帶著豐富的作品集與實戰經驗，以設計師的身分自信地踏入業界，開始真正屬於自己的設計生涯。',
+    c:[{n:'目標職位研究',d:'深入研究心儀公司與職位，了解其設計文化、期待的人才特質與作品集偏好，針對性地準備申請材料。'},
+       {n:'求職材料準備',d:'整合作品集、設計師履歷、作品說明，打造有說服力且風格一致的完整求職套件。'},
+       {n:'面試提案演練',d:'反覆練習設計作品的面試提案，學習清晰表達設計思維、決策過程與解決問題的能力。'},
+       {n:'持續成長心態',d:'以成長型思維面對職涯，把每一個設計專案都視為持續學習與精進的機會，永遠保持設計師的好奇心。'}]}]
+];
+
+function openQ(yr,q){
+  const d=qdata[yr][q];
+  document.getElementById('qtag').textContent=d.tag;
+  document.getElementById('qtit').textContent=d.title;
+  document.getElementById('qintro').innerHTML=`<p>${d.intro}</p>`;
+  document.getElementById('qclist').innerHTML=d.c.map(c=>`<div class="citem"><div class="cnm">${c.n}</div><div class="cdsc">${c.d}</div></div>`).join('');
+  document.getElementById('qmodal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+/* ---- STARS ---- */
+const sb=document.getElementById('starbg');
+for(let i=0;i<55;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*2+.4;
+  s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;animation-duration:${Math.random()*3+2}s;animation-delay:${Math.random()*4}s;`;
+  sb.appendChild(s);
+}
+</script>
+
 </body>
 </html>
